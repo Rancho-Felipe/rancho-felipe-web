@@ -1,0 +1,330 @@
+{
+  "$comment": "Phase 0 asset manifest for Rancho Felipe. Every source file in 'Racho Felipe/' and 'C:\\ranc layout' is accounted for below. Values marked \"unconfirmed\": true came from marketing graphics and need the owner's sign-off before they drive booking logic. Nothing here was invented.",
+  "generatedAt": "2026-08-12",
+
+  "business": {
+    "name": "Rancho Felipe",
+    "tagline": "Farm & Private Resort",
+    "type": "Private farm resort, booked exclusively one group at a time",
+    "address": {
+      "street": "Maximiano Compound",
+      "barangay": "Brgy. Dalig",
+      "city": "Teresa",
+      "province": "Rizal",
+      "country": "PH",
+      "formatted": "Rancho Felipe, Maximiano Compound, Brgy. Dalig, Teresa, Rizal, Philippines"
+    },
+    "geo": { "lat": null, "lng": null, "$note": "Not present in any asset. Must be read off the Google Maps pin before JSON-LD ships." },
+    "accessNote": "Final 300–500 m to the property is rough road. All vehicles, including vans, can pass.",
+    "$sourceConflict": "The casita text file says 250–300 m of rough road; LOCATION.png says 300 m then 100 m, and its footer says the final 500 m. Owner to confirm one number."
+  },
+
+  "contact": {
+    "casita": { "mobile": "0995-333-9526", "channels": ["Viber", "WhatsApp", "SMS", "Call"] },
+    "gazebo": { "mobile": ["0977-277-0716", "0951-490-9094"], "channels": ["Call", "WhatsApp"] },
+    "email": null,
+    "$note": "No email address appears in any asset. Needed for Resend sender + owner notifications."
+  },
+
+  "links": {
+    "airbnbCasita": "https://airbnb.com/h/rachofelipeteresarizal",
+    "airbnbGazebo": "https://airbnb.com/h/ranchofelipegazebo",
+    "facebook": "https://www.facebook.com/RanchoFelipeTeresa",
+    "maps": "https://maps.app.goo.gl/YVVCyYR6YD7qirnc8",
+    "$note": "Two separate Airbnb listings exist — one per unit. The brief assumed one. Neither URL has been opened or verified."
+  },
+
+  "payment": {
+    "depositPercent": 30,
+    "depositRefundable": false,
+    "dateTransferable": true,
+    "balanceDue": "On check-in",
+    "policy": [
+      "30% down payment secures the reservation date.",
+      "Down payment is non-refundable but the date is transferable.",
+      "No refund of down payment on back-out.",
+      "First down payment, first reservation. No pencil booking.",
+      "Send the payment receipt after paying."
+    ],
+    "methods": {
+      "gcash": { "number": "0995-333-9526", "name": "RALPH IVAN SIMEON" },
+      "maya":  { "number": "0995-333-9526", "name": "RALPH IVAN SIMEON" },
+      "bpi":   { "account": "4059412499 BB", "name": "Ralph Ivan Simeon" }
+    },
+    "$note": "The brief specifies a configurable 50% online reservation fee. Every asset says 30%. 30% is used as the default; make it editable in admin."
+  },
+
+  "reservationFormFields": {
+    "$source": "Racho Felipe/New Text Document.txt — the owner's current manual booking form. The guest details form should collect exactly these.",
+    "fields": ["Name", "Address", "Contact No", "Date of stay", "Number of Person", "Time In and Out"]
+  },
+
+  "checkInMethods": {
+    "$source": "Owner instruction, 2026-08-12. These override the printed times on the gazebo rate card (see $conflict).",
+    "dayTour":   { "label": "Day tour",   "start": "07:00", "end": "17:00", "durationHours": 10, "sameDay": true },
+    "nightTour": { "label": "Night tour", "start": "20:00", "end": "06:00", "durationHours": 10, "sameDay": false, "endsNextDay": true },
+    "fullStay":  { "label": "22-hour stay", "start": "14:00", "end": "12:00", "durationHours": 22, "sameDay": false, "endsNextDay": true,
+                   "$note": "Owner called this '24hrs 2pm-12nn'. 14:00 to 12:00 the next day is 22 hours, which is exactly what every rate card prices as '22HRS OF STAY'. Modelled as 22h. Confirm the label guests should see." },
+    "custom":    { "label": "Custom hours", "start": null, "end": null,
+                   "$note": "Owner allows custom in/out when the fixed windows do not fit the guest. Admin sets the times per booking; pricing falls back to the nearest package unless overridden." },
+    "$conflict": "The gazebo rate card prints Day tour 8AM–5PM and Night tour 8PM–5AM. The owner's instruction is 7AM–5PM and 8PM–6AM. The owner's instruction is treated as current; the rate card graphic is stale and should be reissued.",
+    "$openQuestion": "Turnover gap: night tour ends 06:00 and day tour starts 07:00 — one hour. The 22-hour stay ends 12:00 and a day tour would have started at 07:00. The calendar must know which combinations may share a date. See CONTENT-GAPS.md Q6."
+  },
+
+  "units": {
+    "casita": {
+      "name": "The Private Casita",
+      "slug": "casita",
+      "shortDescription": "Two A-frame cabins on a private pool deck, an hour from Metro Manila.",
+      "capacity": { "standard": 10, "max": 20, "$note": "Rate cards are banded 10-pax-below and 11–20 pax. No hard maximum is stated anywhere." },
+      "rooms": { "airconRooms": 2, "$note": "The 10-pax rate includes 1 aircon room; the 11–20 pax rate includes 2." },
+      "rates": {
+        "currency": "PHP",
+        "unconfirmed": true,
+        "$source": "PRICE AND AMENITIES/casita price and amnities 1.jpg + casita price and amenities 2.jpg + PRIVATE CASITA RESORT DETAILS.txt (all three agree)",
+        "bands": [
+          { "band": "10pax-below", "maxPax": 10, "dayAndNight": 12000, "daytime": 6000, "nightTime": 6500 },
+          { "band": "11-20pax", "minPax": 11, "maxPax": 20, "dayAndNight": 15000, "daytime": 7500, "nightTime": 8000 }
+        ],
+        "extraGuest": 300,
+        "kidsFreeUnderAge": 3,
+        "addOns": [
+          { "name": "Gas stove", "price": 300, "duration": "10 hrs" },
+          { "name": "Gas stove", "price": 600, "duration": "21 hrs" }
+        ],
+        "$note": "'Day & Night' on the poster = the 22-hour stay. No weekday/weekend/holiday split exists in any asset — the brief assumes one. See CONTENT-GAPS.md Q3."
+      },
+      "amenities": [
+        "Private pool (2–5 ft)", "Kiddie pool", "2 air-conditioned A-frame rooms",
+        "24/7 videoke", "Smart TV with Netflix", "WiFi", "Billiards", "Half basketball court",
+        "Mini playground", "Bonfire area", "Hammock", "Tent pitching area",
+        "Spacious kitchen", "Rice cooker", "Electric kettle", "Refrigerator", "Griller",
+        "Outdoor lounge", "Spacious gathering area", "Pet friendly"
+      ],
+      "featured": "casita-twin-a-frames-pool",
+      "gallery": [
+        "casita-twin-a-frames-pool", "casita-pool-with-floats", "casita-pool-farm-view",
+        "casita-exterior-yellow-door", "casita-poolside-walkway", "casita-garden-path-sunset",
+        "casita-night-pool-reflection", "casita-aircon-room-interior", "casita-kitchen-dining"
+      ],
+      "video": "casita-tour"
+    },
+
+    "gazebo": {
+      "name": "The Private Gazebo",
+      "slug": "gazebo",
+      "shortDescription": "Two air-conditioned gazebo rooms with their own pool, patio and farm view.",
+      "capacity": { "standard": 10, "max": 16, "$note": "Rate card bands are 10-pax-below and 16 pax. Nothing states what happens at 11–15 pax — see CONTENT-GAPS.md Q4." },
+      "rooms": { "airconRooms": 2 },
+      "rates": {
+        "currency": "PHP",
+        "unconfirmed": true,
+        "$source": "PRICE AND AMENITIES/gazebo price and amenities.jpg",
+        "bands": [
+          { "band": "10pax-below", "maxPax": 10, "fullStay22h": 10500, "dayTour": 3500, "nightTour": 4500 },
+          { "band": "16pax", "maxPax": 16, "fullStay22h": 13500, "dayTour": 5000, "nightTour": 6000 }
+        ],
+        "extraGuest": null,
+        "addOns": [],
+        "$note": "No extra-guest fee, no add-ons and no kids policy are printed for the gazebo. The casita's ₱300/head has NOT been assumed to carry over."
+      },
+      "amenities": [
+        "Private pool (4.5 ft, 5 m wide)", "2 air-conditioned gazebo rooms",
+        "Smart TV", "Videoke via YouTube", "Bluetooth speaker", "WiFi",
+        "Refrigerator", "Kitchenware (bring your own utensils)",
+        "Large patio suitable for tent camping", "Farm scenic view",
+        "Farm fruit and vegetables available to buy and cook"
+      ],
+      "featured": "gazebo-pool-umbrellas",
+      "gallery": [
+        "gazebo-pool-umbrellas", "gazebo-pool-umbrellas-wide", "gazebo-pool-brick-patio",
+        "gazebo-pool-from-balcony", "gazebo-pool-balcony-umbrella", "gazebo-pool-wide",
+        "gazebo-exterior-mural", "gazebo-dining-smart-tv", "gazebo-kitchen",
+        "gazebo-garden-path", "gazebo-field-view", "gazebo-shower", "gazebo-comfort-room"
+      ],
+      "video": "gazebo-tour"
+    }
+  },
+
+  "wholeProperty": {
+    "offered": null,
+    "$note": "The brief asks whether a whole-property booking exists. No asset mentions one, and the two units have separate phone numbers and separate Airbnb listings — they may be run independently. See CONTENT-GAPS.md Q1."
+  },
+
+  "hero": {
+    "video": "casita-tour.hero",
+    "poster": "casita-tour.poster",
+    "fallbackStill": "casita-twin-a-frames-pool",
+    "$note": "Both source videos are vertical 9:16 handheld walkthroughs. Neither works as a wide desktop hero without heavy cropping. See CONTENT-GAPS.md Q7."
+  },
+
+  "grounds": {
+    "gallery": [
+      "grounds-aerial-property", "grounds-half-court", "grounds-kubo-billiards-hammock",
+      "grounds-bonfire-pit", "grounds-long-hardwood-table", "grounds-function-area-stage",
+      "grounds-carved-wood-seating", "grounds-tent-pitching-area",
+      "grounds-parking-carabao-cart", "entrance-signage"
+    ]
+  },
+
+  "layout": {
+    "masterPlan": null,
+    "$critical": "C:\\ranc layout contains exactly one file — 'ranch felipe layout.webp' — and it is NOT a site plan. It is a 1024x4090 screenshot of an unrelated resort website ('Stayverra', India & Costa Rica). No resort layout art exists on this machine. The interactive site map cannot be built from assets. See CONTENT-GAPS.md Q2.",
+    "hotspotCandidates": [
+      { "id": "casita-1", "label": "Casita 1", "photo": "collage-casita-1" },
+      { "id": "casita-2", "label": "Casita 2", "photo": "collage-casita-2" },
+      { "id": "casita-pool", "label": "Casita pool", "photo": "casita-pool-with-floats" },
+      { "id": "kiddie-pool", "label": "Kiddie pool", "photo": "collage-pool-area" },
+      { "id": "gazebo-rooms", "label": "Gazebo rooms", "photo": "collage-gazebo-room-1" },
+      { "id": "gazebo-pool", "label": "Gazebo pool", "photo": "gazebo-pool-umbrellas" },
+      { "id": "kubo-billiards", "label": "Kubo & billiards", "photo": "grounds-kubo-billiards-hammock" },
+      { "id": "half-court", "label": "Half court", "photo": "grounds-half-court" },
+      { "id": "function-area", "label": "Function area", "photo": "grounds-function-area-stage" },
+      { "id": "kitchen-dining", "label": "Kitchen & dining", "photo": "collage-kitchen-dining" },
+      { "id": "bonfire", "label": "Bonfire pit", "photo": "grounds-bonfire-pit" },
+      { "id": "tent-area", "label": "Tent area", "photo": "grounds-tent-pitching-area" },
+      { "id": "comfort-rooms", "label": "Comfort rooms", "photo": "gazebo-comfort-room" },
+      { "id": "parking", "label": "Parking", "photo": "grounds-parking-carabao-cart" },
+      { "id": "entrance", "label": "Entrance", "photo": "entrance-signage" }
+    ],
+    "$note": "Every hotspot above has a real photo. Only the plan they sit on is missing."
+  },
+
+  "reviews": [
+    { "id": "r1", "author": null, "rating": 5, "date": null, "stayNote": "2 nights", "image": "review-holy-week-group",
+      "text": "Sulit po ang 2nights stay po sa uilitin po God Bless po" },
+    { "id": "r2", "author": null, "rating": 5, "date": null, "image": "review-gazebo-dinner",
+      "text": "thank you din po sa pag accomodate, mababait po ang staff nio and super linis at bango din ng place..highly recommended for me" },
+    { "id": "r3", "author": "Ms. Nice", "rating": 5, "date": "Oct 27", "image": "review-ms-nice-oct-27",
+      "text": "Very Recommended ang place if you want to feel the Province Peg. Sarap mag refresh ng mind since ung makikita mo lang mga puno puno. Super nag enjoy ung kids and adults, super babait at ackaso dn ng mga caretaker attentive sa mga needs. Thank you soo much po 2nd Time here and more vacation pa sa place na ito. Thank you" },
+    { "id": "r4", "author": "Jed", "rating": 5, "date": "Oct 4", "image": "review-jed-oct-4",
+      "text": "Ang ganda ng place, very probinsya ang vibe. Peaceful at malinis ang paligid at mga rooms, perfect talaga pang family. Mabait din ang mga care taker. Thank you po ulit sa pag accomodate! Sa uulitin po" },
+    { "id": "r5", "author": "Issa", "rating": 4, "date": "Sept 27", "image": "review-issa-sept-27",
+      "text": "Salamat po sa pag accommodate samin! Ang ganda po ng place. Surrounded ng nature kaya makakapag relax. Malakas ang wifi, malakas ang tubig, ang laki ng kusina, malinis ang rooms at CR, malinis ang pool at mabait ang care taker. Talagang perfect for all groups and occasions! Sa uulitin po." },
+    { "id": "r6", "author": "Ziangg", "rating": 4, "date": "July 12–15", "image": "review-ziangg-july-12",
+      "text": "Thank you worth it yung place ambait pa nung mga caretaker talagang inasikaso kami kahit late night Na kami nakarating. Sobrang nag enjoy kami sa place ang ganda at ang cool ng place nyo" }
+  ],
+  "$reviewsNote": "6 real reviews. No year is stated on any of them. 'review-thank-you-collage' is a marketing thank-you graphic, not a review, and is filed under marketing below.",
+
+  "marketing": {
+    "$note": "Composite graphics, not photography. Useful for social proof strips and the rates page, but they must not be used as gallery photos — they contain baked-in text that cannot be translated, resized cleanly, or given meaningful alt text.",
+    "rateCards": ["rates-casita-10pax", "rates-casita-11-20pax", "rates-gazebo", "amenities-casita-policies"],
+    "promos": ["promo-ten-percent-discount"],
+    "collages": ["collage-casita-1", "collage-casita-2", "collage-pool-area", "collage-kitchen-dining", "collage-gazebo-room-1", "collage-gazebo-room-2"],
+    "brand": ["brand-signboard-pool"],
+    "socialProof": ["review-thank-you-collage"],
+    "directions": ["directions-infographic"],
+    "unused": ["poster-gazebo-rates-duplicate"],
+    "$unusedReason": "gazebo/13.jpg is a byte-level duplicate of the gazebo rate card already filed under rateCards. Converted for completeness, not placed."
+  },
+
+  "promotions": [
+    { "id": "launch-10", "label": "Book today and get 10% discount", "percent": 10, "image": "promo-ten-percent-discount",
+      "unconfirmed": true, "$note": "No start date, end date, or conditions appear on the graphic. See CONTENT-GAPS.md Q5." }
+  ],
+
+  "directions": {
+    "$source": "LOCATION.png",
+    "image": "directions-infographic",
+    "byCar": [
+      "Search 'Rancho Felipe Teresa' on Google Maps or Waze.",
+      "Enter the rough road from the main highway and drive straight for 300 meters.",
+      "At the Aqua Joe water station, turn left and continue 100 meters to the entrance."
+    ],
+    "byCommute": [
+      "From Crossing Term Terminal, ride a jeepney heading to Tanay.",
+      "Alight at Teresa Public Market.",
+      "Ride a local tricycle and tell the driver: 'Maximiano Compound, Rancho Felipe.'"
+    ],
+    "landmark": "Aqua Joe water station"
+  },
+
+  "video": {
+    "$note": "Hero loops are short, silent and muted-autoplay safe. Tours carry audio and are only fetched when a guest presses play. Source footage is handheld 60 fps walking, which compresses badly — 24 fps at 720 wide is the point where size stops hurting more than sharpness helps.",
+    "casita-tour": {
+      "hero":   { "mp4": "/media/video/casita-tour-hero-720.mp4", "webm": "/media/video/casita-tour-hero-720.webm", "durationSec": 8.5, "silent": true, "$clip": "42.0s–50.5s of the source: the walk past the pool under the tree canopy" },
+      "tour":   { "mp4_720": "/media/video/casita-tour-720.mp4", "mp4_480": "/media/video/casita-tour-480.mp4", "webm_720": "/media/video/casita-tour-720.webm" },
+      "poster": { "jpg": "/media/video/casita-tour-poster.jpg", "webp": "/media/video/casita-tour-poster.webp", "avif": "/media/video/casita-tour-poster.avif", "$frame": "t=49s" },
+      "dimensions": "720x1094", "durationSec": 50.9, "hasAudio": true,
+      "source": "Racho Felipe/PRIVATE CASITA RESORT VIDEO.mp4 (1080x1920, 60 fps, 110 MB)",
+      "$processing": "Top 280 px cropped to remove the burned-in green 'RANCHO FELIPE (CASITA)' caption, then 24 fps at 720 wide. Original untouched on disk."
+    },
+    "gazebo-tour": {
+      "hero":   { "mp4": "/media/video/gazebo-tour-hero-720.mp4", "webm": "/media/video/gazebo-tour-hero-720.webm", "durationSec": 9.0, "silent": true, "$clip": "0.0s–9.0s of the source: the pool and brick patio" },
+      "tour":   { "mp4_720": "/media/video/gazebo-tour-720.mp4", "mp4_480": "/media/video/gazebo-tour-480.mp4", "webm_720": "/media/video/gazebo-tour-720.webm" },
+      "poster": { "jpg": "/media/video/gazebo-tour-poster.jpg", "webp": "/media/video/gazebo-tour-poster.webp", "avif": "/media/video/gazebo-tour-poster.avif", "$frame": "t=0s" },
+      "dimensions": "720x1014", "durationSec": 28.1, "hasAudio": true,
+      "source": "Racho Felipe/PRIVATE GAZEBO RESORT VIDEO.mp4 (1080x1920, 30 fps, 40 MB)",
+      "$processing": "Top 400 px cropped to remove the burned-in green 'RANCHO FELIPE (GAZEBO)' caption, then 24 fps at 720 wide. Original untouched on disk."
+    }
+  },
+
+  "photos": {
+    "$format": "Each entry: source file, native pixel size, and the widths rendered. Files live at /media/photos/<slug>-<width>.{avif,webp}. AVIF first, WebP fallback.",
+
+    "casita-twin-a-frames-pool":     { "src": "Private casita whole resort photo/7.jpg",  "w": 1080, "h": 810,  "widths": [480, 960], "alt": "The two A-frame casitas seen across the mosaic-tiled pool" },
+    "casita-pool-with-floats":       { "src": "Private casita whole resort photo/5.jpg",  "w": 1080, "h": 810,  "widths": [480, 960], "alt": "Pool floats drifting in the casita pool beside an A-frame cabin" },
+    "casita-pool-farm-view":         { "src": "Private casita whole resort photo/6.jpg",  "w": 1080, "h": 811,  "widths": [480, 960], "alt": "The pool edge opening onto the farm and distant tree line" },
+    "casita-exterior-yellow-door":   { "src": "Private casita whole resort photo/2.jpg",  "w": 1080, "h": 810,  "widths": [480, 960], "alt": "A-frame casita with a yellow door and planted border" },
+    "casita-poolside-walkway":       { "src": "Private casita whole resort photo/3.jpg",  "w": 1080, "h": 811,  "widths": [480, 960], "alt": "Stone walkway running between the casita and the pool" },
+    "casita-garden-path-sunset":     { "src": "Private casita whole resort photo/1.jpg",  "w": 1080, "h": 1438, "widths": [480, 960], "alt": "Turf and stone path between the casitas at sunset" },
+    "casita-night-pool-reflection":  { "src": "Private casita whole resort photo/15.jpg", "w": 1080, "h": 720,  "widths": [480, 960], "alt": "Both casitas lit at night and mirrored in the pool" },
+    "casita-aircon-room-interior":   { "src": "Private casita whole resort photo/4.jpg",  "w": 720,  "h": 960,  "widths": [480],      "alt": "Inside an A-frame room: wood-lined ceiling and made-up beds" },
+    "casita-kitchen-dining":         { "src": "Private casita whole resort photo/21.jpg", "w": 1080, "h": 810,  "widths": [480, 960], "alt": "Covered kitchen and dining area with refrigerator and table" },
+
+    "grounds-aerial-property":       { "src": "Private casita whole resort photo/11.jpg", "w": 1080, "h": 608,  "widths": [480, 960], "alt": "Aerial view of the resort, pool and surrounding trees" },
+    "grounds-half-court":            { "src": "Private casita whole resort photo/18.jpg", "w": 1680, "h": 729,  "widths": [480, 960, 1440], "alt": "Concrete half basketball court on the grounds" },
+    "grounds-kubo-billiards-hammock":{ "src": "Private casita whole resort photo/12.jpg", "w": 1080, "h": 1440, "widths": [480, 960], "alt": "Billiard table and hammock under the nipa-roofed kubo" },
+    "grounds-bonfire-pit":           { "src": "Private casita whole resort photo/14.jpg", "w": 1080, "h": 1440, "widths": [480, 960], "alt": "Stone bonfire pit ringed by carved log benches" },
+    "grounds-long-hardwood-table":   { "src": "Private casita whole resort photo/10.jpg", "w": 1080, "h": 978,  "widths": [480, 960], "alt": "Long hardwood table set for a large group under the Rancho Felipe banner" },
+    "grounds-function-area-stage":   { "src": "Private casita whole resort photo/13.jpg", "w": 960,  "h": 590,  "widths": [480, 960], "alt": "Function area with turf flooring, low stage and banquet seating" },
+    "grounds-carved-wood-seating":   { "src": "Private casita whole resort photo/8.jpg",  "w": 1080, "h": 720,  "widths": [480, 960], "alt": "Hand-carved wooden chairs and table set on gravel" },
+    "grounds-tent-pitching-area":    { "src": "Private casita whole resort photo/9.jpg",  "w": 1080, "h": 1438, "widths": [480, 960], "alt": "Shaded tent-pitching area with canopy and seating" },
+    "grounds-parking-carabao-cart":  { "src": "Private gazebo whole resort photo/11.jpg", "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Gravel parking area with a wooden carabao cart" },
+    "entrance-signage":              { "src": "Private gazebo whole resort photo/18.jpg", "w": 1536, "h": 2048, "widths": [480, 960, 1440], "alt": "Rancho Felipe entrance sign in front of the gazebo building" },
+
+    "gazebo-pool-umbrellas":         { "src": "Private gazebo whole resort photo/14.jpg", "w": 2048, "h": 1538, "widths": [480, 960, 1440, 1920], "alt": "Gazebo pool ringed with rainbow parasols on a brick patio" },
+    "gazebo-pool-umbrellas-wide":    { "src": "Private gazebo whole resort photo/15.jpg", "w": 2048, "h": 1538, "widths": [480, 960, 1440, 1920], "alt": "Wide view of the gazebo pool and parasols against the farm" },
+    "gazebo-pool-brick-patio":       { "src": "Private gazebo whole resort photo/2.jpg",  "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Gazebo pool with brick patio, chairs and a folded parasol" },
+    "gazebo-pool-from-balcony":      { "src": "Private gazebo whole resort photo/3.jpg",  "w": 960,  "h": 1280, "widths": [480, 960], "alt": "The gazebo pool seen through the balcony railing" },
+    "gazebo-pool-balcony-umbrella":  { "src": "Private gazebo whole resort photo/17.jpg", "w": 1538, "h": 2048, "widths": [480, 960, 1440], "alt": "Pool and parasol viewed from the gazebo balcony" },
+    "gazebo-pool-wide":              { "src": "Private gazebo whole resort photo/1.jpg",  "w": 443,  "h": 590,  "widths": [443], "alt": "The blue-tiled gazebo pool with open farmland behind it", "$lowRes": true },
+    "gazebo-exterior-mural":         { "src": "Private gazebo whole resort photo/12.jpg", "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Gazebo building painted with banana-leaf murals" },
+    "gazebo-dining-smart-tv":        { "src": "Private gazebo whole resort photo/9.jpg",  "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Gazebo dining area with hardwood table, benches and smart TV" },
+    "gazebo-kitchen":                { "src": "Private gazebo whole resort photo/6.jpg",  "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Gazebo kitchen counter with refrigerator and kettle" },
+    "gazebo-garden-path":            { "src": "Private gazebo whole resort photo/16.jpg", "w": 1538, "h": 2048, "widths": [480, 960, 1440], "alt": "Planted gravel path leading down to the gazebo pool" },
+    "gazebo-field-view":             { "src": "Private gazebo whole resort photo/10.jpg", "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Open green field and tree line seen from the gazebo" },
+    "gazebo-shower":                 { "src": "Private gazebo whole resort photo/7.jpg",  "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Tiled shower room at the gazebo" },
+    "gazebo-comfort-room":           { "src": "Private gazebo whole resort photo/8.jpg",  "w": 960,  "h": 1280, "widths": [480, 960], "alt": "Tiled comfort room at the gazebo" },
+
+    "collage-casita-1":              { "src": "Private casita whole resort photo/19.jpg", "w": 1080, "h": 1920, "widths": [480, 960], "alt": "Photo card labelled Casita 1", "marketing": true },
+    "collage-casita-2":              { "src": "Private casita whole resort photo/16.jpg", "w": 1080, "h": 1920, "widths": [480, 960], "alt": "Photo card labelled Casita 2", "marketing": true },
+    "collage-pool-area":             { "src": "Private casita whole resort photo/20.jpg", "w": 1080, "h": 1920, "widths": [480, 960], "alt": "Photo card labelled Pool Area", "marketing": true },
+    "collage-kitchen-dining":        { "src": "Private casita whole resort photo/17.jpg", "w": 540,  "h": 960,  "widths": [480],      "alt": "Photo card labelled Kitchen and Dining Area", "marketing": true },
+    "collage-gazebo-room-1":         { "src": "Private gazebo whole resort photo/5.jpg",  "w": 1536, "h": 2048, "widths": [480, 960, 1440], "alt": "Photo card labelled Gazebo 1, showing bunk beds and bedding", "marketing": true },
+    "collage-gazebo-room-2":         { "src": "Private gazebo whole resort photo/4.jpg",  "w": 1536, "h": 2048, "widths": [480, 960, 1440], "alt": "Photo card labelled Gazebo 2, showing bunk beds and bedding", "marketing": true },
+
+    "rates-casita-10pax":            { "src": "PRICE AND AMENITIES/casita price and amnities 1.jpg",  "w": 843,  "h": 1264, "widths": [480], "alt": "Rate card: casita rates and inclusions for 10 pax and below", "marketing": true },
+    "rates-casita-11-20pax":         { "src": "PRICE AND AMENITIES/casita price and amenities 2.jpg", "w": 843,  "h": 1264, "widths": [480], "alt": "Rate card: casita rates and inclusions for 11 to 20 pax", "marketing": true },
+    "amenities-casita-policies":     { "src": "PRICE AND AMENITIES/CASITA AMENITIES.png",             "w": 864,  "h": 1220, "widths": [480], "alt": "Signature amenities and property policies card", "marketing": true },
+    "rates-gazebo":                  { "src": "PRICE AND AMENITIES/gazebo price and amenities.jpg",   "w": 1300, "h": 1600, "widths": [480, 960], "alt": "Rate card: private gazebo rates and amenities", "marketing": true },
+    "poster-gazebo-rates-duplicate": { "src": "Private gazebo whole resort photo/13.jpg",             "w": 1300, "h": 1600, "widths": [480, 960], "alt": "Duplicate of the gazebo rate card", "marketing": true, "duplicate": true },
+
+    "promo-ten-percent-discount":    { "src": "DISCOUNT/1.jpg", "w": 1402, "h": 1122, "widths": [480, 960], "alt": "Promotional banner: book today and get 10% discount", "marketing": true },
+    "brand-signboard-pool":          { "src": "LOGO.jpg",       "w": 1024, "h": 1024, "widths": [480, 960], "alt": "Rancho Felipe Casita and Gazebo Pools signboard above the pool", "marketing": true },
+    "directions-infographic":        { "src": "LOCATION.png",   "w": 928,  "h": 1095, "widths": [480], "alt": "Directions infographic for reaching Rancho Felipe by car or by commute", "marketing": true },
+
+    "review-holy-week-group":        { "src": "CUSTOMER REVIEW/1.jpg", "w": 1024, "h": 1536, "widths": [480, 960], "alt": "Five-star guest review card with a group photo by the pool", "marketing": true },
+    "review-thank-you-collage":      { "src": "CUSTOMER REVIEW/2.jpg", "w": 526,  "h": 789,  "widths": [480], "alt": "Thank-you collage of guest photos", "marketing": true },
+    "review-gazebo-dinner":          { "src": "CUSTOMER REVIEW/3.jpg", "w": 650,  "h": 800,  "widths": [480], "alt": "Five-star guest review card with a group at the dining table", "marketing": true },
+    "review-ms-nice-oct-27":         { "src": "CUSTOMER REVIEW/4.jpg", "w": 1300, "h": 1600, "widths": [480, 960], "alt": "Five-star review card from Ms. Nice with a family group photo", "marketing": true },
+    "review-jed-oct-4":              { "src": "CUSTOMER REVIEW/5.jpg", "w": 520,  "h": 640,  "widths": [480], "alt": "Five-star review card from Jed with a group at dinner", "marketing": true },
+    "review-issa-sept-27":           { "src": "CUSTOMER REVIEW/6.jpg", "w": 650,  "h": 800,  "widths": [480], "alt": "Four-star review card from Issa with a group in the pool", "marketing": true },
+    "review-ziangg-july-12":         { "src": "CUSTOMER REVIEW/7.jpg", "w": 520,  "h": 640,  "widths": [480], "alt": "Four-star review card from Ziangg with a group at the table", "marketing": true }
+  },
+
+  "unmapped": [
+    { "file": "C:\\ranc layout\\ranch felipe layout.webp", "reason": "Screenshot of an unrelated resort website (Stayverra). Not Rancho Felipe content. Not copied into public/media/. See CONTENT-GAPS.md Q2." },
+    { "file": "Racho Felipe/New Text Document.txt", "reason": "Reservation form + payment details. Consumed into payment/ and reservationFormFields/ above rather than shipped as an asset." }
+  ]
+}

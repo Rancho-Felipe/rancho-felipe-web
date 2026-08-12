@@ -1,0 +1,53 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# production
+/dist
+
+# testing
+/coverage
+/test-results
+/playwright-report
+
+# database
+*.db
+*.db-journal
+/prisma/dev.db*
+
+# secrets — never commit
+.env
+.env.*
+!.env.example
+
+# guest-uploaded payment proofs (contain personal financial detail)
+/public/uploads
+/uploads
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.pem
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# vercel
+.vercel
+
+# NOTE: /public/media IS committed on purpose — Vercel serves it as static
+# assets and it has to be in the repo. Source originals stay outside the
+# project in "Racho Felipe/" and are never copied in.
