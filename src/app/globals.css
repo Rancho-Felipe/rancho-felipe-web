@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Rancho Felipe design tokens
+
+   Every colour below was sampled out of the resort's own photographs during
+   Phase 0 — see content/palette-source.json for which photo each one came from.
+   Nothing here was picked from a swatch library.
+
+   The site is dark-first on purpose. Three reasons: the strongest photograph
+   they own is the night reflection; the night tour runs 20:00–06:00 and is half
+   the product; and their source photos top out around 1080px, which reads far
+   better on a dark ground than blown up full-bleed on white.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Ground and surfaces — from the night reflection shot */
+  --color-night: #13161f;
+  --color-night-raised: #1b1e2b;
+  --color-night-edge: #262a38;
+
+  /* Foliage — banana and mango canopy in shade */
+  --color-forest: #34392e;
+  --color-forest-lift: #525746;
+
+  /* The pool mosaic, sunlit. This is the Casita's identity colour and the
+     primary action colour for the whole site. */
+  --color-pool: #2c91bd;
+  --color-pool-lift: #89b8cc;
+  --color-pool-deep: #1d6b8e;
+
+  /* The gazebo's red brick patio. The Gazebo's identity colour. */
+  --color-brick: #ac7a73;
+  --color-brick-lift: #c99a92;
+
+  /* Open field and turf */
+  --color-field: #839856;
+  --color-field-lift: #a3b877;
+
+  /* Paving and stone cladding */
+  --color-stone: #b7b59c;
+  --color-paper: #e4e6e1;
+  --color-ink: #10130f;
+
+  /* Type */
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-data: var(--font-martian), ui-monospace, monospace;
+
+  /* A real scale, not ad-hoc sizes */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.1;
+  --text-eyebrow--letter-spacing: 0.16em;
+
+  --text-display: clamp(2.5rem, 9vw, 5.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-title: clamp(1.75rem, 5vw, 3rem);
+  --text-title--line-height: 1;
+  --text-title--letter-spacing: -0.015em;
+
+  --text-lede: clamp(1.0625rem, 2.2vw, 1.375rem);
+  --text-lede--line-height: 1.5;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-night);
+    color: var(--color-paper);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* The display face is Archivo with its width axis pushed wide. That is the
+     voice of the painted signboard at the entrance — it should never appear at
+     default width, or it just reads as a generic grotesque. */
+  .font-display,
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 118;
+    font-weight: 700;
+  }
+
+  /* Times, prices, reference codes and calendar numerals. This site sells time
+     windows, so the schedule should read as data, not as prose. */
+  .font-data {
+    font-family: var(--font-data);
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-pool-lift);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-pool);
+    color: var(--color-paper);
+  }
+}
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-data);
+    font-size: var(--text-eyebrow);
+    letter-spacing: var(--text-eyebrow--letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-stone);
+  }
+
+  /* The rule under the tour windows in the hero. Hairline, warm, low contrast —
+     it separates without drawing attention. */
+  .hairline {
+    border-color: color-mix(in srgb, var(--color-stone) 30%, transparent);
+  }
+}
+
+/* Motion is used in exactly two places: the page-load sequence in the hero and
+   the hotspot reveal on the site map. Both are switched off here. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
