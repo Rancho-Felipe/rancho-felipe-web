@@ -1,65 +1,66 @@
-import { peso, type UnitSlug } from '@/lib/content'
-import { getUnit, PACKAGES } from '@/lib/content'
+import { peso, policy, PACKAGES, type UnitSlug } from '@/lib/content'
 
-/** The two units were priced on different marketing graphics with different
- *  column names — the casita card says "Day & Night / Daytime / Night time",
- *  the gazebo card says "22HRS / DAY TOUR / NIGHT TOUR". They mean the same
- *  three packages, so this maps both onto one vocabulary. */
-const COLUMN_KEYS: Record<UnitSlug, Record<string, string>> = {
-  casita: { fullStay: 'dayAndNight', dayTour: 'daytime', nightTour: 'nightTime' },
-  gazebo: { fullStay: 'fullStay22h', dayTour: 'dayTour', nightTour: 'nightTour' },
-}
-
+/**
+ * One base price per check-in method, covering up to ten guests, then ₱300 a
+ * head above that.
+ *
+ * The printed cards used two bands per unit and were not internally consistent
+ * between them — the casita's "11-20 pax" column matched a per-head calculation
+ * at 15 guests for day and night but at 20 for the full stay. The owner replaced
+ * that with a single rule in August 2026, and this table shows the rule rather
+ * than reprinting the cards.
+ */
 export function RateTable({ unit }: { unit: UnitSlug }) {
-  const data = getUnit(unit)
-  const bands = data.rates.bands as unknown as Array<Record<string, number | string>>
-  const keys = COLUMN_KEYS[unit]
+  const rates = policy.pricing[unit]
+  const included = policy.guests.includedGuests
+  const extra = policy.guests.extraGuestFee
   const accent = unit === 'casita' ? 'text-pool' : 'text-brick'
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[34rem] border-collapse text-left">
-        <caption className="sr-only">
-          {data.name} rates by group size and check-in method
-        </caption>
-        <thead>
-          <tr className="border-b hairline">
-            <th scope="col" className="eyebrow py-3 pr-4 font-normal">
-              Group
-            </th>
-            {PACKAGES.map((pkg) => (
-              <th key={pkg.key} scope="col" className="py-3 pr-4 font-normal">
-                <span className="eyebrow block text-paper">{pkg.label}</span>
-                <span className="font-data text-xs text-stone">
-                  {pkg.in}–{pkg.out}
-                  {pkg.endsNextDay && <span className="align-super text-[0.6rem]">+1</span>}
-                </span>
+    <div>
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[30rem] border-collapse text-left">
+          <caption className="sr-only">
+            Rates by check-in method, covering up to {included} guests
+          </caption>
+          <thead>
+            <tr className="border-b hairline">
+              <th scope="col" className="eyebrow py-3 pr-4 font-normal">
+                Check in
               </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {bands.map((band) => (
-            <tr key={String(band.band)} className="border-b hairline">
-              <th scope="row" className="py-4 pr-4 text-sm font-normal text-paper">
-                {String(band.band) === '10pax-below'
-                  ? '10 guests and below'
-                  : unit === 'casita'
-                    ? '11 to 20 guests'
-                    : 'Up to 16 guests'}
+              <th scope="col" className="eyebrow py-3 pr-4 font-normal">
+                Hours
               </th>
-              {PACKAGES.map((pkg) => {
-                const value = band[keys[pkg.key]]
-                return (
-                  <td key={pkg.key} className={`py-4 pr-4 font-data text-sm ${accent}`}>
-                    {typeof value === 'number' ? peso(value) : '—'}
-                  </td>
-                )
-              })}
+              <th scope="col" className="eyebrow py-3 font-normal">
+                Up to {included} guests
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {PACKAGES.map((pkg) => (
+              <tr key={pkg.key} className="border-b hairline">
+                <th scope="row" className="py-4 pr-4 font-normal">
+                  <span className="block text-sm text-paper">{pkg.label}</span>
+                  <span className="font-data text-xs text-stone">
+                    {pkg.in}–{pkg.out}
+                    {pkg.endsNextDay && <span className="align-super text-[0.6rem]"> +1</span>}
+                  </span>
+                </th>
+                <td className="py-4 pr-4 font-data text-sm text-stone">{pkg.hours}h</td>
+                <td className={`py-4 font-data text-base ${accent}`}>
+                  {peso(rates[pkg.key])}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="mt-4 text-sm text-stone">
+        Every price covers the whole unit for up to {included} guests. After that it&apos;s{' '}
+        <span className="text-paper">{peso(extra)} per guest</span>, and children three and under
+        stay free.
+      </p>
     </div>
   )
 }

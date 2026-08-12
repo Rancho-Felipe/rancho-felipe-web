@@ -3,7 +3,36 @@
 Everything in `content/manifest.json` came out of your folders. This file tracks what the
 folders **don't** contain. Answers you've given are recorded in `content/policy.json`.
 
-**Status: 8 of 13 resolved. 5 open, none of them blocking the build.**
+**Status: 12 of 13 resolved. Nothing is blocking the build.**
+
+---
+
+## Read this before reprinting the rate cards
+
+The owner replaced the two-band pricing with one rule on 12 August 2026: **every
+price covers 10 guests, and every guest above that is ₱300.** The gazebo's
+22-hour stay also dropped to ₱8,000.
+
+That is now what the site charges. It does **not** always match the printed
+cards, because the cards were never consistent with themselves:
+
+| | Printed card | Site now | |
+|---|---|---|---|
+| Casita, day tour, 15 guests | ₱7,500 | ₱7,500 | same |
+| Casita, night tour, 15 guests | ₱8,000 | ₱8,000 | same |
+| Casita, full stay, 20 guests | ₱15,000 | ₱15,000 | same |
+| Casita, day tour, 20 guests | ₱7,500 | **₱9,000** | site charges more |
+| Casita, full stay, 15 guests | ₱15,000 | **₱13,500** | site charges less |
+| Gazebo, day tour, 16 guests | ₱5,000 | **₱5,300** | site charges more |
+| Gazebo, full stay, 16 guests | ₱13,500 | **₱9,800** | site charges much less |
+| Gazebo, full stay, 10 guests | ₱10,500 | **₱8,000** | owner's new price |
+
+The old card's "11–20 pax" column happened to equal ₱300 a head at 15 guests for
+day and night, but at 20 guests for the full stay. One rule cannot reproduce
+both, which is why a single rule is clearer — but **please check the rows marked
+"charges less"**, especially the gazebo 22-hour stay at ₱9,800 for 16 guests,
+down from ₱13,500. If that drop is not intended, the base price or the per-head
+figure needs to change.
 
 ---
 
@@ -54,12 +83,18 @@ starting 07:00 don't collide on their own — the system would happily sell both
 
 ### O5 — Small facts nothing in the folders answers
 
-- **Email address** — needed to send the receipts you asked for and to receive booking alerts. Without one, confirmation emails cannot go out. **This is the only item that blocks a launch.**
-- **GPS coordinates** — for the map pin and the `LodgingBusiness` schema. Open your Maps pin and send the numbers, or tell me I may fetch them from the short link.
-- **Gazebo: 11–15 pax.** Your card prices 10-and-below and 16. Does the ₱300 extra-guest fee bridge the gap, or is there a middle price?
+Resolved: **email** is `casanovatraveltours@gmail.com`. **Coordinates** are
+14.5788535, 121.2345648, resolved from the Maps link the owner sent
+(`maps.app.goo.gl/7GEkxMbs8x4Ns5NQ7`, a pin named "Rancho Felife"). Note this is
+a *different* short link from the one in the Facebook copy — the site now uses
+the owner's. **Gazebo 11–15 pax** is answered by the per-head rule above.
+
+Still open:
+
 - **Review years** — the six real reviews say "Oct 27", "Sept 27", "July 12–15" with no year.
 - **Vehicles** — how many cars fit inside the gate?
 - **Smoking** — indoors banned? I've drafted it that way.
+- **The name on the Maps pin reads "Rancho Felife"**, and the logo on the casita rate card also reads "Rancho Felife". Everywhere else it is "Rancho Felipe". Which spelling is right? The site uses Felipe throughout.
 
 ### O6 — House rules I drafted for you
 

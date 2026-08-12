@@ -3,7 +3,7 @@ import { Archivo, Instrument_Sans, Martian_Mono } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
-import { business } from '@/lib/content'
+import { business, links } from '@/lib/content'
 
 /* The display face is Archivo carrying its width axis, so it can be set wide
    like the painted signboard at the gate. Without the wdth axis it is just
@@ -84,10 +84,9 @@ export default function RootLayout({
         <SiteFooter />
         <script
           type="application/ld+json"
-          // Real address, real phone numbers, real rates. The geo block is
-          // deliberately absent until the owner sends coordinates — see
-          // CONTENT-GAPS.md O5. Publishing a guessed pin would send guests to
-          // the wrong farm.
+          // Real address, real coordinates, real phone numbers, real rates. The
+          // geo block comes from the owner's own Maps pin, resolved rather than
+          // estimated — a guessed pin sends guests to the wrong farm.
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -102,6 +101,12 @@ export default function RootLayout({
                 addressRegion: business.address.province,
                 addressCountry: 'PH',
               },
+              geo: {
+                '@type': 'GeoCoordinates',
+                latitude: business.geo.lat,
+                longitude: business.geo.lng,
+              },
+              hasMap: links.maps,
               telephone: '+63 995 333 9526',
               url: 'https://ranchofelipe.ph',
               petsAllowed: true,

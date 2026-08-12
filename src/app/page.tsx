@@ -3,14 +3,11 @@ import { Hero } from '@/components/hero'
 import { Photo } from '@/components/photo'
 import { UNIT_ORDER, getUnit, peso, reviews, policy, links } from '@/lib/content'
 
+const GUESTS_INCLUDED = policy.guests.includedGuests
+
+/** The cheapest way into a unit — its day tour for ten guests or fewer. */
 function lowestRate(slug: 'casita' | 'gazebo') {
-  const bands = getUnit(slug).rates.bands as Array<Record<string, number | string>>
-  const numbers = bands.flatMap((b) =>
-    Object.entries(b)
-      .filter(([k]) => ['dayTour', 'daytime', 'nightTour', 'nightTime', 'fullStay22h', 'dayAndNight'].includes(k))
-      .map(([, v]) => v as number),
-  )
-  return Math.min(...numbers)
+  return Math.min(...Object.values(policy.pricing[slug]))
 }
 
 export default function HomePage() {
@@ -49,7 +46,10 @@ export default function HomePage() {
                   <p className="mt-2 text-sm text-stone">{unit.shortDescription}</p>
                   <p className="mt-4 font-data text-sm text-paper">
                     from {peso(lowestRate(slug))}
-                    <span className="text-stone"> · up to {unit.capacity.max} guests</span>
+                    <span className="text-stone">
+                      {' '}
+                      · covers {GUESTS_INCLUDED} guests · sleeps up to {unit.capacity.max}
+                    </span>
                   </p>
                 </div>
               </Link>

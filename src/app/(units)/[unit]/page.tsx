@@ -100,7 +100,11 @@ export default async function UnitPage({
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Extra label="Extra guest" value={peso(policy.guests.extraGuestFee)} note="Age 4 and up, beyond the band above" />
+          <Extra
+            label="Extra guest"
+            value={peso(policy.guests.extraGuestFee)}
+            note={`Age 4 and up, past the first ${policy.guests.includedGuests}`}
+          />
           <Extra
             label="Under 4"
             value="Free"

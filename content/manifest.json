@@ -14,7 +14,12 @@
       "country": "PH",
       "formatted": "Rancho Felipe, Maximiano Compound, Brgy. Dalig, Teresa, Rizal, Philippines"
     },
-    "geo": { "lat": null, "lng": null, "$note": "Not present in any asset. Must be read off the Google Maps pin before JSON-LD ships." },
+    "geo": {
+      "lat": 14.5788535,
+      "lng": 121.2345648,
+      "$source": "Resolved 2026-08-12 from the owner's Maps short link https://maps.app.goo.gl/7GEkxMbs8x4Ns5NQ7, which expands to a pin named 'Rancho Felife' in Teresa, Rizal.",
+      "$note": "This is a different short link from the one in the Facebook copy (YVVCyYR6YD7qirnc8). The owner supplied this one directly, so it wins."
+    },
     "accessNote": "Final 300–500 m to the property is rough road. All vehicles, including vans, can pass.",
     "$sourceConflict": "The casita text file says 250–300 m of rough road; LOCATION.png says 300 m then 100 m, and its footer says the final 500 m. Owner to confirm one number."
   },
@@ -30,7 +35,8 @@
     "airbnbCasita": "https://airbnb.com/h/rachofelipeteresarizal",
     "airbnbGazebo": "https://airbnb.com/h/ranchofelipegazebo",
     "facebook": "https://www.facebook.com/RanchoFelipeTeresa",
-    "maps": "https://maps.app.goo.gl/YVVCyYR6YD7qirnc8",
+    "maps": "https://maps.app.goo.gl/7GEkxMbs8x4Ns5NQ7",
+    "$mapsNote": "Owner-supplied 2026-08-12, replacing the YVVCyYR6YD7qirnc8 link that appears in the Facebook copy.",
     "$note": "Two separate Airbnb listings exist — one per unit. The brief assumed one. Neither URL has been opened or verified."
   },
 

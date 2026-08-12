@@ -31,7 +31,20 @@
     "$freeRule": "3 years old and below stay free.",
     "extraGuestFee": 300,
     "extraGuestFeeAppliesFromAge": 4,
-    "$extraRule": "Guests aged 4 and above beyond the rate band's included count pay ₱300 each."
+    "includedGuests": 10,
+    "$extraRule": "Owner instruction, 2026-08-12: every unit's price covers 10 guests. Every chargeable guest above 10 adds ₱300, for both units and all three packages. This replaces the banded model that read prices off the printed cards."
+  },
+
+  "pricing": {
+    "$decision": "Owner instruction, 2026-08-12. One base price per unit per package, covering up to 10 guests, plus ₱300 per head above that. This is the source of truth; the printed rate cards are stale.",
+    "casita": { "dayTour": 6000, "nightTour": 6500, "fullStay": 12000 },
+    "gazebo": { "dayTour": 3500, "nightTour": 4500, "fullStay": 8000 },
+    "$changedFromCards": [
+      "Gazebo 22-hour stay drops from ₱10,500 to ₱8,000 for 10 guests and below.",
+      "The second bands are gone. The casita card's 11-20 prices and the gazebo card's 16-pax prices are no longer used; those headcounts are now priced per head.",
+      "At 15 guests the per-head rule reproduces the casita card exactly for day (₱7,500) and night (₱8,000). At 20 guests it reproduces the card's full-stay price (₱15,000). The card was never internally consistent, which is why a single rule is clearer."
+    ],
+    "$needsOwnerCheck": "Some headcounts now cost more than the printed card and some cost less. See the comparison in CONTENT-GAPS.md before the cards are reprinted."
   },
 
   "extension": {

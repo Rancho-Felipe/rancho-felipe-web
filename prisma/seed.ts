@@ -58,13 +58,13 @@ async function main() {
       name: 'The Private Casita',
       shortName: 'Casita',
       maxGuests: 20,
-      includedGuests: 20,
+      includedGuests: 10,
       extensionRate: 500,
       phone: '0995-333-9526',
       airbnbUrl: 'https://airbnb.com/h/rachofelipeteresarizal',
       sortOrder: 1,
     },
-    update: { extensionRate: 500, maxGuests: 20 },
+    update: { extensionRate: 500, maxGuests: 20, includedGuests: 10 },
   })
 
   await db.unit.upsert({
@@ -74,39 +74,42 @@ async function main() {
       name: 'The Private Gazebo',
       shortName: 'Gazebo',
       maxGuests: 16,
-      includedGuests: 16,
+      includedGuests: 10,
       extensionRate: 300,
       phone: '0977-277-0716',
       airbnbUrl: 'https://airbnb.com/h/ranchofelipegazebo',
       sortOrder: 2,
     },
-    update: { extensionRate: 300, maxGuests: 16 },
+    update: { extensionRate: 300, maxGuests: 16, includedGuests: 10 },
   })
 
-  // --- Rates, straight off the printed cards ------------------------------
-  const rates: Array<[string, 'DAY_TOUR' | 'NIGHT_TOUR' | 'FULL_STAY', number, number, number]> = [
-    // unit,     package,      minPax, maxPax, price
-    ['casita', 'DAY_TOUR', 1, 10, 6000],
-    ['casita', 'DAY_TOUR', 11, 20, 7500],
-    ['casita', 'NIGHT_TOUR', 1, 10, 6500],
-    ['casita', 'NIGHT_TOUR', 11, 20, 8000],
-    ['casita', 'FULL_STAY', 1, 10, 12000],
-    ['casita', 'FULL_STAY', 11, 20, 15000],
-    ['gazebo', 'DAY_TOUR', 1, 10, 3500],
-    ['gazebo', 'DAY_TOUR', 11, 16, 5000],
-    ['gazebo', 'NIGHT_TOUR', 1, 10, 4500],
-    ['gazebo', 'NIGHT_TOUR', 11, 16, 6000],
-    ['gazebo', 'FULL_STAY', 1, 10, 10500],
-    ['gazebo', 'FULL_STAY', 11, 16, 13500],
+  // --- Rates --------------------------------------------------------------
+  // One base price per unit per package, covering up to 10 guests. Every
+  // chargeable guest above 10 adds PHP 300. That is the owner's rule as of
+  // 2026-08-12 and it replaces the two-band model the printed cards used.
+  const INCLUDED = 10
+
+  const rates: Array<[string, 'DAY_TOUR' | 'NIGHT_TOUR' | 'FULL_STAY', number]> = [
+    ['casita', 'DAY_TOUR', 6000],
+    ['casita', 'NIGHT_TOUR', 6500],
+    ['casita', 'FULL_STAY', 12000],
+    ['gazebo', 'DAY_TOUR', 3500],
+    ['gazebo', 'NIGHT_TOUR', 4500],
+    ['gazebo', 'FULL_STAY', 8000],
   ]
 
-  for (const [unitId, pkg, minPax, maxPax, price] of rates) {
+  for (const [unitId, pkg, price] of rates) {
     await db.ratePlan.upsert({
-      where: { unitId_package_maxPax: { unitId, package: pkg, maxPax } },
-      create: { unitId, package: pkg, minPax, maxPax, price },
-      update: { price, minPax },
+      where: { unitId_package_maxPax: { unitId, package: pkg, maxPax: INCLUDED } },
+      create: { unitId, package: pkg, minPax: 1, maxPax: INCLUDED, price },
+      update: { price, minPax: 1 },
     })
   }
+
+  // Clear the old upper bands, or they would still catch larger groups and
+  // quietly override the per-head rule.
+  const removed = await db.ratePlan.deleteMany({ where: { maxPax: { not: INCLUDED } } })
+  if (removed.count > 0) console.log(`  removed ${removed.count} superseded rate bands`)
 
   // --- Add-ons ------------------------------------------------------------
   const addOns = [
