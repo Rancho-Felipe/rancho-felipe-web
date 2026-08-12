@@ -85,9 +85,16 @@ export async function getAvailability(options: {
     db.booking.findMany({
       where: {
         unitId: options.unitId,
-        status: { in: [...LIVE_STATUSES] },
         heldFrom: { lt: new Date(rangeEnd) },
         heldUntil: { gt: new Date(rangeStart) },
+        // A pending hold whose window has run out no longer reserves anything,
+        // even if the sweeper has not reached it yet. Reading and writing agree
+        // on this: createBooking clears the same rows inside its transaction.
+        OR: [
+          { status: { in: ['AWAITING_VERIFICATION', 'CONFIRMED'] } },
+          { status: 'PENDING', holdExpiresAt: { gt: now } },
+          { status: 'PENDING', holdExpiresAt: null },
+        ],
       },
       select: { heldFrom: true, heldUntil: true },
     }),

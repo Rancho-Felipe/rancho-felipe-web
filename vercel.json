@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "regions": ["sin1"],
+  "crons": [
+    {
+      "path": "/api/cron",
+      "comment": "Releases expired holds and pulls the Airbnb calendars. Twice an hour: a hold released late costs a booking, and a calendar imported late risks a double booking.",
+      "schedule": "0,30 * * * *"
+    }
+  ]
+}

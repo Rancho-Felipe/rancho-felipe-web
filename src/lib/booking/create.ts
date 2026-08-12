@@ -191,6 +191,21 @@ export async function createBooking(input: CreateBookingInput): Promise<CreatedB
   async function runBookingTransaction(): Promise<CreatedBooking> {
     return await db.$transaction(
       async (tx) => {
+        // Release any dead hold sitting on this exact window first. The
+        // exclusion constraint counts PENDING rows regardless of whether their
+        // hold has run out, so without this a guest could be shown a free slot
+        // by the availability reader and then be refused by the database.
+        await tx.booking.updateMany({
+          where: {
+            unitId: input.unitId,
+            status: 'PENDING',
+            holdExpiresAt: { lt: new Date() },
+            heldFrom: { lt: held.heldUntil },
+            heldUntil: { gt: held.heldFrom },
+          },
+          data: { status: 'EXPIRED' },
+        })
+
         // (2) and (3): dates the owner closed, and anything Airbnb has told us
         // about. These live in calendar_block, where overlapping rows from two
         // sources are legitimate, so no constraint can do this for us.

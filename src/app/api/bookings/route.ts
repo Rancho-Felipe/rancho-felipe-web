@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { bookingInput, validateGuestMix } from '@/lib/booking/schema'
 import { createBooking, SlotTakenError, BookingRejected } from '@/lib/booking/create'
 import { PricingError } from '@/lib/booking/pricing'
+import { notifyNewBooking } from '@/lib/email/notify'
 import { rateLimit } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
@@ -55,6 +56,12 @@ export async function POST(request: Request) {
       guestAddress: parsed.data.address,
       guestNote: parsed.data.note,
     })
+
+    // After the commit, and deliberately not awaited. The guest is mid-redirect
+    // and a mail outage must not cost them the booking they just made.
+    void notifyNewBooking(booking.id).catch((cause) =>
+      console.error('Booking saved but notification failed', cause),
+    )
 
     return NextResponse.json(
       {

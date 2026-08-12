@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { rateLimit } from '@/lib/rate-limit'
+import { notifyProofUploaded } from '@/lib/email/notify'
 
 export const dynamic = 'force-dynamic'
 
@@ -131,6 +132,10 @@ export async function POST(request: Request) {
       },
     })
   })
+
+  void notifyProofUploaded(booking.id, parsed.data.method).catch((cause) =>
+    console.error('Proof saved but notification failed', cause),
+  )
 
   return NextResponse.json({ ok: true })
 }

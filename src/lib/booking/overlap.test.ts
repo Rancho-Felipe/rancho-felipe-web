@@ -2,6 +2,8 @@ import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import { db } from '@/lib/db'
 import { createBooking, SlotTakenError } from '@/lib/booking/create'
 import { inResortTime } from '@/lib/booking/schedule'
+import { getAvailability } from '@/lib/booking/availability'
+import { expireStaleHolds } from '@/lib/booking/expire'
 
 /* ---------------------------------------------------------------------------
    The double-booking tests.
@@ -172,6 +174,74 @@ describe('blocked dates', () => {
       date: '2027-10-03',
     })
     expect(after.reference).toBeTruthy()
+  })
+})
+
+describe('holds that run out', () => {
+  it('stops reserving the date once the hold has expired, before the sweeper runs', async () => {
+    const slot = { unitId: 'casita' as const, package: 'DAY_TOUR' as const, date: '2027-12-01' }
+    const first = await createBooking({ ...guest, ...slot })
+
+    // Wind the hold back into the past without touching its status, which is
+    // exactly the state a guest who wandered off leaves behind.
+    await db.booking.update({
+      where: { id: first.id },
+      data: { holdExpiresAt: new Date(Date.now() - 60_000) },
+    })
+
+    // The reader must already treat it as free...
+    const [day] = await getAvailability({
+      unitId: 'casita',
+      from: '2027-12-01',
+      to: '2027-12-01',
+    })
+    expect(day.slots.DAY_TOUR).toBe('free')
+
+    // ...and the write path must agree, or the guest sees a free slot and is
+    // then refused by the exclusion constraint.
+    const second = await createBooking({ ...guest, ...slot })
+    expect(second.reference).not.toBe(first.reference)
+
+    const released = await db.booking.findUnique({ where: { id: first.id } })
+    expect(released?.status).toBe('EXPIRED')
+  })
+
+  it('never expires a booking whose receipt is already in', async () => {
+    const slot = { unitId: 'gazebo' as const, package: 'NIGHT_TOUR' as const, date: '2027-12-05' }
+    const booking = await createBooking({ ...guest, ...slot })
+
+    await db.booking.update({
+      where: { id: booking.id },
+      data: {
+        status: 'AWAITING_VERIFICATION',
+        holdExpiresAt: new Date(Date.now() - 60_000),
+      },
+    })
+
+    const result = await expireStaleHolds()
+    expect(result.references).not.toContain(booking.reference)
+
+    // The date stays held while the owner checks the receipt.
+    await expect(createBooking({ ...guest, ...slot })).rejects.toBeInstanceOf(SlotTakenError)
+  })
+
+  it('sweeps dead holds and is safe to run twice', async () => {
+    const booking = await createBooking({
+      ...guest,
+      unitId: 'casita',
+      package: 'NIGHT_TOUR',
+      date: '2027-12-10',
+    })
+    await db.booking.update({
+      where: { id: booking.id },
+      data: { holdExpiresAt: new Date(Date.now() - 60_000) },
+    })
+
+    const first = await expireStaleHolds()
+    expect(first.references).toContain(booking.reference)
+
+    const second = await expireStaleHolds()
+    expect(second.expired).toBe(0)
   })
 })
 
