@@ -51,3 +51,7 @@ yarn-error.log*
 # NOTE: /public/media IS committed on purpose — Vercel serves it as static
 # assets and it has to be in the repo. Source originals stay outside the
 # project in "Racho Felipe/" and are never copied in.
+
+# local dev database (embedded postgres data dir)
+/.pgdata
+/.pglite

@@ -14,8 +14,8 @@
     "nightTour": { "in": "20:00", "out": "06:00", "hours": 10, "endsNextDay": true },
     "fullStay":  { "in": "14:00", "out": "12:00", "hours": 22, "endsNextDay": true },
     "custom":    { "adminSet": true, "$note": "Owner sets in/out per booking when a guest needs different hours." },
-    "turnoverMinutes": 60,
-    "$turnover": "Bookings are stored as real timestamps, so a night tour ending 06:00 and a day tour starting 07:00 do not collide on their own. turnoverMinutes adds a cleaning buffer on top. Default 60 — confirm."
+    "turnoverMinutes": 30,
+    "$turnover": "A cleaning buffer applied to BOTH ends of every booking, so the gap the caretakers actually get between two groups is twice this number. 30 means a full hour between one group leaving and the next arriving. It cannot go above 30 without making the night-tour-then-day-tour pair impossible: those are only 60 minutes apart (06:00 out, 07:00 in), and a 60-minute buffer on each side would consume all of it. Verified by test."
   },
 
   "deposit": {

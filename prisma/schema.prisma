@@ -1,0 +1,386 @@
+// Rancho Felipe booking database.
+//
+// The one thing this schema exists to guarantee: the same unit can never be
+// sold twice for overlapping time. Bookings are stored as timestamps rather
+// than dates, because the resort sells three overlapping-ish windows - a day
+// tour 07:00-17:00, a night tour 20:00-06:00 the next morning, and a 22-hour
+// stay 14:00-12:00. Ranges handle those correctly with no special cases: a
+// night tour and the following day tour do not collide, but a full stay and a
+// day tour on its second morning do.
+//
+// The overlap check itself is a Postgres exclusion constraint added in
+// migration 0002. Prisma cannot express it, so it lives in raw SQL there.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+// Prisma 7 takes the connection string from prisma.config.ts, not from here.
+datasource db {
+  provider = "postgresql"
+}
+
+/// The two units book independently. One group in the Casita does not close
+/// the Gazebo - that was the owner's explicit decision.
+model Unit {
+  id            String  @id // "casita" | "gazebo"
+  name          String
+  shortName     String
+  maxGuests     Int
+  includedGuests Int    // the rate band's headcount before extra-guest fees
+  /// Pesos per extra hour. 500 casita, 300 gazebo.
+  extensionRate Int
+  /// Where the guest calls for this unit specifically.
+  phone         String
+  airbnbUrl     String?
+  /// Airbnb's exported calendar, polled on a schedule.
+  icalImportUrl String?
+  sortOrder     Int     @default(0)
+
+  ratePlans RatePlan[]
+  bookings  Booking[]
+  blocks    CalendarBlock[]
+
+  @@map("unit")
+}
+
+enum PackageKey {
+  DAY_TOUR
+  NIGHT_TOUR
+  FULL_STAY
+  CUSTOM
+
+  @@map("package_key")
+}
+
+/// Flat prices per unit, package and group size. Editable from admin so the
+/// owner never needs a developer to change a rate.
+model RatePlan {
+  id      String     @id @default(cuid())
+  unitId  String     @map("unit_id")
+  unit    Unit       @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  package PackageKey
+  minPax  Int        @default(1)
+  maxPax  Int
+  price   Int // whole pesos, never floats
+
+  @@unique([unitId, package, maxPax])
+  @@map("rate_plan")
+}
+
+/// The weekend/holiday tab the owner asked for. Deliberately empty at launch -
+/// no asset contains seasonal pricing - but the shape exists so rates can be
+/// added later without a code change.
+model SeasonalRate {
+  id            String      @id @default(cuid())
+  label         String
+  unitId        String?     @map("unit_id")
+  package       PackageKey?
+  startDate     DateTime    @map("start_date") @db.Date
+  endDate       DateTime    @map("end_date") @db.Date
+  /// Either replace the price outright...
+  priceOverride Int?        @map("price_override")
+  /// ...or nudge it by a percentage. Exactly one should be set.
+  percentAdjust Int?        @map("percent_adjust")
+  active        Boolean     @default(true)
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@map("seasonal_rate")
+}
+
+enum BookingStatus {
+  /// Created, holding the dates, waiting for payment.
+  PENDING
+  /// Proof of payment uploaded, waiting for the owner to check it.
+  AWAITING_VERIFICATION
+  CONFIRMED
+  /// Hold ran out before payment arrived. Dates released.
+  EXPIRED
+  CANCELLED
+  REJECTED
+  COMPLETED
+
+  @@map("booking_status")
+}
+
+enum BookingSource {
+  /// Booked through this website.
+  DIRECT
+  /// Entered by the owner in admin.
+  MANUAL
+  /// Imported from Airbnb's calendar feed.
+  AIRBNB_ICAL
+
+  @@map("booking_source")
+}
+
+model Booking {
+  id        String @id @default(cuid())
+  /// Human-readable and unit-tagged, because there are two calendars:
+  /// RF-C-2026-0042, RF-G-2026-0007.
+  reference String @unique
+
+  unitId  String     @map("unit_id")
+  unit    Unit       @relation(fields: [unitId], references: [id])
+  package PackageKey
+
+  /// What the guest sees.
+  checkInAt  DateTime @map("check_in_at") @db.Timestamptz(3)
+  checkOutAt DateTime @map("check_out_at") @db.Timestamptz(3)
+
+  /// What the database enforces: check-in/out padded by the turnover buffer so
+  /// caretakers get time to reset the unit. The exclusion constraint in
+  /// migration 0002 runs on these two, not on the guest-facing pair.
+  heldFrom  DateTime @map("held_from") @db.Timestamptz(3)
+  heldUntil DateTime @map("held_until") @db.Timestamptz(3)
+
+  status BookingStatus @default(PENDING)
+  source BookingSource @default(DIRECT)
+
+  guestName    String  @map("guest_name")
+  guestEmail   String  @map("guest_email")
+  guestPhone   String  @map("guest_phone")
+  guestAddress String  @map("guest_address")
+  /// Everyone, including children. paxUnder4 are free and excluded from fees.
+  paxTotal     Int     @map("pax_total")
+  paxUnder4    Int     @default(0) @map("pax_under_4")
+  pets         Int     @default(0)
+  extensionHours Int   @default(0) @map("extension_hours")
+  guestNote    String? @map("guest_note")
+  /// Owner-only. Never shown to the guest, never emailed.
+  internalNote String? @map("internal_note")
+
+  subtotal    Int
+  extrasTotal Int @map("extras_total")
+  total       Int
+  depositDue  Int @map("deposit_due")
+  balanceDue  Int @map("balance_due")
+  /// The exact line items the guest was shown at checkout, frozen. If a rate
+  /// changes later, an old booking still explains its own price.
+  breakdown   Json
+
+  /// Pending bookings release automatically if payment never arrives.
+  holdExpiresAt DateTime? @map("hold_expires_at") @db.Timestamptz(3)
+  confirmedAt   DateTime? @map("confirmed_at") @db.Timestamptz(3)
+  cancelledAt   DateTime? @map("cancelled_at") @db.Timestamptz(3)
+
+  /// Set when this row came from an imported calendar, so re-imports update
+  /// rather than duplicate.
+  externalUid String? @map("external_uid")
+
+  addOns   BookingAddOn[]
+  payments Payment[]
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([unitId, heldFrom, heldUntil])
+  @@index([status, holdExpiresAt])
+  @@index([checkInAt])
+  @@map("booking")
+}
+
+/// Hands out the sequential part of a reference code. One row per unit per
+/// year, incremented atomically inside the booking transaction, so two guests
+/// booking at the same instant cannot be given the same code.
+model BookingCounter {
+  unitId String @map("unit_id")
+  year   Int
+  lastNumber Int @default(0) @map("last_number")
+
+  @@id([unitId, year])
+  @@map("booking_counter")
+}
+
+/// LPG, firewood, pet overage. Prices and availability are admin-editable.
+model AddOn {
+  id        String       @id // "lpg-tour", "lpg-full", "bonfire-wood", "extra-pets"
+  name      String
+  /// Shown under the name at checkout so the guest knows what they're buying.
+  note      String?
+  price     Int
+  /// Empty means it applies to every package.
+  packages  PackageKey[]
+  /// Empty means it applies to both units.
+  unitIds   String[]     @map("unit_ids")
+  /// Paid to the caretaker on arrival rather than online.
+  payOnSite Boolean      @default(false) @map("pay_on_site")
+  active    Boolean      @default(true)
+  sortOrder Int          @default(0) @map("sort_order")
+
+  bookings BookingAddOn[]
+
+  @@map("add_on")
+}
+
+model BookingAddOn {
+  id        String  @id @default(cuid())
+  bookingId String  @map("booking_id")
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  addOnId   String  @map("add_on_id")
+  addOn     AddOn   @relation(fields: [addOnId], references: [id])
+  quantity  Int     @default(1)
+  /// Copied at checkout so a later price change never rewrites history.
+  unitPrice Int     @map("unit_price")
+  total     Int
+
+  @@unique([bookingId, addOnId])
+  @@map("booking_add_on")
+}
+
+enum PaymentMethod {
+  GCASH
+  MAYA
+  BPI
+  PAYMONGO
+  CASH
+
+  @@map("payment_method")
+}
+
+enum PaymentStatus {
+  /// Awaiting the guest.
+  PENDING
+  /// Guest uploaded proof; owner has not looked yet.
+  SUBMITTED
+  VERIFIED
+  REJECTED
+
+  @@map("payment_status")
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  bookingId String        @map("booking_id")
+  booking   Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  method    PaymentMethod
+  status    PaymentStatus @default(PENDING)
+  amount    Int
+  /// Guest-supplied GCash/Maya/BPI reference number.
+  reference String?
+  /// Path to the uploaded screenshot. Never public, served through an
+  /// authenticated route only.
+  proofPath String?       @map("proof_path")
+  /// PayMongo's id, when the payment came through them.
+  providerId String?      @map("provider_id")
+
+  verifiedAt   DateTime? @map("verified_at") @db.Timestamptz(3)
+  verifiedById String?   @map("verified_by_id")
+  rejectedNote String?   @map("rejected_note")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([bookingId])
+  @@map("payment")
+}
+
+enum BlockSource {
+  MANUAL
+  AIRBNB_ICAL
+
+  @@map("block_source")
+}
+
+/// Dates the owner closed by hand, plus everything imported from Airbnb.
+/// Kept separate from Booking because two sources are allowed to cover the
+/// same dates - an exclusion constraint here would wrongly reject that.
+model CalendarBlock {
+  id      String      @id @default(cuid())
+  unitId  String      @map("unit_id")
+  unit    Unit        @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  startAt DateTime    @map("start_at") @db.Timestamptz(3)
+  endAt   DateTime    @map("end_at") @db.Timestamptz(3)
+  source  BlockSource @default(MANUAL)
+  reason  String?
+  /// Airbnb's UID for this event, so re-imports update rather than duplicate.
+  externalUid String?  @map("external_uid")
+  feedId      String?  @map("feed_id")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([feedId, externalUid])
+  @@index([unitId, startAt, endAt])
+  @@map("calendar_block")
+}
+
+/// One row per unit's Airbnb calendar. Failures are recorded loudly - a feed
+/// that silently stops importing would show booked dates as free, which is the
+/// worst thing this system can do.
+model IcalFeed {
+  id            String    @id @default(cuid())
+  unitId        String    @map("unit_id")
+  url           String
+  active        Boolean   @default(true)
+  lastFetchedAt DateTime? @map("last_fetched_at") @db.Timestamptz(3)
+  lastOkAt      DateTime? @map("last_ok_at") @db.Timestamptz(3)
+  lastError     String?   @map("last_error")
+  failureCount  Int       @default(0) @map("failure_count")
+
+  @@unique([unitId])
+  @@map("ical_feed")
+}
+
+/// Everything the owner can change without a developer: deposit percent,
+/// turnover minutes, videoke curfew, which payment methods are switched on.
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("setting")
+}
+
+/// Single admin role, hashed password, no public sign-up.
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String    @map("password_hash")
+  lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz(3)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@map("admin_user")
+}
+
+/// Every admin action, timestamped.
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?  @map("actor_id")
+  actorName String?  @map("actor_name")
+  action    String
+  entity    String
+  entityId  String?  @map("entity_id")
+  meta      Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([createdAt])
+  @@map("audit_log")
+}
+
+/// The real guest reviews from the asset folder, editable and hideable.
+model Review {
+  id        String  @id @default(cuid())
+  author    String?
+  rating    Int
+  /// As written on the card: "Oct 27", "July 12-15". No year is stated on any
+  /// of them, so this stays a string rather than pretending to be a date.
+  dateLabel String? @map("date_label")
+  text      String
+  imageSlug String? @map("image_slug")
+  featured  Boolean @default(false)
+  hidden    Boolean @default(false)
+  sortOrder Int     @default(0) @map("sort_order")
+
+  @@map("review")
+}
+
+/// Unit descriptions, amenity lists, house rules and FAQ, so the owner can edit
+/// copy from admin instead of asking for a deploy.
+model ContentBlock {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@map("content_block")
+}
