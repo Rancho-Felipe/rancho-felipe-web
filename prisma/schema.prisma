@@ -259,9 +259,16 @@ model Payment {
   amount    Int
   /// Guest-supplied GCash/Maya/BPI reference number.
   reference String?
-  /// Path to the uploaded screenshot. Never public, served through an
-  /// authenticated route only.
-  proofPath String?       @map("proof_path")
+  /// The uploaded receipt itself. Held in the database rather than on disk:
+  /// Vercel's filesystem is ephemeral, these are a couple of hundred kilobytes
+  /// each, and keeping them here means they are backed up with everything else
+  /// and need no second service. Never public - served only through an
+  /// authenticated admin route.
+  proofData Bytes?        @map("proof_data")
+  proofMime String?       @map("proof_mime")
+  proofSize Int?          @map("proof_size")
+  proofName String?       @map("proof_name")
+  proofUploadedAt DateTime? @map("proof_uploaded_at") @db.Timestamptz(3)
   /// PayMongo's id, when the payment came through them.
   providerId String?      @map("provider_id")
 

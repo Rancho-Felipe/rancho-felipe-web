@@ -29,6 +29,11 @@ const pg = new EmbeddedPostgres({
   password: 'postgres',
   port: PORT,
   persistent: true,
+  // Without this, initdb takes the encoding from the Windows locale and builds
+  // a WIN1252 cluster, which cannot store "₱". Every hosted Postgres is UTF-8,
+  // so a WIN1252 dev database would fail on characters that work fine in
+  // production — exactly the kind of difference that hides bugs until launch.
+  initdbFlags: ['--encoding=UTF8', '--locale=C'],
 })
 
 if (firstRun) {

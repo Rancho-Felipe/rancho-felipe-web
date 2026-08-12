@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models'
-export type * from './prismaNamespace'
+export type * from '../models.ts'
+export type * from './prismaNamespace.ts'
 
 export const Decimal = runtime.Decimal
 
@@ -209,7 +209,11 @@ export const PaymentScalarFieldEnum = {
   status: 'status',
   amount: 'amount',
   reference: 'reference',
-  proofPath: 'proofPath',
+  proofData: 'proofData',
+  proofMime: 'proofMime',
+  proofSize: 'proofSize',
+  proofName: 'proofName',
+  proofUploadedAt: 'proofUploadedAt',
   providerId: 'providerId',
   verifiedAt: 'verifiedAt',
   verifiedById: 'verifiedById',

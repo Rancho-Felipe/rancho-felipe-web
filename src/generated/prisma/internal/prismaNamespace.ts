@@ -16,10 +16,10 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "../models"
-import { type PrismaClient } from "./class"
+import type * as Prisma from "../models.ts"
+import { type PrismaClient } from "./class.ts"
 
-export type * from '../models'
+export type * from '../models.ts'
 
 export type DMMF = typeof runtime.DMMF
 
@@ -1705,7 +1705,11 @@ export const PaymentScalarFieldEnum = {
   status: 'status',
   amount: 'amount',
   reference: 'reference',
-  proofPath: 'proofPath',
+  proofData: 'proofData',
+  proofMime: 'proofMime',
+  proofSize: 'proofSize',
+  proofName: 'proofName',
+  proofUploadedAt: 'proofUploadedAt',
   providerId: 'providerId',
   verifiedAt: 'verifiedAt',
   verifiedById: 'verifiedById',
@@ -1988,6 +1992,20 @@ export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PaymentStatus[]'
  */
 export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Bytes'
+ */
+export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+/**
+ * Reference to a field of type 'Bytes[]'
+ */
+export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
     
 
 
