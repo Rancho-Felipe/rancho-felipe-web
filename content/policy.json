@@ -1,0 +1,124 @@
+{
+  "$comment": "Owner decisions, 2026-08-12. These supersede anything printed on the marketing graphics. Every value here becomes an editable row in admin — nothing below is hard-coded into pricing logic.",
+
+  "calendars": {
+    "mode": "per-unit",
+    "$decision": "Casita and Gazebo have SEPARATE calendars. One group in the Casita does not block the Gazebo. Two groups can be on site at once.",
+    "sharedSchedule": true,
+    "$note": "Both units use the same three check-in windows."
+  },
+
+  "schedule": {
+    "$decision": "Same windows for both units.",
+    "dayTour":   { "in": "07:00", "out": "17:00", "hours": 10 },
+    "nightTour": { "in": "20:00", "out": "06:00", "hours": 10, "endsNextDay": true },
+    "fullStay":  { "in": "14:00", "out": "12:00", "hours": 22, "endsNextDay": true },
+    "custom":    { "adminSet": true, "$note": "Owner sets in/out per booking when a guest needs different hours." },
+    "turnoverMinutes": 60,
+    "$turnover": "Bookings are stored as real timestamps, so a night tour ending 06:00 and a day tour starting 07:00 do not collide on their own. turnoverMinutes adds a cleaning buffer on top. Default 60 — confirm."
+  },
+
+  "deposit": {
+    "percent": 30,
+    "basis": "total price including add-ons",
+    "refundable": false,
+    "reschedulable": true,
+    "$decision": "30% of the total secures the date. Once paid it cannot be cancelled, but the guest may move the date."
+  },
+
+  "guests": {
+    "freeUnderAge": 4,
+    "$freeRule": "3 years old and below stay free.",
+    "extraGuestFee": 300,
+    "extraGuestFeeAppliesFromAge": 4,
+    "$extraRule": "Guests aged 4 and above beyond the rate band's included count pay ₱300 each."
+  },
+
+  "extension": {
+    "casita": { "perHour": 500 },
+    "gazebo": { "perHour": 300 },
+    "condition": "Only offered when no other booking follows on that unit.",
+    "$systemNote": "The booking engine can enforce this: an extension is offerable only if extending the checkout timestamp still clears the next booking plus turnover.",
+    "$unconfirmed": "Read as a per-hour rate. Confirm — it could be a flat fee per extension."
+  },
+
+  "addOns": [
+    { "id": "lpg-tour",    "name": "LPG for cooking",  "price": 250, "appliesTo": ["dayTour", "nightTour"], "units": ["casita", "gazebo"] },
+    { "id": "lpg-full",    "name": "LPG for cooking",  "price": 500, "appliesTo": ["fullStay"],             "units": ["casita", "gazebo"] },
+    { "id": "bonfire-wood","name": "Firewood for the bonfire", "price": 250, "paidTo": "caretaker on arrival", "units": ["casita"],
+      "$note": "Use of the bonfire itself is free. The ₱250 is for the wood." },
+    { "id": "extra-pets",  "name": "More than 3 pets", "price": 400, "units": ["casita", "gazebo"],
+      "$unconfirmed": "Read as a flat surcharge for bringing more than 3 pets. Confirm — it could be ₱400 per additional pet." }
+  ],
+  "$addOnNote": "The casita amenity card prints gas stove at ₱300/10hrs and ₱600/21hrs. The owner's current numbers are ₱250 and ₱500. The card is stale.",
+
+  "pets": {
+    "allowed": true,
+    "freeMaximum": 3,
+    "overageFee": 400,
+    "poolAccess": false,
+    "$rule": "Up to 3 pets at no charge. More than 3 is chargeable. Pets are not allowed in the pool."
+  },
+
+  "fees": {
+    "corkage": 0,
+    "securityDeposit": 0,
+    "$decision": "No corkage. No security deposit. No other charges beyond the add-ons listed above."
+  },
+
+  "seasonalPricing": {
+    "enabled": false,
+    "$decision": "No weekend, holiday or peak rates today. The admin tab exists and is empty, so rates can be added later without a code change."
+  },
+
+  "security": {
+    "cctv": true,
+    "gated": true,
+    "caretakersOnSite": true,
+    "$copy": "The farm is gated, CCTV is installed across the property, and caretakers are on site throughout your stay."
+  },
+
+  "damages": {
+    "guestLiable": true,
+    "$rule": "Guests pay for any damage to the property."
+  },
+
+  "houseRules": {
+    "$ownerStated": [
+      { "id": "videoke-curfew", "rule": "Videoke until 2:00 PM", "$FLAG": "Owner wrote 'till 2pm'. Taken literally this bans videoke for the whole night tour (20:00–06:00), and their own Facebook copy advertises 24/7 karaoke. Almost certainly 2:00 AM. Built as an editable setting defaulting to 02:00 — NEEDS CONFIRMATION." },
+      { "id": "clean-as-you-go", "rule": "Clean as you go" },
+      { "id": "damages", "rule": "Guests pay for any damage to the property" }
+    ],
+    "$drafted": [
+      { "id": "exclusive-use", "rule": "Your booking is exclusive. Only the guests on your reservation may enter the unit you booked." },
+      { "id": "pool-hours", "rule": "The pool is open for the full length of your booking. Children in the pool must have an adult with them." },
+      { "id": "no-glass-poolside", "rule": "No glass bottles inside or around the pool." },
+      { "id": "pets", "rule": "Up to 3 pets stay free. Pets are not allowed in the pool. Please clean up after them." },
+      { "id": "no-corkage", "rule": "Bring your own food and drinks. There is no corkage." },
+      { "id": "smoking", "rule": "Smoking is outdoors only, never inside the rooms.", "$confirm": true },
+      { "id": "bonfire-safety", "rule": "Bonfires are lit and put out by the caretaker. Please don't leave one burning." },
+      { "id": "parking", "rule": "Park inside the gate. The last stretch of road is rough but passable for cars and vans.", "$confirm": "How many vehicles fit?" },
+      { "id": "checkout", "rule": "Please check out on time so the caretakers can prepare for the next guests. Extra hours are available if nobody is booked after you." },
+      { "id": "quiet-neighbours", "rule": "Sound carries across the farm. Please keep music at a neighbourly level after the videoke curfew.", "$confirm": true }
+    ],
+    "$note": "The drafted rules are proposals written from what the assets and the owner's answers already imply. Each one marked $confirm is a genuine guess and should be approved or cut before launch."
+  },
+
+  "booking": {
+    "flow": [
+      "Guest picks unit, date and check-in method.",
+      "Guest fills the booking form.",
+      "Live price breakdown, including the 30% due now.",
+      "Guest pays or uploads proof of payment.",
+      "Booking is written to that unit's calendar.",
+      "An emailed receipt goes to the guest with every detail they entered; the owner is notified."
+    ],
+    "receiptIncludes": [
+      "Reference code", "Unit", "Check-in method with exact date and time",
+      "Check-out date and time", "Number of guests and how many are under 4",
+      "Add-ons chosen", "Full price breakdown", "Amount paid and balance due on arrival",
+      "Payment method and reference", "House rules", "Directions and the map link",
+      "Contact number for the unit booked", "An .ics calendar attachment"
+    ]
+  }
+}
