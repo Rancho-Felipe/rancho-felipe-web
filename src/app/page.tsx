@@ -62,44 +62,45 @@ export default function HomePage() {
       <section className="border-y border-night-edge bg-night-raised">
         <div className="mx-auto max-w-6xl px-5 py-20">
           <h2 className="text-title font-display">What&apos;s on the farm</h2>
-          {/* Each card uses the aspect ratio of its own photo, so nothing
-              important gets cropped away — the billiard table under the kubo
-              sits at the bottom of a tall frame and a 16:10 crop cut it off. */}
+          {/* Every card is the same 4:3, so the grid stays even. What changes is
+              where each photo is cropped from: the billiard table sits at the
+              bottom of a tall frame and the tent near the top, so a centred crop
+              would miss the subject of both. */}
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 slug: 'grounds-kubo-billiards-hammock',
-                aspect: 'aspect-[3/4]',
+                focus: '50% 100%',
                 title: 'Kubo and billiards',
-                body: 'A full-size billiard table under a nipa roof, with a hammock strung beside it and the farm on every side.',
+                body: 'A full-size billiard table under a nipa roof, with a hammock strung beside it and the fields on every side.',
               },
               {
                 slug: 'grounds-bonfire-pit',
-                aspect: 'aspect-[3/4]',
+                focus: '50% 80%',
                 title: 'Bonfire',
-                body: `A stone fire pit ringed with carved hardwood benches, looking out over the fields. Free to use — the caretaker lights it for you and puts it out at the end. ${peso(250)} covers the wood.`,
+                body: `A stone fire pit ringed with carved hardwood benches. The caretaker lights it and puts it out — ${peso(250)} covers the wood.`,
               },
               {
                 slug: 'grounds-half-court',
-                aspect: 'aspect-[16/10]',
+                focus: '50% 50%',
                 title: 'Half court',
                 body: 'A full concrete half court on the grounds.',
               },
               {
                 slug: 'casita-night-pool-reflection',
-                aspect: 'aspect-[16/10]',
+                focus: '50% 50%',
                 title: 'Two casitas, one group',
                 body: 'Both A-frames are yours — air-conditioned, lit up at night, and mirrored in the pool between them.',
               },
               {
                 slug: 'grounds-tent-pitching-area',
-                aspect: 'aspect-[3/4]',
+                focus: '50% 18%',
                 title: 'Tent pitching',
                 body: 'Shaded ground to pitch tents if your group runs long.',
               },
               {
                 slug: 'grounds-aerial-property',
-                aspect: 'aspect-[16/10]',
+                focus: '50% 50%',
                 title: 'Farm views',
                 body: 'Open highland field and tree line on every side.',
               },
@@ -108,9 +109,10 @@ export default function HomePage() {
                 key={item.slug}
                 className="flex flex-col overflow-hidden rounded-xl border border-night-edge bg-night"
               >
-                <div className={`${item.aspect} overflow-hidden`}>
+                <div className="aspect-[4/3] overflow-hidden">
                   <Photo
                     slug={item.slug}
+                    focus={item.focus}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     className="h-full w-full object-cover"
                   />

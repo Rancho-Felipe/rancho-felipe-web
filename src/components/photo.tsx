@@ -7,6 +7,10 @@ interface PhotoProps {
   alt?: string
   sizes?: string
   className?: string
+  /** Where to aim the crop, as a CSS object-position. Needed whenever the
+   *  subject is not in the middle of the frame — the billiard table sits at the
+   *  bottom of its photo, so a centred crop loses the whole point of it. */
+  focus?: string
   /** Set on the hero and on anything else above the fold. Everything else stays
    *  lazy — most guests are on mobile data. */
   priority?: boolean
@@ -23,7 +27,7 @@ interface PhotoProps {
  * width/height always come from the manifest so the browser reserves the right
  * box and nothing shifts as images load.
  */
-export function Photo({ slug, alt, sizes = '100vw', className, priority }: PhotoProps) {
+export function Photo({ slug, alt, sizes = '100vw', className, focus, priority }: PhotoProps) {
   const img = photoSources(slug)
 
   return (
@@ -36,6 +40,7 @@ export function Photo({ slug, alt, sizes = '100vw', className, priority }: Photo
         width={img.width}
         height={img.height}
         className={className}
+        style={focus ? { objectPosition: focus } : undefined}
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
         fetchPriority={priority ? 'high' : 'auto'}

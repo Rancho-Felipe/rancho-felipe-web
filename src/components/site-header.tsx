@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BrandLogo } from '@/components/brand-logo'
+import { BrandEmblem } from '@/components/brand-logo'
 
 const NAV = [
   { href: '/casita', label: 'The Casita' },
@@ -27,8 +27,9 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-night-edge/70 bg-night/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-3.5">
-        <Link href="/" aria-label="Rancho Felipe, home">
-          <BrandLogo className="h-9 w-auto sm:h-11" width={200} />
+        <Link href="/" className="flex items-center gap-2.5 text-paper">
+          <BrandEmblem className="h-8 w-auto sm:h-9" />
+          <span className="font-display text-sm tracking-tight">Rancho Felipe</span>
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden md:block">
