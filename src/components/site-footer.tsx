@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { AFrameMark } from '@/components/site-header'
+import { BrandLogo } from '@/components/brand-logo'
 import { business, contact, links, OWNER_EMAIL } from '@/lib/content'
 
 export function SiteFooter() {
@@ -7,10 +7,7 @@ export function SiteFooter() {
     <footer className="mt-24 border-t border-night-edge bg-night-raised">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2 lg:col-span-1">
-          <div className="flex items-center gap-2.5">
-            <AFrameMark className="h-6 w-8 text-pool" />
-            <span className="font-display text-sm">Rancho Felipe</span>
-          </div>
+          <BrandLogo className="h-12 w-auto" width={220} />
           <p className="mt-3 max-w-xs text-sm text-stone">
             A private farm resort in Teresa, Rizal. Booked one group at a time.
           </p>

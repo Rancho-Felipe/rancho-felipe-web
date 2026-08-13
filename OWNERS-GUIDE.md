@@ -8,13 +8,16 @@ Your admin page is at **yoursite.com/admin**. Bookmark it.
 
 ## Signing in
 
-Go to `/admin`. Type your email and password. That's it.
+Go to `/admin`. Your username is **vanzdix** — your email address works too, if
+that's easier to remember.
 
 You stay signed in for 12 hours, then it asks again — that way a phone left on a
 table doesn't leave the resort's bookings open.
 
-**Forgot the password?** It can't be emailed to you. Whoever set the site up has
-to reset it. Ask them.
+**Forgot the password?** It can't be emailed to you — there is no reset link,
+which is deliberate: one fewer door into the resort's bookings. Whoever set the
+site up changes it by putting a new one in `ADMIN_PASSWORD` and re-running the
+seed.
 
 ---
 

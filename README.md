@@ -19,8 +19,9 @@ npm install
 cp .env.example .env
 ```
 
-Open `.env` and set `ADMIN_PASSWORD` to something you'll remember. Everything
-else can stay as it is for now.
+Open `.env` and set `ADMIN_PASSWORD`. Everything else can stay as it is for now.
+The admin username defaults to `vanzdix` and is set by `ADMIN_USERNAME`; signing
+in accepts either that or the email address.
 
 Then, in **two separate terminal windows**:
 
@@ -36,7 +37,11 @@ The first window runs a real PostgreSQL 18 that ships inside the project. Leave
 it open. The second sets up the tables, fills in the resort's rates and reviews,
 and starts the website at **http://localhost:3007**.
 
-Sign in to the admin at `/admin` with the email and password from your `.env`.
+Sign in to the admin at `/admin` with the username and password from your `.env`.
+
+To change the password later, put a new one in `ADMIN_PASSWORD` and run
+`npm run db:seed` again — it updates the existing account rather than adding a
+second one.
 
 > If anything in the database goes strange, delete the `.pgdata` folder and run
 > those commands again. Nothing important lives there — it is a scratch copy.

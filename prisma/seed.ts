@@ -186,19 +186,20 @@ async function main() {
   }
 
   // --- Admin --------------------------------------------------------------
-  const email = process.env.ADMIN_EMAIL ?? 'casanovatraveltours@gmail.com'
+  const email = (process.env.ADMIN_EMAIL ?? 'casanovatraveltours@gmail.com').toLowerCase()
+  const username = (process.env.ADMIN_USERNAME ?? 'vanzdix').toLowerCase()
   const password = process.env.ADMIN_PASSWORD
+
   if (password) {
+    const passwordHash = await bcrypt.hash(password, 12)
+    // Re-running the seed with a new ADMIN_PASSWORD is how the owner's password
+    // gets changed, so this updates rather than skipping.
     await db.adminUser.upsert({
       where: { email },
-      create: {
-        email,
-        name: 'Rancho Felipe',
-        passwordHash: await bcrypt.hash(password, 12),
-      },
-      update: {},
+      create: { email, username, name: 'Rancho Felipe', passwordHash },
+      update: { username, passwordHash },
     })
-    console.log(`  admin: ${email}`)
+    console.log(`  admin: ${username} (${email})`)
   } else {
     console.log('  admin: skipped (set ADMIN_PASSWORD in .env)')
   }

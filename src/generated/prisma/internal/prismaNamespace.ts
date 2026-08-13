@@ -1761,6 +1761,7 @@ export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeo
 export const AdminUserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  username: 'username',
   name: 'name',
   passwordHash: 'passwordHash',
   lastLoginAt: 'lastLoginAt',

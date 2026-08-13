@@ -62,24 +62,60 @@ export default function HomePage() {
       <section className="border-y border-night-edge bg-night-raised">
         <div className="mx-auto max-w-6xl px-5 py-20">
           <h2 className="text-title font-display">What&apos;s on the farm</h2>
+          {/* Each card uses the aspect ratio of its own photo, so nothing
+              important gets cropped away — the billiard table under the kubo
+              sits at the bottom of a tall frame and a 16:10 crop cut it off. */}
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { slug: 'grounds-kubo-billiards-hammock', title: 'Kubo and billiards', body: 'A nipa-roofed kubo with a billiard table and a hammock.' },
-              { slug: 'grounds-bonfire-pit', title: 'Bonfire', body: `Free to use. ${peso(250)} to the caretaker for the wood.` },
-              { slug: 'grounds-half-court', title: 'Half court', body: 'A full concrete half court on the grounds.' },
-              { slug: 'grounds-long-hardwood-table', title: 'Room for everyone', body: 'One long hardwood table that seats the whole group.' },
-              { slug: 'grounds-tent-pitching-area', title: 'Tent pitching', body: 'Shaded space to pitch tents if your group runs long.' },
-              { slug: 'grounds-aerial-property', title: 'Farm views', body: 'Open highland field and tree line on every side.' },
+              {
+                slug: 'grounds-kubo-billiards-hammock',
+                aspect: 'aspect-[3/4]',
+                title: 'Kubo and billiards',
+                body: 'A full-size billiard table under a nipa roof, with a hammock strung beside it and the farm on every side.',
+              },
+              {
+                slug: 'grounds-bonfire-pit',
+                aspect: 'aspect-[3/4]',
+                title: 'Bonfire',
+                body: `A stone fire pit ringed with carved hardwood benches, looking out over the fields. Free to use — the caretaker lights it for you and puts it out at the end. ${peso(250)} covers the wood.`,
+              },
+              {
+                slug: 'grounds-half-court',
+                aspect: 'aspect-[16/10]',
+                title: 'Half court',
+                body: 'A full concrete half court on the grounds.',
+              },
+              {
+                slug: 'casita-night-pool-reflection',
+                aspect: 'aspect-[16/10]',
+                title: 'Two casitas, one group',
+                body: 'Both A-frames are yours — air-conditioned, lit up at night, and mirrored in the pool between them.',
+              },
+              {
+                slug: 'grounds-tent-pitching-area',
+                aspect: 'aspect-[3/4]',
+                title: 'Tent pitching',
+                body: 'Shaded ground to pitch tents if your group runs long.',
+              },
+              {
+                slug: 'grounds-aerial-property',
+                aspect: 'aspect-[16/10]',
+                title: 'Farm views',
+                body: 'Open highland field and tree line on every side.',
+              },
             ].map((item) => (
-              <article key={item.slug} className="overflow-hidden rounded-xl border border-night-edge bg-night">
-                <div className="aspect-[16/10] overflow-hidden">
+              <article
+                key={item.slug}
+                className="flex flex-col overflow-hidden rounded-xl border border-night-edge bg-night"
+              >
+                <div className={`${item.aspect} overflow-hidden`}>
                   <Photo
                     slug={item.slug}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <div className="p-5">
+                <div className="flex-1 p-5">
                   <h3 className="font-display text-base">{item.title}</h3>
                   <p className="mt-1.5 text-sm text-stone">{item.body}</p>
                 </div>

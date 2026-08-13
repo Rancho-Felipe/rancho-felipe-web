@@ -342,6 +342,8 @@ model Setting {
 model AdminUser {
   id           String    @id @default(cuid())
   email        String    @unique
+  /// What the owner actually types to sign in. Either this or the email works.
+  username     String    @unique
   name         String
   passwordHash String    @map("password_hash")
   lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz(3)

@@ -29,10 +29,11 @@ cards, because the cards were never consistent with themselves:
 
 The old card's "11–20 pax" column happened to equal ₱300 a head at 15 guests for
 day and night, but at 20 guests for the full stay. One rule cannot reproduce
-both, which is why a single rule is clearer — but **please check the rows marked
-"charges less"**, especially the gazebo 22-hour stay at ₱9,800 for 16 guests,
-down from ₱13,500. If that drop is not intended, the base price or the per-head
-figure needs to change.
+both, which is why a single rule is clearer.
+
+**Confirmed by the owner on 2026-08-13**, including the gazebo 22-hour stay
+dropping to ₱9,800 for 16 guests from ₱13,500 on the card. The printed tarpaulins
+are now out of date and should be reprinted from this table.
 
 ---
 

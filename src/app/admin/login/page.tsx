@@ -23,7 +23,7 @@ export default async function LoginPage({
 
     try {
       await signIn('credentials', {
-        email: formData.get('email'),
+        username: formData.get('username'),
         password: formData.get('password'),
         redirectTo: next,
       })
@@ -51,7 +51,7 @@ export default async function LoginPage({
           role="alert"
           className="mt-6 rounded-lg border border-brick/40 bg-night-raised px-4 py-3 text-sm text-brick-lift"
         >
-          That email and password don&apos;t match. Try again.
+          That username and password don&apos;t match. Try again.
         </p>
       )}
 
@@ -59,17 +59,21 @@ export default async function LoginPage({
         <input type="hidden" name="next" value={params.next ?? '/admin'} />
 
         <div>
-          <label htmlFor="email" className="eyebrow block">
-            Email
+          <label htmlFor="username" className="eyebrow block">
+            Username
           </label>
           <input
-            id="email"
-            name="email"
-            type="email"
+            id="username"
+            name="username"
+            type="text"
             required
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             autoComplete="username"
             className="mt-1.5 w-full rounded-lg border border-night-edge bg-night px-3 py-2.5 text-sm text-paper"
           />
+          <p className="mt-1 text-xs text-stone">Your email address works too.</p>
         </div>
 
         <div>

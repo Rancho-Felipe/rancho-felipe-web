@@ -24,15 +24,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: { label: 'Email', type: 'email' },
+        username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const email = String(credentials?.email ?? '').trim().toLowerCase()
+        const identifier = String(credentials?.username ?? '').trim().toLowerCase()
         const password = String(credentials?.password ?? '')
-        if (!email || !password) return null
+        if (!identifier || !password) return null
 
-        const user = await db.adminUser.findUnique({ where: { email } })
+        // Either the username or the email address gets you in — the owner
+        // should not have to remember which one this screen wants.
+        const user = await db.adminUser.findFirst({
+          where: {
+            OR: [{ username: identifier }, { email: identifier }],
+          },
+        })
 
         // Always run a comparison, even when the account does not exist, so the
         // response time does not reveal which emails are real.
