@@ -3,6 +3,7 @@ import { Archivo, Instrument_Sans, Martian_Mono } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import { BookingBar } from '@/components/booking-bar'
 import { business, links } from '@/lib/content'
 
 /* The display face is Archivo carrying its width axis, so it can be set wide
@@ -80,8 +81,12 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteHeader />
-        <main id="main">{children}</main>
+        {/* Padding so the fixed mobile bar never covers the last line of a page. */}
+        <main id="main" className="pb-20 md:pb-0">
+          {children}
+        </main>
         <SiteFooter />
+        <BookingBar />
         <script
           type="application/ld+json"
           // Real address, real coordinates, real phone numbers, real rates. The
