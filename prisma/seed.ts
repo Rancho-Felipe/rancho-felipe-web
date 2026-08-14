@@ -234,8 +234,16 @@ async function main() {
     console.log('  admin: skipped (set ADMIN_PASSWORD in .env)')
   }
 
-  // --- Sample bookings so admin is not an empty screen --------------------
-  if ((await db.booking.count()) === 0) {
+  /* --- Sample bookings so admin is not an empty screen --------------------
+     Off unless asked for. "The table is empty" is not a safe test for "this is
+     a scratch database" — a brand new production database is empty too, and
+     that is exactly when the seed runs. It put three invented bookings into the
+     live database, and because the overlap guard cannot tell a demo booking
+     from a real one, they held real dates in September against real units. A
+     guest asking for the Casita on the 12th would have been refused.
+
+     SEED_SAMPLES=1 npm run db:seed  to get them back on a scratch database. */
+  if (process.env.SEED_SAMPLES === '1' && (await db.booking.count()) === 0) {
     const year = new Date().getUTCFullYear()
     const samples = [
       {
