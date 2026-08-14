@@ -35,8 +35,36 @@ function createClient() {
   })
 }
 
-export const db = globalForPrisma.prisma ?? createClient()
+let client: PrismaClient | undefined
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = db
+function getClient(): PrismaClient {
+  if (globalForPrisma.prisma) return globalForPrisma.prisma
+  if (!client) {
+    client = createClient()
+    if (process.env.NODE_ENV !== 'production') {
+      globalForPrisma.prisma = client
+    }
+  }
+  return client
 }
+
+/**
+ * Built on first use, not on import.
+ *
+ * This used to be `createClient()` at module scope, which meant importing this
+ * file was enough to demand a DATABASE_URL. Next collects data for every route
+ * at build time by importing it, so the build could only succeed on a machine
+ * that already had a database — locally that was true and it passed, on Vercel
+ * it was not and the build died on `/api/admin/bookings/export`.
+ *
+ * A build should not need a live database. The proxy keeps every call site
+ * (`db.booking.findMany(...)`) untouched while moving the connection, and the
+ * missing-URL error, to the first real query.
+ */
+export const db = new Proxy({} as PrismaClient, {
+  get(_target, property) {
+    const instance = getClient()
+    const value = Reflect.get(instance, property, instance)
+    return typeof value === 'function' ? value.bind(instance) : value
+  },
+})
