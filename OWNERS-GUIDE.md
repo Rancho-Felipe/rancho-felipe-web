@@ -58,12 +58,34 @@ screenshot without losing their slot.
 
 ---
 
-## Blocking dates
+## Seeing what's free, and closing dates
+
+**Calendar.** You get a month grid for each unit, one under the other.
+
+Every date has **three dots** — day tour, night tour, full stay, in that order.
+A date is never simply free or booked: someone can take the day tour while the
+night tour that evening is still open.
+
+| Dot | Means |
+|---|---|
+| 🟢 green | still bookable |
+| 🔴 red | taken, or you closed it |
+| ⚪ grey (pale) | too close to check-in to book online |
+| ⚫ dark | already past |
+
+Use **Previous** and **Next** to move through the months. Today's date has a
+blue outline.
+
+This is the same information the website shows guests — it's read from the same
+place — so what you see here is exactly what they see.
+
+### Closing dates
 
 When the resort isn't taking guests — repairs, family using it, a fiesta.
 
-**Calendar → Close some dates.** Pick the unit, the dates, and a short reason
-like "repairs". Tap **Close these dates**.
+**Tap any date in the grid** and it fills in the form below for you. Or fill it
+in yourself: pick the unit, the dates, and a short reason like "repairs". Tap
+**Close these dates**.
 
 Those dates immediately stop being bookable here **and** on Airbnb, because the
 site tells Airbnb about them.
@@ -116,6 +138,33 @@ guests see on their booking page and in their email — so if your GCash number
 ever changes, change it here and everywhere updates at once.
 
 ---
+
+## Your Facebook and TikTok
+
+**Marketing.** Two things live here.
+
+**Your accounts.** Add your Facebook Page, your Facebook profile, TikTok and
+Instagram. Each one gets an **Open page** link and, if you paste an inbox link,
+a **Check messages** button that opens the real inbox in a new tab.
+
+> **Messages are not shown inside this page, and that's deliberate.** Facebook
+> only hands over Page messages to an approved Meta developer app with a Page
+> token and business verification, and the access expires and has to be renewed.
+> TikTok gives no message access at all. A message list here would sit empty and
+> look like nobody had written to you — so you'd stop checking the real inbox and
+> miss bookings. The buttons take you to the real thing instead. If you want
+> Facebook connected properly later, that's separate work and it starts with a
+> Meta Business account.
+
+**Writing posts.** Pick one of the ready captions — *Weekend dates still open*,
+*Day tour*, *Night tour and bonfire*, *Thank a group who stayed* — and it fills
+in with **your current prices and the weekends that are genuinely still free**.
+Nothing is typed in by hand, so a post can never advertise a price you stopped
+charging or a date you already sold.
+
+Edit it, tap **Copy caption**, then paste it into Facebook or TikTok. Save it as
+a draft or give it a date so you remember to post it. It doesn't publish by
+itself — you still press the button on the app.
 
 ## Connecting Airbnb
 
