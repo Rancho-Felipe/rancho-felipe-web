@@ -55,3 +55,6 @@ yarn-error.log*
 # local dev database (embedded postgres data dir)
 /.pgdata
 /.pglite
+
+# logs from scripts/share.ps1
+/.logs
