@@ -4,6 +4,7 @@ import { getSettings } from '@/lib/settings'
 import { updateSettings, saveIcalFeed } from '@/lib/admin/actions'
 import { inResortTime } from '@/lib/booking/schedule'
 import { emailIsConfigured } from '@/lib/email/send'
+import { payMongoConfigured } from '@/lib/payments/paymongo'
 
 export const metadata: Metadata = { title: 'Settings', robots: { index: false } }
 export const dynamic = 'force-dynamic'
@@ -16,6 +17,7 @@ export default async function SettingsPage() {
   ])
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3007'
+  const payMongoReady = payMongoConfigured()
 
   async function saveBooking(formData: FormData) {
     'use server'
@@ -176,21 +178,57 @@ export default async function SettingsPage() {
             />
           </div>
 
-          <label className="flex items-start gap-3 rounded-xl border border-night-edge px-4 py-3">
-            <input
-              type="checkbox"
-              name="paymongo"
-              defaultChecked={settings.paymentMethods.paymongo}
-              className="mt-1 h-4 w-4"
-            />
-            <span>
-              <span className="block text-sm text-paper">Card and e-wallet payments (PayMongo)</span>
-              <span className="block text-xs text-stone">
-                Only switch this on once PayMongo keys are in the environment. Without them the site
-                falls back to the receipt-upload flow, which is how the resort already works.
+          <div className="rounded-xl border border-night-edge px-4 py-4">
+            <label className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                name="paymongo"
+                defaultChecked={settings.paymentMethods.paymongo}
+                className="mt-1 h-4 w-4"
+              />
+              <span>
+                <span className="block text-sm text-paper">
+                  Guests pay online and book themselves (PayMongo)
+                </span>
+                <span className="block text-xs text-stone">
+                  GCash, Maya, card or QR Ph on PayMongo&apos;s own page. The booking confirms by
+                  itself the moment the money lands — no screenshot, nothing for you to check.
+                </span>
               </span>
-            </span>
-          </label>
+            </label>
+
+            <div className="mt-4 border-t hairline pt-4">
+              {payMongoReady ? (
+                <p className="text-xs text-field-lift">
+                  PayMongo keys are in place. Tick the box above to switch it on for guests.
+                </p>
+              ) : (
+                <p className="text-xs text-stone">
+                  Not connected yet. Sign up at{' '}
+                  <a
+                    href="https://paymongo.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-pool-lift underline underline-offset-4"
+                  >
+                    paymongo.com
+                  </a>
+                  , then whoever set the site up puts your secret key in{' '}
+                  <span className="font-data">PAYMONGO_SECRET_KEY</span>. Until then this stays off
+                  and guests send the deposit manually.
+                </p>
+              )}
+
+              <p className="mt-3 eyebrow">Webhook to add in PayMongo</p>
+              <p className="mt-1 break-all rounded-lg bg-night px-3 py-2 font-data text-xs text-stone">
+                {siteUrl}/api/payments/paymongo/webhook
+              </p>
+              <p className="mt-1 text-xs text-stone">
+                Subscribe it to <span className="font-data">payment.paid</span> and{' '}
+                <span className="font-data">payment.failed</span>.
+              </p>
+            </div>
+          </div>
 
           <button
             type="submit"

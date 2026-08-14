@@ -269,8 +269,11 @@ model Payment {
   proofSize Int?          @map("proof_size")
   proofName String?       @map("proof_name")
   proofUploadedAt DateTime? @map("proof_uploaded_at") @db.Timestamptz(3)
-  /// PayMongo's id, when the payment came through them.
+  /// PayMongo's checkout session id, when the payment came through them.
   providerId String?      @map("provider_id")
+  /// The hosted page the guest pays on. Kept so someone who closes the tab can
+  /// pick up where they left off instead of starting again.
+  providerUrl String?     @map("provider_url")
 
   verifiedAt   DateTime? @map("verified_at") @db.Timestamptz(3)
   verifiedById String?   @map("verified_by_id")

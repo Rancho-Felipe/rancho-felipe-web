@@ -191,10 +191,33 @@ npm test
 database running, because they test a database guarantee. Mocking it would prove
 nothing.
 
+## Automated payment (PayMongo)
+
+Built and off by default. Set `PAYMONGO_SECRET_KEY`, add the webhook, tick the
+box in Admin → Settings, and guests pay by GCash, Maya, card or QR Ph on
+PayMongo's hosted page; the booking confirms itself. Without the key the site
+falls back to manual receipt upload and nothing breaks.
+
+**The security decision worth knowing.** A webhook is treated as a *nudge*, never
+as proof. When one arrives, the site calls PayMongo back with its own secret key
+and only confirms if PayMongo says the session is paid **and** the amount covers
+what was owed. Two consequences:
+
+- A forged POST to the webhook URL cannot confirm a booking. The worst it does
+  is make the server ask PayMongo a question.
+- A webhook lost in transit cannot strand a booking either — the guest returning
+  from checkout runs the same verification, and it is safe to run twice.
+
+This is why the integration does not depend on PayMongo's `Paymongo-Signature`
+header: its exact format is not in their public documentation, and guessing at a
+verification scheme for something that handles money would be worse than not
+relying on it. Signature checking can be added later as an extra layer without
+changing what the system trusts.
+
+Underpayment is refused explicitly and logged, so a tampered session amount
+cannot buy a weekend at a discount. There are tests for that path.
+
 ## Still to do
 
-- **PayMongo** for card and e-wallet payments. The toggle exists in admin and is
-  off; the manual GCash/Maya/BPI flow is complete and is how the resort already
-  operates, so the site launches without a merchant account.
-- A few open questions in [CONTENT-GAPS.md](CONTENT-GAPS.md) — mostly small
-  facts nobody has written down yet.
+A few open questions in [CONTENT-GAPS.md](CONTENT-GAPS.md) — mostly small facts
+nobody has written down yet.

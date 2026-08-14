@@ -41,6 +41,37 @@ unit is.
 
 ---
 
+## Letting guests pay and book by themselves
+
+Right now nothing is automatic: a guest books, sends you GCash, uploads a
+screenshot, and **you** confirm it. That works, and it needs no accounts.
+
+To make it automatic you need **PayMongo**. Then a guest pays by GCash, Maya,
+card or QR Ph on PayMongo's own page, and the booking **confirms itself the
+moment the money lands** — no screenshot, nothing in your queue, even at 2am.
+
+**What you have to do:**
+
+1. Sign up at [paymongo.com](https://paymongo.com) and finish their business
+   verification. They'll ask for your ID and business details, and they take a
+   fee per transaction — check their current rates.
+2. Give your **secret key** to whoever set the site up. It starts with `sk_`.
+   There's a test one for trying it out and a live one for real money.
+3. In PayMongo, add a webhook pointing at the address shown in
+   **Settings → How guests pay**, subscribed to `payment.paid` and
+   `payment.failed`.
+4. Tick **"Guests pay online and book themselves"** in Settings.
+
+Until all four are done, the box stays off and guests send the deposit manually.
+You lose nothing by waiting.
+
+**Both ways can run at once.** Even with PayMongo on, the manual GCash details
+and receipt upload stay on the page underneath for anyone who prefers them.
+
+> Your money goes to PayMongo first and they pay out to your bank on their own
+> schedule — it does not land in your GCash instantly the way a direct transfer
+> does. That's the trade for it being automatic.
+
 ## Someone sent a deposit — what do I do?
 
 1. Tap the booking under **Waiting on you**.

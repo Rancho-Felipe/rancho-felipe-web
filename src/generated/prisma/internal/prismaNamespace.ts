@@ -1861,6 +1861,7 @@ export const PaymentScalarFieldEnum = {
   proofName: 'proofName',
   proofUploadedAt: 'proofUploadedAt',
   providerId: 'providerId',
+  providerUrl: 'providerUrl',
   verifiedAt: 'verifiedAt',
   verifiedById: 'verifiedById',
   rejectedNote: 'rejectedNote',

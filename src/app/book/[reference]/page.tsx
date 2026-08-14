@@ -5,6 +5,9 @@ import { getSettings } from '@/lib/settings'
 import { inResortTime } from '@/lib/booking/schedule'
 import { peso, links } from '@/lib/content'
 import { PaymentProofForm } from '@/components/booking/payment-proof-form'
+import { PayOnlineButton } from '@/components/booking/pay-online-button'
+import { settleBooking } from '@/lib/payments/settle'
+import { payMongoConfigured } from '@/lib/payments/paymongo'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,10 +43,22 @@ const STATUS_COPY: Record<string, { headline: string; body: string }> = {
 
 export default async function BookingPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ reference: string }>
+  searchParams: Promise<{ paid?: string; cancelled?: string }>
 }) {
   const { reference } = await params
+  const query = await searchParams
+
+  // Coming back from PayMongo. This is what makes a lost webhook survivable:
+  // the guest's own return re-checks with PayMongo and confirms the booking.
+  // It is safe to run twice — an already-confirmed booking changes nothing.
+  if (query.paid) {
+    await settleBooking(reference).catch((cause) =>
+      console.error('Could not settle on return from checkout', cause),
+    )
+  }
 
   const booking = await db.booking.findUnique({
     where: { reference: reference.toUpperCase() },
@@ -57,6 +72,8 @@ export default async function BookingPage({
   const lines = booking.breakdown as Array<{ label: string; detail?: string; amount: number }>
   const needsPayment = booking.status === 'PENDING'
   const unitPhone = booking.unit.phone
+  // Both have to be true: switched on in admin, and actually holding keys.
+  const onlinePaymentReady = settings.paymentMethods.paymongo && payMongoConfigured()
 
   return (
     <section className="mx-auto max-w-3xl px-5 py-14">
@@ -126,10 +143,35 @@ export default async function BookingPage({
       {/* --- how to pay ---------------------------------------------------- */}
       {needsPayment && (
         <div className="mt-8 rounded-2xl border border-night-edge bg-night-raised p-6">
-          <h2 className="font-display text-lg">Send {peso(booking.depositDue)} to hold it</h2>
-          <p className="mt-2 text-sm text-stone">
-            Any of these. Then upload the receipt below and the resort will confirm.
-          </p>
+          {query.cancelled && (
+            <p className="mb-5 rounded-lg border border-night-edge bg-night px-4 py-3 text-sm text-stone">
+              Payment cancelled — nothing was charged, and your date is still held.
+            </p>
+          )}
+
+          {onlinePaymentReady ? (
+            <>
+              <h2 className="font-display text-lg">Pay the {peso(booking.depositDue)} deposit</h2>
+              <p className="mt-2 text-sm text-stone">
+                The quickest way — it confirms your booking straight away.
+              </p>
+              <div className="mt-5">
+                <PayOnlineButton reference={booking.reference} amount={booking.depositDue} />
+              </div>
+
+              <p className="mt-7 border-t hairline pt-6 text-sm text-stone">
+                Or send it yourself and upload the receipt. The resort confirms that by hand, so it
+                takes a little longer.
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="font-display text-lg">Send {peso(booking.depositDue)} to hold it</h2>
+              <p className="mt-2 text-sm text-stone">
+                Any of these. Then upload the receipt below and the resort will confirm.
+              </p>
+            </>
+          )}
 
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {settings.paymentMethods.gcash && (

@@ -49,6 +49,7 @@ export type PaymentMinAggregateOutputType = {
   proofName: string | null
   proofUploadedAt: Date | null
   providerId: string | null
+  providerUrl: string | null
   verifiedAt: Date | null
   verifiedById: string | null
   rejectedNote: string | null
@@ -68,6 +69,7 @@ export type PaymentMaxAggregateOutputType = {
   proofName: string | null
   proofUploadedAt: Date | null
   providerId: string | null
+  providerUrl: string | null
   verifiedAt: Date | null
   verifiedById: string | null
   rejectedNote: string | null
@@ -87,6 +89,7 @@ export type PaymentCountAggregateOutputType = {
   proofName: number
   proofUploadedAt: number
   providerId: number
+  providerUrl: number
   verifiedAt: number
   verifiedById: number
   rejectedNote: number
@@ -118,6 +121,7 @@ export type PaymentMinAggregateInputType = {
   proofName?: true
   proofUploadedAt?: true
   providerId?: true
+  providerUrl?: true
   verifiedAt?: true
   verifiedById?: true
   rejectedNote?: true
@@ -137,6 +141,7 @@ export type PaymentMaxAggregateInputType = {
   proofName?: true
   proofUploadedAt?: true
   providerId?: true
+  providerUrl?: true
   verifiedAt?: true
   verifiedById?: true
   rejectedNote?: true
@@ -156,6 +161,7 @@ export type PaymentCountAggregateInputType = {
   proofName?: true
   proofUploadedAt?: true
   providerId?: true
+  providerUrl?: true
   verifiedAt?: true
   verifiedById?: true
   rejectedNote?: true
@@ -262,6 +268,7 @@ export type PaymentGroupByOutputType = {
   proofName: string | null
   proofUploadedAt: Date | null
   providerId: string | null
+  providerUrl: string | null
   verifiedAt: Date | null
   verifiedById: string | null
   rejectedNote: string | null
@@ -304,6 +311,7 @@ export type PaymentWhereInput = {
   proofName?: Prisma.StringNullableFilter<"Payment"> | string | null
   proofUploadedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   providerId?: Prisma.StringNullableFilter<"Payment"> | string | null
+  providerUrl?: Prisma.StringNullableFilter<"Payment"> | string | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   verifiedById?: Prisma.StringNullableFilter<"Payment"> | string | null
   rejectedNote?: Prisma.StringNullableFilter<"Payment"> | string | null
@@ -324,6 +332,7 @@ export type PaymentOrderByWithRelationInput = {
   proofName?: Prisma.SortOrderInput | Prisma.SortOrder
   proofUploadedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   providerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedById?: Prisma.SortOrderInput | Prisma.SortOrder
   rejectedNote?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -347,6 +356,7 @@ export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   proofName?: Prisma.StringNullableFilter<"Payment"> | string | null
   proofUploadedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   providerId?: Prisma.StringNullableFilter<"Payment"> | string | null
+  providerUrl?: Prisma.StringNullableFilter<"Payment"> | string | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   verifiedById?: Prisma.StringNullableFilter<"Payment"> | string | null
   rejectedNote?: Prisma.StringNullableFilter<"Payment"> | string | null
@@ -367,6 +377,7 @@ export type PaymentOrderByWithAggregationInput = {
   proofName?: Prisma.SortOrderInput | Prisma.SortOrder
   proofUploadedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   providerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedById?: Prisma.SortOrderInput | Prisma.SortOrder
   rejectedNote?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -394,6 +405,7 @@ export type PaymentScalarWhereWithAggregatesInput = {
   proofName?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   proofUploadedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
   providerId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
+  providerUrl?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   verifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
   verifiedById?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   rejectedNote?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
@@ -412,6 +424,7 @@ export type PaymentCreateInput = {
   proofName?: string | null
   proofUploadedAt?: Date | string | null
   providerId?: string | null
+  providerUrl?: string | null
   verifiedAt?: Date | string | null
   verifiedById?: string | null
   rejectedNote?: string | null
@@ -432,6 +445,7 @@ export type PaymentUncheckedCreateInput = {
   proofName?: string | null
   proofUploadedAt?: Date | string | null
   providerId?: string | null
+  providerUrl?: string | null
   verifiedAt?: Date | string | null
   verifiedById?: string | null
   rejectedNote?: string | null
@@ -450,6 +464,7 @@ export type PaymentUpdateInput = {
   proofName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectedNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -470,6 +485,7 @@ export type PaymentUncheckedUpdateInput = {
   proofName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectedNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -489,6 +505,7 @@ export type PaymentCreateManyInput = {
   proofName?: string | null
   proofUploadedAt?: Date | string | null
   providerId?: string | null
+  providerUrl?: string | null
   verifiedAt?: Date | string | null
   verifiedById?: string | null
   rejectedNote?: string | null
@@ -507,6 +524,7 @@ export type PaymentUpdateManyMutationInput = {
   proofName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectedNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -526,6 +544,7 @@ export type PaymentUncheckedUpdateManyInput = {
   proofName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectedNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -555,6 +574,7 @@ export type PaymentCountOrderByAggregateInput = {
   proofName?: Prisma.SortOrder
   proofUploadedAt?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
+  providerUrl?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrder
   rejectedNote?: Prisma.SortOrder
@@ -579,6 +599,7 @@ export type PaymentMaxOrderByAggregateInput = {
   proofName?: Prisma.SortOrder
   proofUploadedAt?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
+  providerUrl?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrder
   rejectedNote?: Prisma.SortOrder
@@ -598,6 +619,7 @@ export type PaymentMinOrderByAggregateInput = {
   proofName?: Prisma.SortOrder
   proofUploadedAt?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
+  providerUrl?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrder
   rejectedNote?: Prisma.SortOrder
@@ -675,6 +697,7 @@ export type PaymentCreateWithoutBookingInput = {
   proofName?: string | null
   proofUploadedAt?: Date | string | null
   providerId?: string | null
+  providerUrl?: string | null
   verifiedAt?: Date | string | null
   verifiedById?: string | null
   rejectedNote?: string | null
@@ -693,6 +716,7 @@ export type PaymentUncheckedCreateWithoutBookingInput = {
   proofName?: string | null
   proofUploadedAt?: Date | string | null
   providerId?: string | null
+  providerUrl?: string | null
   verifiedAt?: Date | string | null
   verifiedById?: string | null
   rejectedNote?: string | null
@@ -741,6 +765,7 @@ export type PaymentScalarWhereInput = {
   proofName?: Prisma.StringNullableFilter<"Payment"> | string | null
   proofUploadedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   providerId?: Prisma.StringNullableFilter<"Payment"> | string | null
+  providerUrl?: Prisma.StringNullableFilter<"Payment"> | string | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   verifiedById?: Prisma.StringNullableFilter<"Payment"> | string | null
   rejectedNote?: Prisma.StringNullableFilter<"Payment"> | string | null
@@ -759,6 +784,7 @@ export type PaymentCreateManyBookingInput = {
   proofName?: string | null
   proofUploadedAt?: Date | string | null
   providerId?: string | null
+  providerUrl?: string | null
   verifiedAt?: Date | string | null
   verifiedById?: string | null
   rejectedNote?: string | null
@@ -777,6 +803,7 @@ export type PaymentUpdateWithoutBookingInput = {
   proofName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectedNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -795,6 +822,7 @@ export type PaymentUncheckedUpdateWithoutBookingInput = {
   proofName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectedNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -813,6 +841,7 @@ export type PaymentUncheckedUpdateManyWithoutBookingInput = {
   proofName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   proofUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   providerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rejectedNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -834,6 +863,7 @@ export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   proofName?: boolean
   proofUploadedAt?: boolean
   providerId?: boolean
+  providerUrl?: boolean
   verifiedAt?: boolean
   verifiedById?: boolean
   rejectedNote?: boolean
@@ -854,6 +884,7 @@ export type PaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   proofName?: boolean
   proofUploadedAt?: boolean
   providerId?: boolean
+  providerUrl?: boolean
   verifiedAt?: boolean
   verifiedById?: boolean
   rejectedNote?: boolean
@@ -874,6 +905,7 @@ export type PaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   proofName?: boolean
   proofUploadedAt?: boolean
   providerId?: boolean
+  providerUrl?: boolean
   verifiedAt?: boolean
   verifiedById?: boolean
   rejectedNote?: boolean
@@ -894,13 +926,14 @@ export type PaymentSelectScalar = {
   proofName?: boolean
   proofUploadedAt?: boolean
   providerId?: boolean
+  providerUrl?: boolean
   verifiedAt?: boolean
   verifiedById?: boolean
   rejectedNote?: boolean
   createdAt?: boolean
 }
 
-export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "method" | "status" | "amount" | "reference" | "proofData" | "proofMime" | "proofSize" | "proofName" | "proofUploadedAt" | "providerId" | "verifiedAt" | "verifiedById" | "rejectedNote" | "createdAt", ExtArgs["result"]["payment"]>
+export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bookingId" | "method" | "status" | "amount" | "reference" | "proofData" | "proofMime" | "proofSize" | "proofName" | "proofUploadedAt" | "providerId" | "providerUrl" | "verifiedAt" | "verifiedById" | "rejectedNote" | "createdAt", ExtArgs["result"]["payment"]>
 export type PaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
 }
@@ -939,9 +972,14 @@ export type $PaymentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     proofName: string | null
     proofUploadedAt: Date | null
     /**
-     * PayMongo's id, when the payment came through them.
+     * PayMongo's checkout session id, when the payment came through them.
      */
     providerId: string | null
+    /**
+     * The hosted page the guest pays on. Kept so someone who closes the tab can
+     * pick up where they left off instead of starting again.
+     */
+    providerUrl: string | null
     verifiedAt: Date | null
     verifiedById: string | null
     rejectedNote: string | null
@@ -1382,6 +1420,7 @@ export interface PaymentFieldRefs {
   readonly proofName: Prisma.FieldRef<"Payment", 'String'>
   readonly proofUploadedAt: Prisma.FieldRef<"Payment", 'DateTime'>
   readonly providerId: Prisma.FieldRef<"Payment", 'String'>
+  readonly providerUrl: Prisma.FieldRef<"Payment", 'String'>
   readonly verifiedAt: Prisma.FieldRef<"Payment", 'DateTime'>
   readonly verifiedById: Prisma.FieldRef<"Payment", 'String'>
   readonly rejectedNote: Prisma.FieldRef<"Payment", 'String'>
