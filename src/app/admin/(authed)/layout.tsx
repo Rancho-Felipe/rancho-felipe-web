@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { auth, signOut } from '@/lib/auth'
 import { AFrameMark } from '@/components/site-header'
+import { AdminNav } from '@/components/admin/admin-nav'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,15 +13,6 @@ export const dynamic = 'force-dynamic'
    the lock: if the matcher were ever mis-edited, these pages would still refuse
    to render. Belt and braces, because the alternative is publishing guests'
    names, phone numbers and payment receipts. */
-
-const NAV = [
-  { href: '/admin', label: 'Today' },
-  { href: '/admin/bookings', label: 'Bookings' },
-  { href: '/admin/calendar', label: 'Calendar' },
-  { href: '/admin/rates', label: 'Rates' },
-  { href: '/admin/marketing', label: 'Marketing' },
-  { href: '/admin/settings', label: 'Settings' },
-]
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
@@ -33,34 +25,34 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="min-h-dvh">
-      <header className="border-b border-night-edge bg-night-raised">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-5 py-3.5">
-          <Link href="/admin" className="flex items-center gap-2.5">
-            <AFrameMark className="h-5 w-7 text-pool" />
-            <span className="font-display text-sm">Resort admin</span>
-          </Link>
-
-          <nav aria-label="Admin" className="order-3 w-full sm:order-none sm:w-auto">
-            <ul className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-stone">
-              {NAV.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="hover:text-paper">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="ml-auto flex items-center gap-4 text-sm">
-            <Link href="/" className="text-stone hover:text-paper">
-              View site
+      <header className="sticky top-0 z-40 border-b border-night-edge bg-night-raised/95 backdrop-blur">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex items-center gap-4 px-5 py-3">
+            <Link href="/admin" className="flex shrink-0 items-center gap-2.5">
+              <AFrameMark className="h-5 w-7 text-pool" />
+              <span className="font-display text-sm">Resort admin</span>
             </Link>
-            <form action={out}>
-              <button type="submit" className="text-stone hover:text-paper">
-                Sign out
-              </button>
-            </form>
+
+            {/* Inline from the small-tablet width up; below that it becomes the
+                scrolling strip underneath. */}
+            <div className="ml-auto hidden sm:block">
+              <AdminNav />
+            </div>
+
+            <div className="ml-auto flex shrink-0 items-center gap-4 text-sm sm:ml-6">
+              <Link href="/" className="hidden text-stone hover:text-paper sm:inline">
+                View site
+              </Link>
+              <form action={out}>
+                <button type="submit" className="text-stone hover:text-paper">
+                  Sign out
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div className="sm:hidden">
+            <AdminNav />
           </div>
         </div>
       </header>

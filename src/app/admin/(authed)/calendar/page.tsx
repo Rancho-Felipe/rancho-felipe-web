@@ -170,7 +170,9 @@ export default async function CalendarPage({
                     key={date}
                     href={`/admin/calendar?month=${month}&date=${date}&unit=${unit.id}#close`}
                     aria-label={`${date} — ${PACKAGES.map((p) => `${p.label} ${day?.slots[p.key] ?? 'unknown'}`).join(', ')}`}
-                    className={`rounded-lg border p-1.5 text-center transition-colors ${
+                    // min-h-11 keeps every date at least 44px tall, which is the
+                    // smallest thing a thumb reliably hits.
+                    className={`min-h-11 rounded-lg border p-1.5 text-center transition-colors ${
                       date === today ? 'border-pool-lift' : 'border-night-edge'
                     } ${allPast ? 'opacity-40' : 'hover:border-stone/60'} ${
                       anyFree ? 'bg-night-raised' : 'bg-night'

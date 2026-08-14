@@ -1,18 +1,8 @@
 import Link from 'next/link'
 import { BrandEmblem } from '@/components/brand-logo'
+import { SiteNavWide, SiteNavNarrow } from '@/components/site-nav'
 
-const NAV = [
-  { href: '/casita', label: 'The Casita' },
-  { href: '/gazebo', label: 'The Gazebo' },
-  { href: '/farm', label: 'The Farm' },
-  { href: '/gallery', label: 'Gallery' },
-  { href: '/rates', label: 'Rates' },
-  { href: '/getting-here', label: 'Getting here' },
-]
-
-/** The A-frame is the shape of the whole place — two of them stand over the
- *  pool, and they are what the resort is recognised by. It carries the brand
- *  everywhere a logo would normally go. */
+/** The A-frame silhouette, for places that want a mark without loading an image. */
 export function AFrameMark({ className = 'h-6 w-6' }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 24" className={className} aria-hidden="true" fill="none">
@@ -25,31 +15,27 @@ export function AFrameMark({ className = 'h-6 w-6' }: { className?: string }) {
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-night-edge/70 bg-night/85 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-3.5">
-        <Link href="/" className="flex items-center gap-2.5 text-paper">
-          <BrandEmblem className="h-8 w-auto sm:h-9" />
-          <span className="font-display text-sm tracking-tight">Rancho Felipe</span>
-        </Link>
+    <header className="sticky top-0 z-40 border-b border-night-edge/70 bg-night/90 backdrop-blur">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex items-center gap-4 px-5 py-3">
+          <Link href="/" className="flex shrink-0 items-center gap-2.5 text-paper">
+            <BrandEmblem className="h-7 w-auto sm:h-9" />
+            <span className="font-display text-sm tracking-tight">Rancho Felipe</span>
+          </Link>
 
-        <nav aria-label="Main" className="ml-auto hidden md:block">
-          <ul className="flex items-center gap-6 text-sm text-stone">
-            {NAV.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className="transition-colors hover:text-paper">
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <SiteNavWide />
 
-        <Link
-          href="/book"
-          className="ml-auto rounded-full bg-pool px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-pool-deep md:ml-0"
-        >
-          Check availability
-        </Link>
+          <Link
+            href="/book"
+            className="ml-auto shrink-0 rounded-full bg-pool px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-pool-deep lg:ml-0"
+          >
+            {/* "Check availability" is too wide beside the logo on a small phone. */}
+            <span className="sm:hidden">Book</span>
+            <span className="hidden sm:inline">Check availability</span>
+          </Link>
+        </div>
+
+        <SiteNavNarrow />
       </div>
     </header>
   )

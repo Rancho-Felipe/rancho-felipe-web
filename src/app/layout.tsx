@@ -4,6 +4,7 @@ import './globals.css'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { BookingBar } from '@/components/booking-bar'
+import { HideOnAdmin } from '@/components/site-chrome'
 import { business, links } from '@/lib/content'
 
 /* The display face is Archivo carrying its width axis, so it can be set wide
@@ -80,12 +81,18 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SiteHeader />
-        {/* Padding so the fixed mobile bar never covers the last line of a page. */}
-        <main id="main" className="pb-20 md:pb-0">
-          {children}
-        </main>
-        <SiteFooter />
+        {/* Admin brings its own header, so the guest chrome steps aside there. */}
+        <HideOnAdmin>
+          <SiteHeader />
+        </HideOnAdmin>
+
+        <main id="main">{children}</main>
+
+        <HideOnAdmin>
+          <SiteFooter />
+          {/* Sits above the last line of the page, so it gets its own room. */}
+          <div className="h-20 md:hidden" aria-hidden="true" />
+        </HideOnAdmin>
         <BookingBar />
         <script
           type="application/ld+json"
