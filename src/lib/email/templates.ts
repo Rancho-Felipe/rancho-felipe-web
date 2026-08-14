@@ -162,9 +162,16 @@ function calendarAttachment(data: BookingEmailData): Message['attachments'] {
 }
 
 /** Sent the moment the date is held, before any money has moved. */
+/**
+ * `bank` is null once card and e-wallet payment is switched on. The email then
+ * sends the guest to the payment page instead of listing account numbers — an
+ * inbox is the one place a stale set of bank details survives longest, and a
+ * guest transferring by hand to a booking the checkout already settled is the
+ * refund nobody wants to process.
+ */
 export function guestHoldReceipt(
   data: BookingEmailData,
-  bank: { gcash: string; maya: string; bpi: string; name: string },
+  bank: { gcash: string; maya: string; bpi: string; name: string } | null,
 ): Message {
   const accent = data.unitId === 'casita' ? POOL : BRICK
   const link = `${siteUrl()}/book/${data.reference}`
@@ -190,15 +197,22 @@ export function guestHoldReceipt(
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${priceRows(data)}</table>
 
     <h2 style="margin:26px 0 10px;font-size:15px">How to pay the deposit</h2>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px">
-      <tr><td style="padding:6px 0;color:${MUTED};width:42%">GCash</td><td style="padding:6px 0">${bank.gcash} — ${escape(bank.name)}</td></tr>
-      <tr><td style="padding:6px 0;color:${MUTED}">Maya</td><td style="padding:6px 0">${bank.maya} — ${escape(bank.name)}</td></tr>
-      <tr><td style="padding:6px 0;color:${MUTED}">BPI</td><td style="padding:6px 0">${bank.bpi} — ${escape(bank.name)}</td></tr>
-    </table>
+    ${
+      bank
+        ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px">
+             <tr><td style="padding:6px 0;color:${MUTED};width:42%">GCash</td><td style="padding:6px 0">${bank.gcash} — ${escape(bank.name)}</td></tr>
+             <tr><td style="padding:6px 0;color:${MUTED}">Maya</td><td style="padding:6px 0">${bank.maya} — ${escape(bank.name)}</td></tr>
+             <tr><td style="padding:6px 0;color:${MUTED}">BPI</td><td style="padding:6px 0">${bank.bpi} — ${escape(bank.name)}</td></tr>
+           </table>`
+        : `<p style="margin:0;font-size:14px;line-height:1.6">
+             GCash, Maya, card or QR Ph on a secure payment page. Your booking confirms itself the
+             moment it goes through.
+           </p>`
+    }
 
     <p style="margin:22px 0 0">
       <a href="${link}" style="display:inline-block;background:${accent};color:#fff;text-decoration:none;padding:12px 22px;border-radius:999px;font-size:14px">
-        Upload your receipt
+        ${bank ? 'Upload your receipt' : `Pay the ${peso(data.depositDue)} deposit`}
       </a>
     </p>
 
@@ -216,8 +230,15 @@ export function guestHoldReceipt(
       '',
       plainDetails(data),
       '',
-      `Pay the deposit by GCash ${bank.gcash}, Maya ${bank.maya}, or BPI ${bank.bpi} (${bank.name}).`,
-      `Then upload your receipt: ${link}`,
+      ...(bank
+        ? [
+            `Pay the deposit by GCash ${bank.gcash}, Maya ${bank.maya}, or BPI ${bank.bpi} (${bank.name}).`,
+            `Then upload your receipt: ${link}`,
+          ]
+        : [
+            `Pay the ${peso(data.depositDue)} deposit by GCash, Maya, card or QR Ph: ${link}`,
+            'Your booking confirms itself the moment the payment goes through.',
+          ]),
       '',
       'The deposit is not refundable, but your date can be moved.',
     ].join('\n'),

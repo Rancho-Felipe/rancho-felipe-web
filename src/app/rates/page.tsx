@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { RateTable } from '@/components/rate-table'
 import { peso, policy, payment, UNIT_ORDER, getUnit } from '@/lib/content'
+import { getSettings } from '@/lib/settings'
+import { payMongoConfigured } from '@/lib/payments/paymongo'
 
 export const metadata: Metadata = {
   title: 'Rates',
@@ -10,7 +12,17 @@ export const metadata: Metadata = {
   alternates: { canonical: '/rates' },
 }
 
-export default function RatesPage() {
+/* Rendered per request. Reading the settings is NOT enough on its own — this
+   page was prerendered at build time, so it kept serving whatever the answer
+   was when the build ran, which meant the account numbers stayed published
+   after card payment went live. Whether the resort takes card payments is a
+   switch the owner flips in admin, so the page has to ask every time. */
+export const dynamic = 'force-dynamic'
+
+export default async function RatesPage() {
+  const settings = await getSettings()
+  const onlinePaymentReady = settings.paymentMethods.paymongo && payMongoConfigured()
+
   return (
     <>
       <section className="mx-auto max-w-4xl px-5 pt-14">
@@ -97,15 +109,34 @@ export default function RatesPage() {
         </div>
 
         <h3 className="mt-10 font-display text-lg">How to pay</h3>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          <PayBox label="GCash" lines={[payment.methods.gcash.number, payment.methods.gcash.name]} />
-          <PayBox label="Maya" lines={[payment.methods.maya.number, payment.methods.maya.name]} />
-          <PayBox label="BPI" lines={[payment.methods.bpi.account, payment.methods.bpi.name]} />
-        </div>
-        <p className="mt-4 text-sm text-stone">
-          Send the deposit, upload the receipt on your booking page, and the resort confirms. You
-          get an email either way.
-        </p>
+        {onlinePaymentReady ? (
+          /* Card and e-wallet payment is on, so the account numbers come off the
+             page. Publishing them alongside would invite a guest to transfer by
+             hand to a booking the checkout can settle by itself. */
+          <p className="mt-4 text-sm text-stone">
+            GCash, Maya, card or QR Ph, on a secure payment page. Pick your date and the deposit is
+            paid in the same few minutes — your booking confirms itself, with the receipt emailed to
+            you.
+          </p>
+        ) : (
+          <>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <PayBox
+                label="GCash"
+                lines={[payment.methods.gcash.number, payment.methods.gcash.name]}
+              />
+              <PayBox
+                label="Maya"
+                lines={[payment.methods.maya.number, payment.methods.maya.name]}
+              />
+              <PayBox label="BPI" lines={[payment.methods.bpi.account, payment.methods.bpi.name]} />
+            </div>
+            <p className="mt-4 text-sm text-stone">
+              Send the deposit, upload the receipt on your booking page, and the resort confirms.
+              You get an email either way.
+            </p>
+          </>
+        )}
 
         <div className="mt-10 rounded-2xl border border-night-edge bg-night-raised p-8">
           <h3 className="font-display text-lg">Ready?</h3>

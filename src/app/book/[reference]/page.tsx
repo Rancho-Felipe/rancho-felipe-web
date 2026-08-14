@@ -149,20 +149,20 @@ export default async function BookingPage({
             </p>
           )}
 
+          {/* Once card and e-wallet payment is switched on, that is the only way
+              to pay. The account numbers and the receipt upload come off the
+              page entirely rather than sitting underneath as a second option —
+              two routes to the same deposit is how a guest ends up transferring
+              by hand to a booking that a card already paid for. */}
           {onlinePaymentReady ? (
             <>
               <h2 className="font-display text-lg">Pay the {peso(booking.depositDue)} deposit</h2>
               <p className="mt-2 text-sm text-stone">
-                The quickest way — it confirms your booking straight away.
+                GCash, Maya, card or QR Ph. Your booking is confirmed the moment it goes through.
               </p>
               <div className="mt-5">
                 <PayOnlineButton reference={booking.reference} amount={booking.depositDue} />
               </div>
-
-              <p className="mt-7 border-t hairline pt-6 text-sm text-stone">
-                Or send it yourself and upload the receipt. The resort confirms that by hand, so it
-                takes a little longer.
-              </p>
             </>
           ) : (
             <>
@@ -170,38 +170,40 @@ export default async function BookingPage({
               <p className="mt-2 text-sm text-stone">
                 Any of these. Then upload the receipt below and the resort will confirm.
               </p>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                {settings.paymentMethods.gcash && (
+                  <PayBox
+                    label="GCash"
+                    lines={[settings.bankDetails.gcash.number, settings.bankDetails.gcash.name]}
+                  />
+                )}
+                {settings.paymentMethods.maya && (
+                  <PayBox
+                    label="Maya"
+                    lines={[settings.bankDetails.maya.number, settings.bankDetails.maya.name]}
+                  />
+                )}
+                {settings.paymentMethods.bpi && (
+                  <PayBox
+                    label="BPI"
+                    lines={[settings.bankDetails.bpi.account, settings.bankDetails.bpi.name]}
+                  />
+                )}
+              </div>
             </>
           )}
-
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            {settings.paymentMethods.gcash && (
-              <PayBox
-                label="GCash"
-                lines={[settings.bankDetails.gcash.number, settings.bankDetails.gcash.name]}
-              />
-            )}
-            {settings.paymentMethods.maya && (
-              <PayBox
-                label="Maya"
-                lines={[settings.bankDetails.maya.number, settings.bankDetails.maya.name]}
-              />
-            )}
-            {settings.paymentMethods.bpi && (
-              <PayBox
-                label="BPI"
-                lines={[settings.bankDetails.bpi.account, settings.bankDetails.bpi.name]}
-              />
-            )}
-          </div>
 
           <p className="mt-5 rounded-lg bg-night px-4 py-3 text-xs text-stone">
             The deposit is not refundable, but your date can be moved. First deposit, first
             reservation — no pencil booking.
           </p>
 
-          <div className="mt-6 border-t hairline pt-6">
-            <PaymentProofForm reference={booking.reference} amount={booking.depositDue} />
-          </div>
+          {!onlinePaymentReady && (
+            <div className="mt-6 border-t hairline pt-6">
+              <PaymentProofForm reference={booking.reference} amount={booking.depositDue} />
+            </div>
+          )}
         </div>
       )}
 

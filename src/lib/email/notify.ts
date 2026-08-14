@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import { getSettings } from '@/lib/settings'
+import { payMongoConfigured } from '@/lib/payments/paymongo'
 import { sendInBackground } from '@/lib/email/send'
 import {
   guestHoldReceipt,
@@ -74,12 +75,17 @@ export async function notifyNewBooking(bookingId: string): Promise<void> {
   if (!data) return
 
   const settings = await getSettings()
-  const bank = {
-    gcash: settings.bankDetails.gcash.number,
-    maya: settings.bankDetails.maya.number,
-    bpi: settings.bankDetails.bpi.account,
-    name: settings.bankDetails.gcash.name,
-  }
+  // Same rule the site follows: when card and e-wallet payment is live, the
+  // account numbers are not published anywhere, including here.
+  const onlinePaymentReady = settings.paymentMethods.paymongo && payMongoConfigured()
+  const bank = onlinePaymentReady
+    ? null
+    : {
+        gcash: settings.bankDetails.gcash.number,
+        maya: settings.bankDetails.maya.number,
+        bpi: settings.bankDetails.bpi.account,
+        name: settings.bankDetails.gcash.name,
+      }
 
   sendInBackground(guestHoldReceipt(data, bank), `receipt ${data.reference}`)
   sendInBackground(ownerNewBooking(data, ownerAddress()), `owner alert ${data.reference}`)
