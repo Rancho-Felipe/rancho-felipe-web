@@ -2,12 +2,26 @@ import { NextResponse } from 'next/server'
 import { expireStaleHolds } from '@/lib/booking/expire'
 import { importAllFeeds } from '@/lib/booking/ical-import'
 
-/* Scheduled work, in one endpoint.
-   On Vercel, drive it from vercel.json:
+/* Scheduled work, in one endpoint. vercel.json drives it; anywhere else, curl
+   it from cron with the same header.
 
-     { "crons": [{ "path": "/api/cron", "schedule": "0,30 * * * *" }] }
+   It runs once a day, at 20:00 UTC - 4am in Rizal, the quietest hour. That is
+   not the schedule this wants. Twice an hour is. The Hobby plan rejects any
+   cron more frequent than daily and fails the entire deployment for it, so
+   this is what ships, and Hobby fires it anywhere within that hour.
 
-   Anywhere else, curl it from cron with the same header. */
+   Expired holds barely notice. The availability reader already ignores a hold
+   past holdExpiresAt, and create.ts releases any dead hold on the window
+   before it inserts, so a stale PENDING row neither hides a free slot nor
+   blocks a real booking. What this sweep adds is the EXPIRED status and the
+   audit trail.
+
+   The Airbnb import is the one that suffers. A booking taken on Airbnb can go
+   up to a day before this site hears about it, and in that window the site can
+   sell the same slot. The database still refuses a genuine overlap, so it
+   surfaces as a booking that has to be turned away rather than two groups at
+   the gate - but it is a real gap. Closing it means Pro, or pinging this
+   endpoint from outside on a tighter schedule. */
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60

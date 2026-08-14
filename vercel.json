@@ -4,7 +4,6 @@
   "crons": [
     {
       "path": "/api/cron",
-      "comment": "Releases expired holds and pulls the Airbnb calendars. Wanted twice an hour, but the Hobby plan refuses any schedule that runs more than once a day and fails the deployment outright. 20:00 UTC is 4am in Rizal, the quietest hour; Hobby fires it anywhere in that hour. Expired holds do not depend on this - the availability reader ignores them and create.ts releases them on the way past - so what a daily run really costs is Airbnb freshness. Pro, or an external ping, is the fix.",
       "schedule": "0 20 * * *"
     }
   ]
