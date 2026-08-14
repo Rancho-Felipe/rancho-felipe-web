@@ -94,19 +94,23 @@ Redeploy after adding them.
 
 ## Step 5 — the things that only work once the address is fixed
 
-- **PayMongo webhook.** There is no webhook screen in the PayMongo dashboard —
-  webhooks exist only through their API. So instead of clicking, run:
+- **PayMongo webhook — nothing to do.** There is no webhook screen in the
+  PayMongo dashboard; webhooks exist only through their API. Rather than leave
+  that as a step someone has to remember, the site registers its own: the first
+  time a guest starts a checkout, and again on the nightly job. Setting
+  `PAYMONGO_SECRET_KEY` is the whole of switching payments on.
+
+  The nightly run matters as much as the first one. PayMongo disables a webhook
+  after three events exhaust their retries, and says nothing — left alone that
+  reads as payments quietly not confirming. The check switches it back on.
+
+  To see the answer now rather than infer it from a payment going through:
 
   ```bash
   npm run paymongo:webhook
   ```
 
-  It reads `PAYMONGO_SECRET_KEY` and `NEXT_PUBLIC_SITE_URL` from `.env`, points a
-  webhook at `/api/payments/paymongo/webhook`, and subscribes it to
-  `checkout_session.payment.paid`, `payment.paid` and `payment.failed`. Run it
-  again any time — it updates the existing webhook rather than adding a second
-  one, and re-enables it if PayMongo switched it off after repeated failures. It
-  never prints your key.
+  Same code the server runs. It never prints your key.
 
   This is why automatic payment needed a permanent address: a tunnel changes
   name and the webhook starts calling nowhere.

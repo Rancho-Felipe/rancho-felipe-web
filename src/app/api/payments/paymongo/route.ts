@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { getSettings } from '@/lib/settings'
 import { rateLimit } from '@/lib/rate-limit'
 import { createCheckout, payMongoConfigured, PayMongoError } from '@/lib/payments/paymongo'
+import { ensurePayMongoWebhookOnce } from '@/lib/payments/webhook-setup'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,6 +28,16 @@ export async function POST(request: Request) {
       { status: 503 },
     )
   }
+
+  // Makes sure PayMongo knows where to call back, before anyone can pay.
+  // Deliberately not awaited: the guest is waiting on this request, and the
+  // webhook only has to exist by the time they finish paying — which is never
+  // sooner than the few seconds this takes. Runs once per server instance.
+  void ensurePayMongoWebhookOnce().then((outcome) => {
+    if (outcome.status === 'failed') {
+      console.error('PayMongo webhook could not be registered:', outcome.error)
+    }
+  })
 
   let body: unknown
   try {

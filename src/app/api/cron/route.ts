@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { expireStaleHolds } from '@/lib/booking/expire'
 import { importAllFeeds } from '@/lib/booking/ical-import'
+import { ensurePayMongoWebhook } from '@/lib/payments/webhook-setup'
 
 /* Scheduled work, in one endpoint. vercel.json drives it; anywhere else, curl
    it from cron with the same header.
@@ -46,7 +47,7 @@ export async function GET(request: Request) {
 
   const startedAt = Date.now()
 
-  const [holds, feeds] = await Promise.all([
+  const [holds, feeds, webhook] = await Promise.all([
     expireStaleHolds().catch((cause) => {
       console.error('Hold expiry failed', cause)
       return { expired: 0, references: [], error: String(cause) }
@@ -55,7 +56,22 @@ export async function GET(request: Request) {
       console.error('Calendar import failed', cause)
       return [] as Awaited<ReturnType<typeof importAllFeeds>>
     }),
+    // Keeps PayMongo pointed here. It does nothing at all until the secret key
+    // is set, then registers the webhook the first time it runs — so switching
+    // payments on is adding a key and nothing else. It also brings back a
+    // webhook PayMongo has disabled, which it does silently after repeated
+    // failures and which otherwise looks like payments quietly not confirming.
+    ensurePayMongoWebhook().catch((cause) => {
+      console.error('PayMongo webhook check failed', cause)
+      return { status: 'failed' as const, error: String(cause) }
+    }),
   ])
+
+  if (webhook.status === 'failed') {
+    console.error('PayMongo webhook could not be verified:', webhook.error)
+  } else if (webhook.status !== 'unchanged' && webhook.status !== 'skipped') {
+    console.log(`PayMongo webhook ${webhook.status}: ${webhook.url}`)
+  }
 
   const failures = feeds.filter((feed) => !feed.ok)
   if (failures.length > 0) {
@@ -72,5 +88,6 @@ export async function GET(request: Request) {
     tookMs: Date.now() - startedAt,
     holdsExpired: holds.expired,
     feeds,
+    webhook,
   })
 }
