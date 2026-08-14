@@ -94,10 +94,22 @@ Redeploy after adding them.
 
 ## Step 5 — the things that only work once the address is fixed
 
-- **PayMongo webhook** → `https://YOUR-ADDRESS/api/payments/paymongo/webhook`,
-  subscribed to `payment.paid` and `payment.failed`. This is why automatic
-  payment needed a permanent address: a tunnel changes name and the webhook
-  starts calling nowhere.
+- **PayMongo webhook.** There is no webhook screen in the PayMongo dashboard —
+  webhooks exist only through their API. So instead of clicking, run:
+
+  ```bash
+  npm run paymongo:webhook
+  ```
+
+  It reads `PAYMONGO_SECRET_KEY` and `NEXT_PUBLIC_SITE_URL` from `.env`, points a
+  webhook at `/api/payments/paymongo/webhook`, and subscribes it to
+  `checkout_session.payment.paid`, `payment.paid` and `payment.failed`. Run it
+  again any time — it updates the existing webhook rather than adding a second
+  one, and re-enables it if PayMongo switched it off after repeated failures. It
+  never prints your key.
+
+  This is why automatic payment needed a permanent address: a tunnel changes
+  name and the webhook starts calling nowhere.
 - **Airbnb calendars** → give Airbnb
   `https://YOUR-ADDRESS/api/ical/casita.ics` and
   `https://YOUR-ADDRESS/api/ical/gazebo.ics`, and paste Airbnb's own export
