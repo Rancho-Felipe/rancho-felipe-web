@@ -79,7 +79,7 @@ In the Vercel dashboard, **Settings → Environment Variables**, add:
 | `AUTH_TRUST_HOST` | `true` |
 | `NEXT_PUBLIC_SITE_URL` | the same live address |
 | `ADMIN_EMAIL` | casanovatraveltours@gmail.com |
-| `ADMIN_USERNAME` | vanzdix |
+| `ADMIN_USERNAME` | your admin sign-in name |
 | `ADMIN_PASSWORD` | **a new one** — see the warning below |
 | `EMAIL_OWNER` | casanovatraveltours@gmail.com |
 | `CRON_SECRET` | any long random string |

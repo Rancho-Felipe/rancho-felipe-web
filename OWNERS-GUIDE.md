@@ -8,8 +8,8 @@ Your admin page is at **yoursite.com/admin**. Bookmark it.
 
 ## Signing in
 
-Go to `/admin`. Your username is **vanzdix** — your email address works too, if
-that's easier to remember.
+Go to `/admin`. Your username is the one set as `ADMIN_USERNAME` when the site
+was set up — your email address works too, if that's easier to remember.
 
 You stay signed in for 12 hours, then it asks again — that way a phone left on a
 table doesn't leave the resort's bookings open.

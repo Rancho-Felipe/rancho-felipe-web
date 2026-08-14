@@ -217,7 +217,7 @@ async function main() {
 
   // --- Admin --------------------------------------------------------------
   const email = (process.env.ADMIN_EMAIL ?? 'casanovatraveltours@gmail.com').toLowerCase()
-  const username = (process.env.ADMIN_USERNAME ?? 'vanzdix').toLowerCase()
+  const username = (process.env.ADMIN_USERNAME ?? 'admin').toLowerCase()
   const password = process.env.ADMIN_PASSWORD
 
   if (password) {

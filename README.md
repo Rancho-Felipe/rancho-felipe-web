@@ -19,9 +19,9 @@ npm install
 cp .env.example .env
 ```
 
-Open `.env` and set `ADMIN_PASSWORD`. Everything else can stay as it is for now.
-The admin username defaults to `vanzdix` and is set by `ADMIN_USERNAME`; signing
-in accepts either that or the email address.
+Open `.env` and set `ADMIN_USERNAME` and `ADMIN_PASSWORD`. Everything else can
+stay as it is for now. Signing in accepts either the username or the email
+address.
 
 Then, in **two separate terminal windows**:
 
