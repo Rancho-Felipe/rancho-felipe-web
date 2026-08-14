@@ -6,6 +6,8 @@ import { inResortTime } from '@/lib/booking/schedule'
 import { peso, links } from '@/lib/content'
 import { PaymentProofForm } from '@/components/booking/payment-proof-form'
 import { PayOnlineButton } from '@/components/booking/pay-online-button'
+import { PaymentAccounts } from '@/components/payment-accounts'
+import { toAccounts } from '@/lib/payments/accounts'
 import { settleBooking } from '@/lib/payments/settle'
 import { payMongoConfigured } from '@/lib/payments/paymongo'
 
@@ -171,25 +173,20 @@ export default async function BookingPage({
                 Any of these. Then upload the receipt below and the resort will confirm.
               </p>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                {settings.paymentMethods.gcash && (
-                  <PayBox
-                    label="GCash"
-                    lines={[settings.bankDetails.gcash.number, settings.bankDetails.gcash.name]}
-                  />
-                )}
-                {settings.paymentMethods.maya && (
-                  <PayBox
-                    label="Maya"
-                    lines={[settings.bankDetails.maya.number, settings.bankDetails.maya.name]}
-                  />
-                )}
-                {settings.paymentMethods.bpi && (
-                  <PayBox
-                    label="BPI"
-                    lines={[settings.bankDetails.bpi.account, settings.bankDetails.bpi.name]}
-                  />
-                )}
+              <div className="mt-5">
+                <PaymentAccounts
+                  accounts={toAccounts(settings.bankDetails).filter((account) =>
+                    // A channel the owner has switched off in admin does not
+                    // appear, even when it shares a number with one that is on.
+                    account.channels.some(
+                      (channel) =>
+                        settings.paymentMethods[
+                          channel.toLowerCase() as 'gcash' | 'maya' | 'bpi'
+                        ],
+                    ),
+                  )}
+                  amount={peso(booking.depositDue)}
+                />
               </div>
             </>
           )}
@@ -244,15 +241,3 @@ function Row({ label, value, strong }: { label: string; value: string; strong?: 
   )
 }
 
-function PayBox({ label, lines }: { label: string; lines: string[] }) {
-  return (
-    <div className="rounded-xl border border-night-edge bg-night p-4">
-      <p className="eyebrow">{label}</p>
-      {lines.map((line, index) => (
-        <p key={index} className={index === 0 ? 'mt-1.5 font-data text-sm text-paper' : 'text-xs text-stone'}>
-          {line}
-        </p>
-      ))}
-    </div>
-  )
-}

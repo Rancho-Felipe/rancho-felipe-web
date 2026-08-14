@@ -4,6 +4,8 @@ import { RateTable } from '@/components/rate-table'
 import { peso, policy, payment, UNIT_ORDER, getUnit } from '@/lib/content'
 import { getSettings } from '@/lib/settings'
 import { payMongoConfigured } from '@/lib/payments/paymongo'
+import { PaymentAccounts } from '@/components/payment-accounts'
+import { toAccounts } from '@/lib/payments/accounts'
 
 export const metadata: Metadata = {
   title: 'Rates',
@@ -120,16 +122,8 @@ export default async function RatesPage() {
           </p>
         ) : (
           <>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <PayBox
-                label="GCash"
-                lines={[payment.methods.gcash.number, payment.methods.gcash.name]}
-              />
-              <PayBox
-                label="Maya"
-                lines={[payment.methods.maya.number, payment.methods.maya.name]}
-              />
-              <PayBox label="BPI" lines={[payment.methods.bpi.account, payment.methods.bpi.name]} />
+            <div className="mt-4">
+              <PaymentAccounts accounts={toAccounts(payment.methods)} />
             </div>
             <p className="mt-4 text-sm text-stone">
               Send the deposit, upload the receipt on your booking page, and the resort confirms.
@@ -174,12 +168,3 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
   )
 }
 
-function PayBox({ label, lines }: { label: string; lines: string[] }) {
-  return (
-    <div className="rounded-xl border border-night-edge bg-night-raised p-4">
-      <p className="eyebrow">{label}</p>
-      <p className="mt-1.5 font-data text-sm text-paper">{lines[0]}</p>
-      <p className="text-xs text-stone">{lines[1]}</p>
-    </div>
-  )
-}
