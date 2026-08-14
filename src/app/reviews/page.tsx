@@ -48,12 +48,14 @@ export default async function ReviewsPage() {
               key={review.id}
               className="flex flex-col gap-5 rounded-2xl border border-night-edge bg-night-raised p-6 sm:flex-row"
             >
-              {review.imageSlug && (
-                <div className="w-full shrink-0 overflow-hidden rounded-xl sm:w-40">
+              {/* The guests themselves, not the review card — that card has the
+                  same words printed on it that sit right next to it here. */}
+              {review.guestPhotoSlug && (
+                <div className="w-full shrink-0 overflow-hidden rounded-xl sm:w-56">
                   <Photo
-                    slug={review.imageSlug}
-                    sizes="(min-width: 640px) 10rem, 100vw"
-                    className="h-full w-full object-cover"
+                    slug={review.guestPhotoSlug}
+                    sizes="(min-width: 640px) 14rem, 100vw"
+                    className="h-48 w-full object-cover sm:h-full"
                   />
                 </div>
               )}

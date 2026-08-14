@@ -68,3 +68,23 @@ export const BlockSource = {
 } as const
 
 export type BlockSource = (typeof BlockSource)[keyof typeof BlockSource]
+
+
+export const SocialPlatform = {
+  FACEBOOK_PAGE: 'FACEBOOK_PAGE',
+  FACEBOOK_PROFILE: 'FACEBOOK_PROFILE',
+  TIKTOK: 'TIKTOK',
+  INSTAGRAM: 'INSTAGRAM',
+  MESSENGER: 'MESSENGER'
+} as const
+
+export type SocialPlatform = (typeof SocialPlatform)[keyof typeof SocialPlatform]
+
+
+export const PostStatus = {
+  DRAFT: 'DRAFT',
+  SCHEDULED: 'SCHEDULED',
+  POSTED: 'POSTED'
+} as const
+
+export type PostStatus = (typeof PostStatus)[keyof typeof PostStatus]

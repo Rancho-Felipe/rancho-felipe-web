@@ -8,9 +8,9 @@ export const metadata: Metadata = { title: 'Rates', robots: { index: false } }
 export const dynamic = 'force-dynamic'
 
 const PACKAGES = [
-  { key: 'DAY_TOUR', label: 'Day tour', window: '07:00 → 17:00' },
-  { key: 'NIGHT_TOUR', label: 'Night tour', window: '20:00 → 06:00' },
-  { key: 'FULL_STAY', label: 'Full stay', window: '14:00 → 12:00' },
+  { key: 'DAY_TOUR', label: 'Day tour', window: '7:00 AM → 5:00 PM' },
+  { key: 'NIGHT_TOUR', label: 'Night tour', window: '8:00 PM → 6:00 AM' },
+  { key: 'FULL_STAY', label: 'Full stay', window: '2:00 PM → 12:00 NN' },
 ]
 
 export default async function RatesPage() {

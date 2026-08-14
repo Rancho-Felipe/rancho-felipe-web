@@ -15,9 +15,9 @@ import policy from '../../../content/policy.json'
    guest is waiting on — a mail outage must never cost someone their booking. */
 
 const PACKAGE_LABEL: Record<string, string> = {
-  DAY_TOUR: 'Day tour, 07:00 to 17:00',
-  NIGHT_TOUR: 'Night tour, 20:00 to 06:00 the next morning',
-  FULL_STAY: 'Full stay, 14:00 to 12:00 the next day — 22 hours',
+  DAY_TOUR: 'Day tour, 7:00 AM to 5:00 PM',
+  NIGHT_TOUR: 'Night tour, 8:00 PM to 6:00 AM the next morning',
+  FULL_STAY: 'Full stay, 2:00 PM to 12:00 noon the next day — 22 hours',
   CUSTOM: 'Custom hours',
 }
 

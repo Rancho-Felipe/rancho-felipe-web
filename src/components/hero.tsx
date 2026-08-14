@@ -54,9 +54,9 @@ export function Hero() {
             >
               <dt className="eyebrow text-paper">{pkg.label}</dt>
               <dd className="font-data text-sm text-stone">
-                <span className="text-paper">{pkg.in}</span>
+                <span className="text-paper">{pkg.inLabel}</span>
                 <span className="px-1.5 text-stone">→</span>
-                <span className="text-paper">{pkg.out}</span>
+                <span className="text-paper">{pkg.outLabel}</span>
                 {pkg.endsNextDay && <span className="pl-1 text-xs align-super">+1</span>}
               </dd>
             </div>

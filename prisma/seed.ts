@@ -60,7 +60,7 @@ async function main() {
       maxGuests: 20,
       includedGuests: 10,
       extensionRate: 500,
-      phone: '0995-333-9526',
+      phone: '092-646-2149',
       airbnbUrl: 'https://airbnb.com/h/rachofelipeteresarizal',
       sortOrder: 1,
     },
@@ -76,7 +76,7 @@ async function main() {
       maxGuests: 16,
       includedGuests: 10,
       extensionRate: 300,
-      phone: '0977-277-0716',
+      phone: '092-646-2149',
       airbnbUrl: 'https://airbnb.com/h/ranchofelipegazebo',
       sortOrder: 2,
     },
@@ -165,25 +165,55 @@ async function main() {
 
   // --- The real reviews ---------------------------------------------------
   const reviews = [
-    { author: null, rating: 5, dateLabel: null, imageSlug: 'review-holy-week-group', featured: true,
+    { author: null, rating: 5, dateLabel: null, imageSlug: 'review-holy-week-group', guestPhotoSlug: 'guest-holy-week', featured: true,
       text: 'Sulit po ang 2nights stay po sa uilitin po God Bless po' },
-    { author: null, rating: 5, dateLabel: null, imageSlug: 'review-gazebo-dinner', featured: true,
+    { author: null, rating: 5, dateLabel: null, imageSlug: 'review-gazebo-dinner', guestPhotoSlug: 'guest-gazebo-dinner', featured: true,
       text: 'thank you din po sa pag accomodate, mababait po ang staff nio and super linis at bango din ng place..highly recommended for me' },
-    { author: 'Ms. Nice', rating: 5, dateLabel: 'Oct 27', imageSlug: 'review-ms-nice-oct-27', featured: true,
+    { author: 'Ms. Nice', rating: 5, dateLabel: 'Oct 27', imageSlug: 'review-ms-nice-oct-27', guestPhotoSlug: 'guest-ms-nice', featured: true,
       text: 'Very Recommended ang place if you want to feel the Province Peg. Sarap mag refresh ng mind since ung makikita mo lang mga puno puno. Super nag enjoy ung kids and adults, super babait at ackaso dn ng mga caretaker attentive sa mga needs. Thank you soo much po 2nd Time here and more vacation pa sa place na ito. Thank you' },
-    { author: 'Jed', rating: 5, dateLabel: 'Oct 4', imageSlug: 'review-jed-oct-4', featured: false,
+    { author: 'Jed', rating: 5, dateLabel: 'Oct 4', imageSlug: 'review-jed-oct-4', guestPhotoSlug: 'guest-jed', featured: true,
       text: 'Ang ganda ng place, very probinsya ang vibe. Peaceful at malinis ang paligid at mga rooms, perfect talaga pang family. Mabait din ang mga care taker. Thank you po ulit sa pag accomodate! Sa uulitin po' },
-    { author: 'Issa', rating: 4, dateLabel: 'Sept 27', imageSlug: 'review-issa-sept-27', featured: false,
+    { author: 'Issa', rating: 4, dateLabel: 'Sept 27', imageSlug: 'review-issa-sept-27', guestPhotoSlug: 'guest-issa', featured: true,
       text: 'Salamat po sa pag accommodate samin! Ang ganda po ng place. Surrounded ng nature kaya makakapag relax. Malakas ang wifi, malakas ang tubig, ang laki ng kusina, malinis ang rooms at CR, malinis ang pool at mabait ang care taker. Talagang perfect for all groups and occasions! Sa uulitin po.' },
-    { author: 'Ziangg', rating: 4, dateLabel: 'July 12-15', imageSlug: 'review-ziangg-july-12', featured: false,
+    { author: 'Ziangg', rating: 4, dateLabel: 'July 12-15', imageSlug: 'review-ziangg-july-12', guestPhotoSlug: 'guest-ziangg', featured: true,
       text: 'Thank you worth it yung place ambait pa nung mga caretaker talagang inasikaso kami kahit late night Na kami nakarating. Sobrang nag enjoy kami sa place ang ganda at ang cool ng place nyo' },
   ]
 
-  if ((await db.review.count()) === 0) {
-    for (const [index, review] of reviews.entries()) {
+  // Matched on the review card they came from, so re-running the seed updates
+  // the existing rows rather than creating a second set.
+  for (const [index, review] of reviews.entries()) {
+    const existing = await db.review.findFirst({ where: { imageSlug: review.imageSlug } })
+    if (existing) {
+      await db.review.update({
+        where: { id: existing.id },
+        data: { ...review, sortOrder: index },
+      })
+    } else {
       await db.review.create({ data: { ...review, sortOrder: index } })
     }
   }
+
+  // --- Social accounts ----------------------------------------------------
+  // Only the Facebook page is known from the assets. TikTok and Instagram get
+  // added by the owner in admin — guessing a handle would put a dead link on
+  // every page of the site.
+  await db.socialAccount.upsert({
+    where: {
+      platform_url: {
+        platform: 'FACEBOOK_PAGE',
+        url: 'https://www.facebook.com/RanchoFelipeTeresa',
+      },
+    },
+    create: {
+      platform: 'FACEBOOK_PAGE',
+      label: 'Rancho Felipe Teresa',
+      url: 'https://www.facebook.com/RanchoFelipeTeresa',
+      inboxUrl: 'https://business.facebook.com/latest/inbox/all',
+      handle: 'RanchoFelipeTeresa',
+      sortOrder: 1,
+    },
+    update: {},
+  })
 
   // --- Admin --------------------------------------------------------------
   const email = (process.env.ADMIN_EMAIL ?? 'casanovatraveltours@gmail.com').toLowerCase()

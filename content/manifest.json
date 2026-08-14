@@ -25,10 +25,11 @@
   },
 
   "contact": {
-    "casita": { "mobile": "0995-333-9526", "channels": ["Viber", "WhatsApp", "SMS", "Call"] },
-    "gazebo": { "mobile": ["0977-277-0716", "0951-490-9094"], "channels": ["Call", "WhatsApp"] },
-    "email": null,
-    "$note": "No email address appears in any asset. Needed for Resend sender + owner notifications."
+    "casita": { "mobile": "092-646-2149", "channels": ["Viber", "WhatsApp", "SMS", "Call"] },
+    "gazebo": { "mobile": ["092-646-2149"], "channels": ["Call", "WhatsApp"] },
+    "email": "casanovatraveltours@gmail.com",
+    "$updated": "Owner instruction 2026-08-13: one number now reaches both units, replacing 0995-333-9526 (casita) and 0977-277-0716 / 0951-490-9094 (gazebo).",
+    "$check": "092-646-2149 is ten digits. Philippine mobile numbers are normally eleven, written 09XX-XXX-XXXX. Used exactly as given — worth confirming a digit was not dropped."
   },
 
   "links": {
@@ -197,17 +198,17 @@
   },
 
   "reviews": [
-    { "id": "r1", "author": null, "rating": 5, "date": null, "stayNote": "2 nights", "image": "review-holy-week-group",
+    { "id": "r1", "author": null, "rating": 5, "date": null, "stayNote": "2 nights", "image": "review-holy-week-group", "guestPhoto": "guest-holy-week",
       "text": "Sulit po ang 2nights stay po sa uilitin po God Bless po" },
-    { "id": "r2", "author": null, "rating": 5, "date": null, "image": "review-gazebo-dinner",
+    { "id": "r2", "author": null, "rating": 5, "date": null, "image": "review-gazebo-dinner", "guestPhoto": "guest-gazebo-dinner",
       "text": "thank you din po sa pag accomodate, mababait po ang staff nio and super linis at bango din ng place..highly recommended for me" },
-    { "id": "r3", "author": "Ms. Nice", "rating": 5, "date": "Oct 27", "image": "review-ms-nice-oct-27",
+    { "id": "r3", "author": "Ms. Nice", "rating": 5, "date": "Oct 27", "image": "review-ms-nice-oct-27", "guestPhoto": "guest-ms-nice",
       "text": "Very Recommended ang place if you want to feel the Province Peg. Sarap mag refresh ng mind since ung makikita mo lang mga puno puno. Super nag enjoy ung kids and adults, super babait at ackaso dn ng mga caretaker attentive sa mga needs. Thank you soo much po 2nd Time here and more vacation pa sa place na ito. Thank you" },
-    { "id": "r4", "author": "Jed", "rating": 5, "date": "Oct 4", "image": "review-jed-oct-4",
+    { "id": "r4", "author": "Jed", "rating": 5, "date": "Oct 4", "image": "review-jed-oct-4", "guestPhoto": "guest-jed",
       "text": "Ang ganda ng place, very probinsya ang vibe. Peaceful at malinis ang paligid at mga rooms, perfect talaga pang family. Mabait din ang mga care taker. Thank you po ulit sa pag accomodate! Sa uulitin po" },
-    { "id": "r5", "author": "Issa", "rating": 4, "date": "Sept 27", "image": "review-issa-sept-27",
+    { "id": "r5", "author": "Issa", "rating": 4, "date": "Sept 27", "image": "review-issa-sept-27", "guestPhoto": "guest-issa",
       "text": "Salamat po sa pag accommodate samin! Ang ganda po ng place. Surrounded ng nature kaya makakapag relax. Malakas ang wifi, malakas ang tubig, ang laki ng kusina, malinis ang rooms at CR, malinis ang pool at mabait ang care taker. Talagang perfect for all groups and occasions! Sa uulitin po." },
-    { "id": "r6", "author": "Ziangg", "rating": 4, "date": "July 12–15", "image": "review-ziangg-july-12",
+    { "id": "r6", "author": "Ziangg", "rating": 4, "date": "July 12–15", "image": "review-ziangg-july-12", "guestPhoto": "guest-ziangg",
       "text": "Thank you worth it yung place ambait pa nung mga caretaker talagang inasikaso kami kahit late night Na kami nakarating. Sobrang nag enjoy kami sa place ang ganda at ang cool ng place nyo" }
   ],
   "$reviewsNote": "6 real reviews. No year is stated on any of them. 'review-thank-you-collage' is a marketing thank-you graphic, not a review, and is filed under marketing below.",
@@ -319,6 +320,14 @@
     "promo-ten-percent-discount":    { "src": "DISCOUNT/1.jpg", "w": 1402, "h": 1122, "widths": [480, 960], "alt": "Promotional banner: book today and get 10% discount", "marketing": true },
     "brand-signboard-pool":          { "src": "LOGO.jpg",       "w": 1024, "h": 1024, "widths": [480, 960], "alt": "Rancho Felipe Casita and Gazebo Pools signboard above the pool", "marketing": true },
     "directions-infographic":        { "src": "LOCATION.png",   "w": 928,  "h": 1095, "widths": [480], "alt": "Directions infographic for reaching Rancho Felipe by car or by commute", "marketing": true },
+
+    "$guestPhotos": "Cropped out of the review cards, so a review shows the people who stayed rather than a graphic with the words repeated inside it. Coordinates were measured per card and checked by eye.",
+    "guest-holy-week":     { "src": "CUSTOMER REVIEW/1.jpg", "w": 640, "h": 336, "widths": [320, 640], "alt": "A large family group by the pool under the trees" },
+    "guest-gazebo-dinner": { "src": "CUSTOMER REVIEW/3.jpg", "w": 640, "h": 488, "widths": [320, 640], "alt": "Guests around the gazebo dining table in the evening" },
+    "guest-ms-nice":       { "src": "CUSTOMER REVIEW/4.jpg", "w": 640, "h": 434, "widths": [320, 640], "alt": "Three generations of a family on the gravel path by the casitas" },
+    "guest-jed":           { "src": "CUSTOMER REVIEW/5.jpg", "w": 640, "h": 458, "widths": [320, 640], "alt": "A group sharing dinner under the string lights" },
+    "guest-issa":          { "src": "CUSTOMER REVIEW/6.jpg", "w": 640, "h": 466, "widths": [320, 640], "alt": "Guests in the pool on a bright afternoon" },
+    "guest-ziangg":        { "src": "CUSTOMER REVIEW/7.jpg", "w": 640, "h": 468, "widths": [320, 640], "alt": "A group around the table late at night" },
 
     "review-holy-week-group":        { "src": "CUSTOMER REVIEW/1.jpg", "w": 1024, "h": 1536, "widths": [480, 960], "alt": "Five-star guest review card with a group photo by the pool", "marketing": true },
     "review-thank-you-collage":      { "src": "CUSTOMER REVIEW/2.jpg", "w": 526,  "h": 789,  "widths": [480], "alt": "Thank-you collage of guest photos", "marketing": true },

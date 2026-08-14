@@ -18,6 +18,7 @@ const NAV = [
   { href: '/admin/bookings', label: 'Bookings' },
   { href: '/admin/calendar', label: 'Calendar' },
   { href: '/admin/rates', label: 'Rates' },
+  { href: '/admin/marketing', label: 'Marketing' },
   { href: '/admin/settings', label: 'Settings' },
 ]
 

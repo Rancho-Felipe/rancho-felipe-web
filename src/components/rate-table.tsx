@@ -42,7 +42,7 @@ export function RateTable({ unit }: { unit: UnitSlug }) {
                 <th scope="row" className="py-4 pr-4 font-normal">
                   <span className="block text-sm text-paper">{pkg.label}</span>
                   <span className="font-data text-xs text-stone">
-                    {pkg.in}–{pkg.out}
+                    {pkg.inLabel} – {pkg.outLabel}
                     {pkg.endsNextDay && <span className="align-super text-[0.6rem]"> +1</span>}
                   </span>
                 </th>

@@ -40,9 +40,9 @@ interface QuoteResponse {
 }
 
 const PACKAGES: { key: PackageKey; label: string; window: string; hours: string }[] = [
-  { key: 'DAY_TOUR', label: 'Day tour', window: '07:00 → 17:00', hours: '10 hours' },
-  { key: 'NIGHT_TOUR', label: 'Night tour', window: '20:00 → 06:00', hours: '10 hours, overnight' },
-  { key: 'FULL_STAY', label: 'Full stay', window: '14:00 → 12:00', hours: '22 hours' },
+  { key: 'DAY_TOUR', label: 'Day tour', window: '7:00 AM → 5:00 PM', hours: '10 hours' },
+  { key: 'NIGHT_TOUR', label: 'Night tour', window: '8:00 PM → 6:00 AM', hours: '10 hours, overnight' },
+  { key: 'FULL_STAY', label: 'Full stay', window: '2:00 PM → 12:00 NN', hours: '22 hours' },
 ]
 
 const UNITS: { slug: UnitSlug; name: string; blurb: string }[] = [
@@ -400,7 +400,7 @@ export function BookingForm({
                 month: 'short',
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: false,
+                hour12: true,
               })}
               {' → '}
               {new Date(quote.checkOutAt).toLocaleString('en-PH', {
@@ -409,7 +409,7 @@ export function BookingForm({
                 month: 'short',
                 hour: '2-digit',
                 minute: '2-digit',
-                hour12: false,
+                hour12: true,
               })}
             </p>
           )}

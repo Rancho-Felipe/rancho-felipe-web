@@ -376,12 +376,82 @@ model Review {
   /// of them, so this stays a string rather than pretending to be a date.
   dateLabel String? @map("date_label")
   text      String
+  /// The whole review card, text baked in. Kept for reference, not shown.
   imageSlug String? @map("image_slug")
+  /// Just the guests, cropped out of that card. This is what the site shows -
+  /// a review should carry the faces of the people who stayed, not a graphic
+  /// repeating the words printed next to it.
+  guestPhotoSlug String? @map("guest_photo_slug")
   featured  Boolean @default(false)
   hidden    Boolean @default(false)
   sortOrder Int     @default(0) @map("sort_order")
 
   @@map("review")
+}
+
+enum SocialPlatform {
+  FACEBOOK_PAGE
+  FACEBOOK_PROFILE
+  TIKTOK
+  INSTAGRAM
+  MESSENGER
+
+  @@map("social_platform")
+}
+
+/// The resort's own accounts, so admin can link straight to each inbox and
+/// every page on the site points at the same profiles.
+///
+/// Deliberately links rather than integrations. Reading Facebook messages needs
+/// a Meta app, a Page access token and app review; TikTok exposes no direct
+/// message API at all. Pretending otherwise would mean an inbox that silently
+/// showed nothing, which is worse than a link that works.
+model SocialAccount {
+  id        String         @id @default(cuid())
+  platform  SocialPlatform
+  label     String
+  /// The public page or profile.
+  url       String
+  /// Where the owner reads messages for this account.
+  inboxUrl  String?        @map("inbox_url")
+  handle    String?
+  active    Boolean        @default(true)
+  sortOrder Int            @default(0) @map("sort_order")
+
+  @@unique([platform, url])
+  @@map("social_account")
+}
+
+enum PostStatus {
+  DRAFT
+  SCHEDULED
+  POSTED
+
+  @@map("post_status")
+}
+
+/// A planned post: caption, which photos go with it, where it is going and
+/// when. The owner still presses publish on the platform itself — this is the
+/// planning and the copy, kept next to the rates it quotes so a promo can never
+/// advertise a price the site no longer charges.
+model MarketingPost {
+  id           String     @id @default(cuid())
+  title        String
+  caption      String
+  /// Manifest slugs, so posts reuse the photos already optimised for the site.
+  photoSlugs   String[]   @map("photo_slugs")
+  platforms    SocialPlatform[]
+  status       PostStatus @default(DRAFT)
+  scheduledFor DateTime?  @map("scheduled_for") @db.Timestamptz(3)
+  postedAt     DateTime?  @map("posted_at") @db.Timestamptz(3)
+  /// Where it ended up, once it is live.
+  postUrl      String?    @map("post_url")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([status, scheduledFor])
+  @@map("marketing_post")
 }
 
 /// Unit descriptions, amenity lists, house rules and FAQ, so the owner can edit

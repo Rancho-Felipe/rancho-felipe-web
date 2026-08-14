@@ -2,6 +2,7 @@ import { db } from '@/lib/db'
 import { getSettings } from '@/lib/settings'
 import {
   WINDOWS,
+  formatClock,
   holdWindow,
   resolveWindow,
   resortDate,
@@ -189,8 +190,10 @@ export async function getDayView(
         return {
           package: pkg,
           label: window.label,
-          checkIn: `${String(window.startHour).padStart(2, '0')}:00`,
-          checkOut: `${String(window.endHour).padStart(2, '0')}:00`,
+          // 12-hour, because these strings go straight onto the farm map for
+          // guests to read.
+          checkIn: formatClock(`${String(window.startHour).padStart(2, '0')}:00`),
+          checkOut: formatClock(`${String(window.endHour).padStart(2, '0')}:00`),
           state: day?.slots[pkg] ?? 'taken',
           price: plan?.price ?? null,
         }

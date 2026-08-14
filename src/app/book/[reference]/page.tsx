@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { db } from '@/lib/db'
 import { getSettings } from '@/lib/settings'
 import { inResortTime } from '@/lib/booking/schedule'
-import { peso, contact, links } from '@/lib/content'
+import { peso, links } from '@/lib/content'
 import { PaymentProofForm } from '@/components/booking/payment-proof-form'
 
 export const dynamic = 'force-dynamic'
@@ -56,7 +56,7 @@ export default async function BookingPage({
   const accent = booking.unitId === 'casita' ? 'text-pool' : 'text-brick'
   const lines = booking.breakdown as Array<{ label: string; detail?: string; amount: number }>
   const needsPayment = booking.status === 'PENDING'
-  const unitPhone = booking.unitId === 'casita' ? contact.casita.mobile : contact.gazebo.mobile[0]
+  const unitPhone = booking.unit.phone
 
   return (
     <section className="mx-auto max-w-3xl px-5 py-14">

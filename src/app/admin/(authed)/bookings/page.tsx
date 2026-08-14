@@ -147,7 +147,7 @@ export default async function BookingsPage({
                   <td className="py-3 pr-4 text-sm text-stone">{booking.unit.shortName}</td>
                   <td className="py-3 pr-4 text-sm text-paper">{booking.guestName}</td>
                   <td className="py-3 pr-4 font-data text-sm text-stone">
-                    {inResortTime(booking.checkInAt, 'd MMM yyyy HH:mm')}
+                    {inResortTime(booking.checkInAt, 'd MMM yyyy, h:mm a')}
                   </td>
                   <td className="py-3 pr-4 font-data text-sm text-stone">{booking.paxTotal}</td>
                   <td className="py-3 pr-4 font-data text-sm text-stone">{peso(booking.total)}</td>

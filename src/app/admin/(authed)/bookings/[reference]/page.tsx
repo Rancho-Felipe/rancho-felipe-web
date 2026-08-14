@@ -197,7 +197,7 @@ export default async function AdminBookingPage({
                 <span className="text-stone">{payment.status.toLowerCase()}</span>
                 {payment.reference && <span className="font-data text-xs text-stone">{payment.reference}</span>}
                 <span className="ml-auto font-data text-xs text-stone">
-                  {inResortTime(payment.createdAt, 'd MMM HH:mm')}
+                  {inResortTime(payment.createdAt, 'd MMM, h:mm a')}
                 </span>
                 {payment.proofData && (
                   <a

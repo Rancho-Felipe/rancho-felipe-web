@@ -102,25 +102,17 @@ export default function GettingHerePage() {
 
       <section className="mx-auto mt-14 max-w-4xl px-5">
         <h2 className="text-title font-display">Lost on the way?</h2>
-        <p className="mt-3 text-sm text-stone">Call whichever unit you booked and someone will talk you in.</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          <a
-            href={`tel:${contact.casita.mobile.replace(/-/g, '')}`}
-            className="rounded-xl border border-night-edge bg-night-raised p-5 hover:border-pool"
-          >
-            <p className="eyebrow">The Casita</p>
-            <p className="mt-1.5 font-data text-base text-paper">{contact.casita.mobile}</p>
-            <p className="text-xs text-stone">Viber, WhatsApp, SMS or call</p>
-          </a>
-          <a
-            href={`tel:${contact.gazebo.mobile[0].replace(/-/g, '')}`}
-            className="rounded-xl border border-night-edge bg-night-raised p-5 hover:border-brick"
-          >
-            <p className="eyebrow">The Gazebo</p>
-            <p className="mt-1.5 font-data text-base text-paper">{contact.gazebo.mobile[0]}</p>
-            <p className="text-xs text-stone">{contact.gazebo.mobile[1]} also reaches us</p>
-          </a>
-        </div>
+        <p className="mt-3 text-sm text-stone">
+          Call and someone will talk you in. The same number reaches both units.
+        </p>
+        <a
+          href={`tel:${contact.casita.mobile.replace(/-/g, '')}`}
+          className="mt-5 block max-w-sm rounded-xl border border-night-edge bg-night-raised p-5 hover:border-pool"
+        >
+          <p className="eyebrow">Call the resort</p>
+          <p className="mt-1.5 font-data text-xl text-paper">{contact.casita.mobile}</p>
+          <p className="mt-1 text-xs text-stone">{contact.casita.channels.join(', ')}</p>
+        </a>
       </section>
     </>
   )

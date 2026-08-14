@@ -99,6 +99,25 @@ export type AuditLog = Prisma.AuditLogModel
  */
 export type Review = Prisma.ReviewModel
 /**
+ * Model SocialAccount
+ * The resort's own accounts, so admin can link straight to each inbox and
+ * every page on the site points at the same profiles.
+ * 
+ * Deliberately links rather than integrations. Reading Facebook messages needs
+ * a Meta app, a Page access token and app review; TikTok exposes no direct
+ * message API at all. Pretending otherwise would mean an inbox that silently
+ * showed nothing, which is worse than a link that works.
+ */
+export type SocialAccount = Prisma.SocialAccountModel
+/**
+ * Model MarketingPost
+ * A planned post: caption, which photos go with it, where it is going and
+ * when. The owner still presses publish on the platform itself — this is the
+ * planning and the copy, kept next to the rates it quotes so a promo can never
+ * advertise a price the site no longer charges.
+ */
+export type MarketingPost = Prisma.MarketingPostModel
+/**
  * Model ContentBlock
  * Unit descriptions, amenity lists, house rules and FAQ, so the owner can edit
  * copy from admin instead of asking for a deploy.

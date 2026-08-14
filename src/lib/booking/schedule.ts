@@ -82,9 +82,34 @@ export function holdWindow(
   }
 }
 
-/** Renders an instant in the guest's own timezone — always Philippine time. */
-export function inResortTime(value: Date, pattern = "d MMM yyyy 'at' HH:mm"): string {
+/** Renders an instant in the guest's own timezone — always Philippine time.
+ *  12-hour clock by default: nobody in the Philippines reads 20:00 as a time
+ *  they would turn up at. */
+export function inResortTime(value: Date, pattern = "d MMM yyyy 'at' h:mm a"): string {
   return formatInTimeZone(value, RESORT_TIMEZONE, pattern)
+}
+
+/**
+ * Turns a stored 24-hour time like "20:00" into "8:00 PM".
+ *
+ * Times are kept as 24-hour strings everywhere behind the scenes, because they
+ * sort and compare correctly. This is the only place they become something a
+ * guest reads.
+ */
+export function formatClock(hhmm: string): string {
+  const [rawHour, rawMinute] = hhmm.split(':')
+  const hour = Number(rawHour)
+  const minute = rawMinute ?? '00'
+  if (Number.isNaN(hour)) return hhmm
+
+  // "12:00 PM" reads as ambiguous to most people, and the owner writes noon as
+  // "12nn" themselves. NN and MN are how it is said here.
+  if (minute === '00' && hour === 12) return '12:00 NN'
+  if (minute === '00' && hour === 0) return '12:00 MN'
+
+  const period = hour >= 12 ? 'PM' : 'AM'
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12
+  return `${hour12}:${minute} ${period}`
 }
 
 /** The local calendar date of an instant, for grouping bookings by day. */

@@ -44,8 +44,8 @@ export async function GET(request: Request) {
       booking.reference,
       booking.status,
       booking.unit.name,
-      inResortTime(booking.checkInAt, 'yyyy-MM-dd HH:mm'),
-      inResortTime(booking.checkOutAt, 'yyyy-MM-dd HH:mm'),
+      inResortTime(booking.checkInAt, 'yyyy-MM-dd h:mm a'),
+      inResortTime(booking.checkOutAt, 'yyyy-MM-dd h:mm a'),
       booking.package,
       booking.guestName,
       booking.guestEmail,
@@ -58,7 +58,7 @@ export async function GET(request: Request) {
       booking.total,
       booking.depositDue,
       booking.balanceDue,
-      inResortTime(booking.createdAt, 'yyyy-MM-dd HH:mm'),
+      inResortTime(booking.createdAt, 'yyyy-MM-dd h:mm a'),
       booking.guestNote ?? '',
     ]
       .map(cell)

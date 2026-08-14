@@ -112,7 +112,7 @@ export default function RootLayout({
                 longitude: business.geo.lng,
               },
               hasMap: links.maps,
-              telephone: '+63 995 333 9526',
+              telephone: '092-646-2149',
               url: 'https://ranchofelipe.ph',
               petsAllowed: true,
               amenityFeature: [

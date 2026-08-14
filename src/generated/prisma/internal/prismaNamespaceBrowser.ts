@@ -65,6 +65,8 @@ export const ModelName = {
   AdminUser: 'AdminUser',
   AuditLog: 'AuditLog',
   Review: 'Review',
+  SocialAccount: 'SocialAccount',
+  MarketingPost: 'MarketingPost',
   ContentBlock: 'ContentBlock'
 } as const
 
@@ -296,12 +298,44 @@ export const ReviewScalarFieldEnum = {
   dateLabel: 'dateLabel',
   text: 'text',
   imageSlug: 'imageSlug',
+  guestPhotoSlug: 'guestPhotoSlug',
   featured: 'featured',
   hidden: 'hidden',
   sortOrder: 'sortOrder'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const SocialAccountScalarFieldEnum = {
+  id: 'id',
+  platform: 'platform',
+  label: 'label',
+  url: 'url',
+  inboxUrl: 'inboxUrl',
+  handle: 'handle',
+  active: 'active',
+  sortOrder: 'sortOrder'
+} as const
+
+export type SocialAccountScalarFieldEnum = (typeof SocialAccountScalarFieldEnum)[keyof typeof SocialAccountScalarFieldEnum]
+
+
+export const MarketingPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  caption: 'caption',
+  photoSlugs: 'photoSlugs',
+  platforms: 'platforms',
+  status: 'status',
+  scheduledFor: 'scheduledFor',
+  postedAt: 'postedAt',
+  postUrl: 'postUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MarketingPostScalarFieldEnum = (typeof MarketingPostScalarFieldEnum)[keyof typeof MarketingPostScalarFieldEnum]
 
 
 export const ContentBlockScalarFieldEnum = {

@@ -43,6 +43,7 @@ export type ReviewMinAggregateOutputType = {
   dateLabel: string | null
   text: string | null
   imageSlug: string | null
+  guestPhotoSlug: string | null
   featured: boolean | null
   hidden: boolean | null
   sortOrder: number | null
@@ -55,6 +56,7 @@ export type ReviewMaxAggregateOutputType = {
   dateLabel: string | null
   text: string | null
   imageSlug: string | null
+  guestPhotoSlug: string | null
   featured: boolean | null
   hidden: boolean | null
   sortOrder: number | null
@@ -67,6 +69,7 @@ export type ReviewCountAggregateOutputType = {
   dateLabel: number
   text: number
   imageSlug: number
+  guestPhotoSlug: number
   featured: number
   hidden: number
   sortOrder: number
@@ -91,6 +94,7 @@ export type ReviewMinAggregateInputType = {
   dateLabel?: true
   text?: true
   imageSlug?: true
+  guestPhotoSlug?: true
   featured?: true
   hidden?: true
   sortOrder?: true
@@ -103,6 +107,7 @@ export type ReviewMaxAggregateInputType = {
   dateLabel?: true
   text?: true
   imageSlug?: true
+  guestPhotoSlug?: true
   featured?: true
   hidden?: true
   sortOrder?: true
@@ -115,6 +120,7 @@ export type ReviewCountAggregateInputType = {
   dateLabel?: true
   text?: true
   imageSlug?: true
+  guestPhotoSlug?: true
   featured?: true
   hidden?: true
   sortOrder?: true
@@ -214,6 +220,7 @@ export type ReviewGroupByOutputType = {
   dateLabel: string | null
   text: string
   imageSlug: string | null
+  guestPhotoSlug: string | null
   featured: boolean
   hidden: boolean
   sortOrder: number
@@ -249,6 +256,7 @@ export type ReviewWhereInput = {
   dateLabel?: Prisma.StringNullableFilter<"Review"> | string | null
   text?: Prisma.StringFilter<"Review"> | string
   imageSlug?: Prisma.StringNullableFilter<"Review"> | string | null
+  guestPhotoSlug?: Prisma.StringNullableFilter<"Review"> | string | null
   featured?: Prisma.BoolFilter<"Review"> | boolean
   hidden?: Prisma.BoolFilter<"Review"> | boolean
   sortOrder?: Prisma.IntFilter<"Review"> | number
@@ -261,6 +269,7 @@ export type ReviewOrderByWithRelationInput = {
   dateLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   text?: Prisma.SortOrder
   imageSlug?: Prisma.SortOrderInput | Prisma.SortOrder
+  guestPhotoSlug?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
   hidden?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -276,6 +285,7 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   dateLabel?: Prisma.StringNullableFilter<"Review"> | string | null
   text?: Prisma.StringFilter<"Review"> | string
   imageSlug?: Prisma.StringNullableFilter<"Review"> | string | null
+  guestPhotoSlug?: Prisma.StringNullableFilter<"Review"> | string | null
   featured?: Prisma.BoolFilter<"Review"> | boolean
   hidden?: Prisma.BoolFilter<"Review"> | boolean
   sortOrder?: Prisma.IntFilter<"Review"> | number
@@ -288,6 +298,7 @@ export type ReviewOrderByWithAggregationInput = {
   dateLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   text?: Prisma.SortOrder
   imageSlug?: Prisma.SortOrderInput | Prisma.SortOrder
+  guestPhotoSlug?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
   hidden?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -308,6 +319,7 @@ export type ReviewScalarWhereWithAggregatesInput = {
   dateLabel?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
   text?: Prisma.StringWithAggregatesFilter<"Review"> | string
   imageSlug?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
+  guestPhotoSlug?: Prisma.StringNullableWithAggregatesFilter<"Review"> | string | null
   featured?: Prisma.BoolWithAggregatesFilter<"Review"> | boolean
   hidden?: Prisma.BoolWithAggregatesFilter<"Review"> | boolean
   sortOrder?: Prisma.IntWithAggregatesFilter<"Review"> | number
@@ -320,6 +332,7 @@ export type ReviewCreateInput = {
   dateLabel?: string | null
   text: string
   imageSlug?: string | null
+  guestPhotoSlug?: string | null
   featured?: boolean
   hidden?: boolean
   sortOrder?: number
@@ -332,6 +345,7 @@ export type ReviewUncheckedCreateInput = {
   dateLabel?: string | null
   text: string
   imageSlug?: string | null
+  guestPhotoSlug?: string | null
   featured?: boolean
   hidden?: boolean
   sortOrder?: number
@@ -344,6 +358,7 @@ export type ReviewUpdateInput = {
   dateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   imageSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestPhotoSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -356,6 +371,7 @@ export type ReviewUncheckedUpdateInput = {
   dateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   imageSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestPhotoSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -368,6 +384,7 @@ export type ReviewCreateManyInput = {
   dateLabel?: string | null
   text: string
   imageSlug?: string | null
+  guestPhotoSlug?: string | null
   featured?: boolean
   hidden?: boolean
   sortOrder?: number
@@ -380,6 +397,7 @@ export type ReviewUpdateManyMutationInput = {
   dateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   imageSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestPhotoSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -392,6 +410,7 @@ export type ReviewUncheckedUpdateManyInput = {
   dateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   imageSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guestPhotoSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hidden?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -404,6 +423,7 @@ export type ReviewCountOrderByAggregateInput = {
   dateLabel?: Prisma.SortOrder
   text?: Prisma.SortOrder
   imageSlug?: Prisma.SortOrder
+  guestPhotoSlug?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   hidden?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -421,6 +441,7 @@ export type ReviewMaxOrderByAggregateInput = {
   dateLabel?: Prisma.SortOrder
   text?: Prisma.SortOrder
   imageSlug?: Prisma.SortOrder
+  guestPhotoSlug?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   hidden?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -433,6 +454,7 @@ export type ReviewMinOrderByAggregateInput = {
   dateLabel?: Prisma.SortOrder
   text?: Prisma.SortOrder
   imageSlug?: Prisma.SortOrder
+  guestPhotoSlug?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   hidden?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -452,6 +474,7 @@ export type ReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   dateLabel?: boolean
   text?: boolean
   imageSlug?: boolean
+  guestPhotoSlug?: boolean
   featured?: boolean
   hidden?: boolean
   sortOrder?: boolean
@@ -464,6 +487,7 @@ export type ReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   dateLabel?: boolean
   text?: boolean
   imageSlug?: boolean
+  guestPhotoSlug?: boolean
   featured?: boolean
   hidden?: boolean
   sortOrder?: boolean
@@ -476,6 +500,7 @@ export type ReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   dateLabel?: boolean
   text?: boolean
   imageSlug?: boolean
+  guestPhotoSlug?: boolean
   featured?: boolean
   hidden?: boolean
   sortOrder?: boolean
@@ -488,12 +513,13 @@ export type ReviewSelectScalar = {
   dateLabel?: boolean
   text?: boolean
   imageSlug?: boolean
+  guestPhotoSlug?: boolean
   featured?: boolean
   hidden?: boolean
   sortOrder?: boolean
 }
 
-export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "author" | "rating" | "dateLabel" | "text" | "imageSlug" | "featured" | "hidden" | "sortOrder", ExtArgs["result"]["review"]>
+export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "author" | "rating" | "dateLabel" | "text" | "imageSlug" | "guestPhotoSlug" | "featured" | "hidden" | "sortOrder", ExtArgs["result"]["review"]>
 
 export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Review"
@@ -508,7 +534,16 @@ export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
      */
     dateLabel: string | null
     text: string
+    /**
+     * The whole review card, text baked in. Kept for reference, not shown.
+     */
     imageSlug: string | null
+    /**
+     * Just the guests, cropped out of that card. This is what the site shows -
+     * a review should carry the faces of the people who stayed, not a graphic
+     * repeating the words printed next to it.
+     */
+    guestPhotoSlug: string | null
     featured: boolean
     hidden: boolean
     sortOrder: number
@@ -941,6 +976,7 @@ export interface ReviewFieldRefs {
   readonly dateLabel: Prisma.FieldRef<"Review", 'String'>
   readonly text: Prisma.FieldRef<"Review", 'String'>
   readonly imageSlug: Prisma.FieldRef<"Review", 'String'>
+  readonly guestPhotoSlug: Prisma.FieldRef<"Review", 'String'>
   readonly featured: Prisma.FieldRef<"Review", 'Boolean'>
   readonly hidden: Prisma.FieldRef<"Review", 'Boolean'>
   readonly sortOrder: Prisma.FieldRef<"Review", 'Int'>

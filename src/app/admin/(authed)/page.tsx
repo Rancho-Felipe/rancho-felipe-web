@@ -87,7 +87,7 @@ export default async function AdminHome() {
               reference={booking.reference}
               unit={booking.unit.shortName}
               name={booking.guestName}
-              time={inResortTime(booking.checkInAt, 'HH:mm')}
+              time={inResortTime(booking.checkInAt, 'h:mm a')}
               detail={`${booking.paxTotal} guests · ${peso(booking.balanceDue)} to collect`}
             />
           ))}
@@ -100,7 +100,7 @@ export default async function AdminHome() {
               reference={booking.reference}
               unit={booking.unit.shortName}
               name={booking.guestName}
-              time={inResortTime(booking.checkOutAt, 'HH:mm')}
+              time={inResortTime(booking.checkOutAt, 'h:mm a')}
               detail={`${booking.paxTotal} guests`}
             />
           ))}

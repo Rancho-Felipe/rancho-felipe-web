@@ -411,6 +411,8 @@ export const ModelName = {
   AdminUser: 'AdminUser',
   AuditLog: 'AuditLog',
   Review: 'Review',
+  SocialAccount: 'SocialAccount',
+  MarketingPost: 'MarketingPost',
   ContentBlock: 'ContentBlock'
 } as const
 
@@ -427,7 +429,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "unit" | "ratePlan" | "seasonalRate" | "booking" | "bookingCounter" | "addOn" | "bookingAddOn" | "payment" | "calendarBlock" | "icalFeed" | "setting" | "adminUser" | "auditLog" | "review" | "contentBlock"
+    modelProps: "unit" | "ratePlan" | "seasonalRate" | "booking" | "bookingCounter" | "addOn" | "bookingAddOn" | "payment" | "calendarBlock" | "icalFeed" | "setting" | "adminUser" | "auditLog" | "review" | "socialAccount" | "marketingPost" | "contentBlock"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1467,6 +1469,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SocialAccount: {
+      payload: Prisma.$SocialAccountPayload<ExtArgs>
+      fields: Prisma.SocialAccountFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SocialAccountFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SocialAccountFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>
+        }
+        findFirst: {
+          args: Prisma.SocialAccountFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SocialAccountFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>
+        }
+        findMany: {
+          args: Prisma.SocialAccountFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>[]
+        }
+        create: {
+          args: Prisma.SocialAccountCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>
+        }
+        createMany: {
+          args: Prisma.SocialAccountCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SocialAccountCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>[]
+        }
+        delete: {
+          args: Prisma.SocialAccountDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>
+        }
+        update: {
+          args: Prisma.SocialAccountUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>
+        }
+        deleteMany: {
+          args: Prisma.SocialAccountDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SocialAccountUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SocialAccountUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>[]
+        }
+        upsert: {
+          args: Prisma.SocialAccountUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialAccountPayload>
+        }
+        aggregate: {
+          args: Prisma.SocialAccountAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSocialAccount>
+        }
+        groupBy: {
+          args: Prisma.SocialAccountGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SocialAccountGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SocialAccountCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SocialAccountCountAggregateOutputType> | number
+        }
+      }
+    }
+    MarketingPost: {
+      payload: Prisma.$MarketingPostPayload<ExtArgs>
+      fields: Prisma.MarketingPostFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MarketingPostFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MarketingPostFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>
+        }
+        findFirst: {
+          args: Prisma.MarketingPostFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MarketingPostFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>
+        }
+        findMany: {
+          args: Prisma.MarketingPostFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>[]
+        }
+        create: {
+          args: Prisma.MarketingPostCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>
+        }
+        createMany: {
+          args: Prisma.MarketingPostCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MarketingPostCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>[]
+        }
+        delete: {
+          args: Prisma.MarketingPostDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>
+        }
+        update: {
+          args: Prisma.MarketingPostUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>
+        }
+        deleteMany: {
+          args: Prisma.MarketingPostDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MarketingPostUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MarketingPostUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>[]
+        }
+        upsert: {
+          args: Prisma.MarketingPostUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingPostPayload>
+        }
+        aggregate: {
+          args: Prisma.MarketingPostAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMarketingPost>
+        }
+        groupBy: {
+          args: Prisma.MarketingPostGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketingPostGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MarketingPostCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketingPostCountAggregateOutputType> | number
+        }
+      }
+    }
     ContentBlock: {
       payload: Prisma.$ContentBlockPayload<ExtArgs>
       fields: Prisma.ContentBlockFieldRefs
@@ -1792,12 +1942,44 @@ export const ReviewScalarFieldEnum = {
   dateLabel: 'dateLabel',
   text: 'text',
   imageSlug: 'imageSlug',
+  guestPhotoSlug: 'guestPhotoSlug',
   featured: 'featured',
   hidden: 'hidden',
   sortOrder: 'sortOrder'
 } as const
 
 export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const SocialAccountScalarFieldEnum = {
+  id: 'id',
+  platform: 'platform',
+  label: 'label',
+  url: 'url',
+  inboxUrl: 'inboxUrl',
+  handle: 'handle',
+  active: 'active',
+  sortOrder: 'sortOrder'
+} as const
+
+export type SocialAccountScalarFieldEnum = (typeof SocialAccountScalarFieldEnum)[keyof typeof SocialAccountScalarFieldEnum]
+
+
+export const MarketingPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  caption: 'caption',
+  photoSlugs: 'photoSlugs',
+  platforms: 'platforms',
+  status: 'status',
+  scheduledFor: 'scheduledFor',
+  postedAt: 'postedAt',
+  postUrl: 'postUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MarketingPostScalarFieldEnum = (typeof MarketingPostScalarFieldEnum)[keyof typeof MarketingPostScalarFieldEnum]
 
 
 export const ContentBlockScalarFieldEnum = {
@@ -2025,6 +2207,34 @@ export type ListEnumBlockSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'SocialPlatform'
+ */
+export type EnumSocialPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialPlatform'>
+    
+
+
+/**
+ * Reference to a field of type 'SocialPlatform[]'
+ */
+export type ListEnumSocialPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialPlatform[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostStatus'
+ */
+export type EnumPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PostStatus[]'
+ */
+export type ListEnumPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2202,6 +2412,8 @@ export type GlobalOmitConfig = {
   adminUser?: Prisma.AdminUserOmit
   auditLog?: Prisma.AuditLogOmit
   review?: Prisma.ReviewOmit
+  socialAccount?: Prisma.SocialAccountOmit
+  marketingPost?: Prisma.MarketingPostOmit
   contentBlock?: Prisma.ContentBlockOmit
 }
 

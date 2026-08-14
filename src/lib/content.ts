@@ -1,5 +1,8 @@
 import manifestJson from '../../content/manifest.json'
 import policyJson from '../../content/policy.json'
+import { formatClock } from '@/lib/booking/schedule'
+
+export { formatClock }
 
 /* ---------------------------------------------------------------------------
    The manifest and the policy file are the single source of truth for
@@ -82,11 +85,21 @@ export type PackageKey = 'dayTour' | 'nightTour' | 'fullStay'
 
 export const schedule = policyJson.schedule
 
+/**
+ * The three check-in windows, with their times already turned into something a
+ * guest reads. Stored as 24-hour strings in policy.json because those sort and
+ * compare correctly; shown as 12-hour everywhere, because nobody turning up at
+ * the farm thinks of it as 20:00.
+ */
 export const PACKAGES: {
   key: PackageKey
   label: string
+  /** 24-hour, for logic. */
   in: string
   out: string
+  /** 12-hour, for people. */
+  inLabel: string
+  outLabel: string
   hours: number
   endsNextDay: boolean
 }[] = [
@@ -95,6 +108,8 @@ export const PACKAGES: {
     label: 'Day tour',
     in: schedule.dayTour.in,
     out: schedule.dayTour.out,
+    inLabel: formatClock(schedule.dayTour.in),
+    outLabel: formatClock(schedule.dayTour.out),
     hours: schedule.dayTour.hours,
     endsNextDay: false,
   },
@@ -103,6 +118,8 @@ export const PACKAGES: {
     label: 'Night tour',
     in: schedule.nightTour.in,
     out: schedule.nightTour.out,
+    inLabel: formatClock(schedule.nightTour.in),
+    outLabel: formatClock(schedule.nightTour.out),
     hours: schedule.nightTour.hours,
     endsNextDay: true,
   },
@@ -111,6 +128,8 @@ export const PACKAGES: {
     label: 'Full stay',
     in: schedule.fullStay.in,
     out: schedule.fullStay.out,
+    inLabel: formatClock(schedule.fullStay.in),
+    outLabel: formatClock(schedule.fullStay.out),
     hours: schedule.fullStay.hours,
     endsNextDay: true,
   },

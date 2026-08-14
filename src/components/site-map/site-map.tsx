@@ -242,7 +242,7 @@ export function SiteMap({
                 <li key={slot.package} className="min-w-[8.5rem]">
                   <p className="eyebrow">{slot.label}</p>
                   <p className="font-data text-xs text-stone">
-                    {slot.checkIn}–{slot.checkOut}
+                    {slot.checkIn} – {slot.checkOut}
                   </p>
                   <p
                     className={`font-data text-sm ${slot.state === 'free' ? 'text-paper' : 'text-stone line-through'}`}

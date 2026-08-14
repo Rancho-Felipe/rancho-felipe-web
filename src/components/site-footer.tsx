@@ -36,16 +36,15 @@ export function SiteFooter() {
           <h2 className="eyebrow">Talk to us</h2>
           <ul className="mt-3 space-y-1.5 text-sm text-stone">
             <li>
-              <span className="text-paper">Casita</span>{' '}
-              <a href={`tel:${contact.casita.mobile.replace(/-/g, '')}`} className="font-data">
+              <a
+                href={`tel:${contact.casita.mobile.replace(/-/g, '')}`}
+                className="font-data text-base text-paper"
+              >
                 {contact.casita.mobile}
               </a>
-            </li>
-            <li>
-              <span className="text-paper">Gazebo</span>{' '}
-              <a href={`tel:${contact.gazebo.mobile[0].replace(/-/g, '')}`} className="font-data">
-                {contact.gazebo.mobile[0]}
-              </a>
+              <span className="block text-xs">
+                {contact.casita.channels.join(' · ')} — one number for both units
+              </span>
             </li>
             <li>
               <a href={`mailto:${OWNER_EMAIL}`} className="underline underline-offset-4">

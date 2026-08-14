@@ -134,20 +134,35 @@ export default function HomePage() {
           Left on Facebook and Airbnb by people who stayed.
         </p>
 
+        {/* The photo is the review. These are the actual groups who stayed,
+            cropped out of the cards the resort posts — a face carries more than
+            a star rating does. */}
         <ul className="mt-10 grid gap-5 md:grid-cols-3">
           {reviews.slice(0, 3).map((review) => (
-            <li key={review.id} className="rounded-xl border border-night-edge bg-night-raised p-6">
-              <p className="font-data text-xs text-field">
-                {'★'.repeat(review.rating)}
-                <span className="text-stone">{'★'.repeat(5 - review.rating)}</span>
-              </p>
-              <blockquote className="mt-3 text-sm leading-relaxed text-paper">
-                “{review.text}”
-              </blockquote>
-              <p className="mt-4 text-xs text-stone">
-                {review.author ?? 'Guest'}
-                {review.date && <span> · {review.date}</span>}
-              </p>
+            <li
+              key={review.id}
+              className="flex flex-col overflow-hidden rounded-xl border border-night-edge bg-night-raised"
+            >
+              <div className="aspect-[16/10] overflow-hidden">
+                <Photo
+                  slug={review.guestPhoto}
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <p className="font-data text-xs text-field">
+                  {'★'.repeat(review.rating)}
+                  <span className="text-stone">{'★'.repeat(5 - review.rating)}</span>
+                </p>
+                <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-paper">
+                  “{review.text}”
+                </blockquote>
+                <p className="mt-4 text-xs text-stone">
+                  {review.author ?? 'Guest'}
+                  {review.date && <span> · {review.date}</span>}
+                </p>
+              </div>
             </li>
           ))}
         </ul>
