@@ -58,3 +58,9 @@ yarn-error.log*
 
 # logs from scripts/share.ps1
 /.logs
+
+# The owner's guide. Kept out of the repo on purpose: the repo is public, and
+# this booklet names the admin sign-in username and walks through the admin
+# screens. The username was deliberately scrubbed from the tracked files in
+# bb6418e; committing this would put it straight back.
+/docs/
