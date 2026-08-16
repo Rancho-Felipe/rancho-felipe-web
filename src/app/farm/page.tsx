@@ -6,7 +6,7 @@ import { getDayView, firstBookableDate } from '@/lib/booking/availability'
 import { photoSources, grounds } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'The farm',
+  title: 'The Farm — Two Pools, Kubo, Half Court & Bonfire',
   description:
     'A plan of Rancho Felipe: two A-frame casitas and their pool, the gazebo and its pool, the kubo, half court, bonfire and tent area. Tap any part of the farm to see it.',
   alternates: { canonical: '/farm' },

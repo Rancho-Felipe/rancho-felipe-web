@@ -4,7 +4,7 @@ import { Photo } from '@/components/photo'
 import { links } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'Reviews',
+  title: 'Guest Reviews — Private Resort in Teresa, Rizal',
   description:
     'What guests say about Rancho Felipe — real reviews left on Facebook and Airbnb by people who stayed at the farm in Teresa, Rizal.',
   alternates: { canonical: '/reviews' },

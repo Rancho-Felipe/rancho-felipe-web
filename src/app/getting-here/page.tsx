@@ -3,7 +3,7 @@ import { Photo } from '@/components/photo'
 import { business, directions, links, contact } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'Getting here',
+  title: 'How to Get Here — Teresa, Rizal, an Hour from Manila',
   description:
     'How to reach Rancho Felipe in Teresa, Rizal — by car via the Aqua Joe water station, or by jeepney to Teresa Public Market and a tricycle to Maximiano Compound.',
   alternates: { canonical: '/getting-here' },

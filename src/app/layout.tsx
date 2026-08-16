@@ -5,7 +5,7 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { BookingBar } from '@/components/booking-bar'
 import { HideOnAdmin } from '@/components/site-chrome'
-import { business, links } from '@/lib/content'
+import { business, links, policy } from '@/lib/content'
 
 /* The display face is Archivo carrying its width axis, so it can be set wide
    like the painted signboard at the gate. Without the wdth axis it is just
@@ -31,29 +31,43 @@ const martian = Martian_Mono({
   display: 'swap',
 })
 
+/* Every canonical and every og:url is built from this. It was hard-coded to
+   https://ranchofelipe.ph — a domain the resort does not own and which does not
+   resolve. So each live page was telling Google "the real version of me lives
+   somewhere else", which is an instruction Google follows: it drops the page
+   that says it. No amount of Search Console submitting would have helped while
+   this was wrong. It now follows wherever the site is actually deployed. */
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rancho-felipe-web.vercel.app'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ranchofelipe.ph'),
+  metadataBase: new URL(SITE),
   title: {
-    default: 'Rancho Felipe — private farm resort in Teresa, Rizal',
+    // What someone actually types: the thing, the place, and the fact that you
+    // get the whole of it.
+    default: 'Private Resort in Teresa, Rizal — Whole Place, Own Pool | Rancho Felipe',
     template: '%s — Rancho Felipe',
   },
   description:
-    'A private farm resort in Teresa, Rizal, booked one group at a time. Two A-frame casitas and a separate gazebo, each with its own pool. Day tours, night tours and 22-hour stays.',
-  keywords: [
-    'private resort Teresa Rizal',
-    'farm resort near Antipolo',
-    'private pool resort Rizal',
-    'Rancho Felipe',
-  ],
+    'Private resort in Teresa, Rizal, an hour from Metro Manila. Book the whole place — two A-frame casitas or the gazebo, each with its own pool. Day tour, night tour or 22-hour stay from ₱3,500. One group at a time.',
   openGraph: {
     type: 'website',
     locale: 'en_PH',
     siteName: 'Rancho Felipe',
-    title: 'Rancho Felipe — private farm resort in Teresa, Rizal',
+    title: 'Private Resort in Teresa, Rizal — Whole Place, Own Pool',
     description:
-      'Booked one group at a time. Two A-frame casitas and a separate gazebo, each with its own pool.',
+      'Book the whole resort, one group at a time. Two A-frame casitas or the gazebo, each with its own pool. Day tour, night tour or 22-hour stay.',
+    url: '/',
+    images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Rancho Felipe, Teresa, Rizal' }],
   },
-  robots: { index: true, follow: true },
+  twitter: { card: 'summary_large_image' },
+  robots: {
+    index: true,
+    follow: true,
+    // Lets Google show a full-length description and a large image rather than
+    // truncating both, which is the difference between a listing someone taps
+    // and one they scroll past.
+    googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+  },
   alternates: { canonical: '/' },
 }
 
@@ -102,10 +116,33 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'LodgingBusiness',
+              // Resort is a subtype of LodgingBusiness and is the more precise
+              // claim — this is not a hotel with rooms, it is a place you take
+              // over entirely.
+              '@type': 'Resort',
+              '@id': `${SITE}/#resort`,
               name: 'Rancho Felipe',
               description:
-                'Private farm resort in Teresa, Rizal, booked exclusively one group at a time.',
+                'Private farm resort in Teresa, Rizal, booked exclusively one group at a time. Two A-frame casitas and a separate gazebo, each with its own pool.',
+              image: `${SITE}/og.jpg`,
+              // Both units are listed on Airbnb and the resort answers on
+              // Facebook. sameAs is how Google ties those to this site and
+              // treats them as one business rather than three strangers.
+              sameAs: [links.facebook, links.airbnbCasita, links.airbnbGazebo].filter(Boolean),
+              priceRange: '₱3,500–₱12,000',
+              currenciesAccepted: 'PHP',
+              paymentAccepted: 'GCash, Maya, Credit Card, QR Ph, Bank transfer',
+              checkinTime: '07:00',
+              checkoutTime: '17:00',
+              // Where the guests actually come from. Honest: the resort is in
+              // Teresa, it merely serves people travelling out of these places.
+              areaServed: [
+                { '@type': 'City', name: 'Teresa' },
+                { '@type': 'City', name: 'Antipolo' },
+                { '@type': 'City', name: 'Morong' },
+                { '@type': 'AdministrativeArea', name: 'Rizal' },
+                { '@type': 'AdministrativeArea', name: 'Metro Manila' },
+              ],
               address: {
                 '@type': 'PostalAddress',
                 streetAddress: `${business.address.street}, ${business.address.barangay}`,
@@ -120,8 +157,33 @@ export default function RootLayout({
               },
               hasMap: links.maps,
               telephone: '092-646-2149',
-              url: 'https://ranchofelipe.ph',
+              url: SITE,
               petsAllowed: true,
+              // The three ways to book, priced. This is what can surface as a
+              // "from ₱3,500" line rather than a bare blue link.
+              makesOffer: [
+                {
+                  '@type': 'Offer',
+                  name: 'Day tour, 7:00 AM to 5:00 PM',
+                  priceCurrency: 'PHP',
+                  price: policy.pricing.gazebo.dayTour,
+                  description: 'Whole unit, up to 10 guests. Gazebo from this price.',
+                },
+                {
+                  '@type': 'Offer',
+                  name: 'Night tour, 8:00 PM to 6:00 AM',
+                  priceCurrency: 'PHP',
+                  price: policy.pricing.gazebo.nightTour,
+                  description: 'Whole unit, up to 10 guests. Gazebo from this price.',
+                },
+                {
+                  '@type': 'Offer',
+                  name: '22-hour stay, 2:00 PM to 12:00 NN',
+                  priceCurrency: 'PHP',
+                  price: policy.pricing.gazebo.fullStay,
+                  description: 'Whole unit overnight, up to 10 guests. Gazebo from this price.',
+                },
+              ],
               amenityFeature: [
                 'Private pool',
                 'Air-conditioned rooms',

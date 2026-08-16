@@ -32,10 +32,21 @@ export async function generateMetadata({
   const { unit } = await params
   if (!isUnit(unit)) return {}
   const data = getUnit(unit)
+  const from = unit === 'casita' ? policy.pricing.casita.dayTour : policy.pricing.gazebo.dayTour
+
+  /* The unit name alone ranked for nothing — nobody searches "The Private
+     Casita". The place and the thing on offer have to be in the title, because
+     that is what gets typed. */
   return {
-    title: data.name,
-    description: data.shortDescription,
+    title: `${data.name} — Private Pool Resort in Teresa, Rizal`,
+    description: `${data.shortDescription} Book the whole unit, one group at a time, from ₱${from.toLocaleString('en-PH')}. Day tour, night tour or 22-hour stay in Teresa, Rizal — an hour from Metro Manila.`,
     alternates: { canonical: `/${unit}` },
+    openGraph: {
+      title: `${data.name} — private pool resort in Teresa, Rizal`,
+      description: data.shortDescription,
+      url: `/${unit}`,
+      images: [{ url: '/og.jpg', width: 1200, height: 630, alt: data.name }],
+    },
   }
 }
 

@@ -5,7 +5,7 @@ import { houseRulesForGuests } from '@/lib/email/notify'
 import { policy } from '@/lib/content'
 
 export const metadata: Metadata = {
-  title: 'House rules',
+  title: 'House Rules — Videoke, Pets, Pool & Bonfire',
   description:
     'House rules for Rancho Felipe: videoke hours, pets, the pool, bonfires, parking and checking out.',
   alternates: { canonical: '/house-rules' },

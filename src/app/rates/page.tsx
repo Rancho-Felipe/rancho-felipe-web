@@ -8,7 +8,8 @@ import { PaymentAccounts } from '@/components/payment-accounts'
 import { toAccounts } from '@/lib/payments/accounts'
 
 export const metadata: Metadata = {
-  title: 'Rates',
+  // "private resort rates rizal" and "22 hours" are both things people type.
+  title: 'Private Resort Rates in Rizal — Day Tour, Night Tour, 22 Hours',
   description:
     'Whole-unit prices for the Casita and the Gazebo at Rancho Felipe. Day tour, night tour or a 22-hour stay, covering up to 10 guests, with ₱300 per extra guest.',
   alternates: { canonical: '/rates' },

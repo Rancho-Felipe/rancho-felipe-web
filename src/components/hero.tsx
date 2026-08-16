@@ -38,13 +38,23 @@ export function Hero() {
       <div className="mx-auto w-full max-w-6xl px-5 pb-14 pt-32">
         <p className="eyebrow">Teresa, Rizal</p>
 
+        {/* The old line was "A private farm, booked one group at a time." — true
+            and well said, but it contained none of the words anyone types. The
+            phrase people search is "private resort", and the place matters more
+            than anything else in local search. Same sentence, same rhythm, now
+            it says what it is and where. */}
         <h1 className="mt-4 max-w-3xl text-display font-display">
-          A private farm,
+          A private resort
           <br />
-          booked one group
+          in Teresa, Rizal.
           <br />
-          at a time.
+          One group at a time.
         </h1>
+
+        <p className="mt-5 max-w-xl text-lede text-stone">
+          The whole place to yourselves — your own pool, an hour from Metro Manila.
+          Day tour, night tour or a 22-hour stay.
+        </p>
 
         <dl className="mt-9 max-w-md border-t hairline">
           {PACKAGES.map((pkg) => (
