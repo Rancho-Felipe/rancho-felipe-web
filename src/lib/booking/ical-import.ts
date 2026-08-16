@@ -179,12 +179,34 @@ export async function importAllFeeds(): Promise<ImportResult[]> {
 }
 
 /** Feeds that have not succeeded in a while, for the admin dashboard to shout about. */
-export async function stalefeeds(maxAgeHours = 12) {
+/**
+ * Feeds the owner should actually look at.
+ *
+ * The age limit has to match how often the job really runs. It was 12 hours,
+ * set when the schedule was twice an hour. The Hobby plan then forced the job
+ * down to once a day, and nobody moved this — so every healthy feed was
+ * declared broken for half of each day, on a screen the owner checks each
+ * morning. A warning that cries wolf daily is worse than no warning: it trains
+ * you to ignore the one morning it matters.
+ *
+ * 26 hours is the daily schedule (24) plus the hour Hobby may drift by, plus a
+ * little room. A feed quiet longer than that has genuinely missed a run.
+ *
+ * Age is not the only signal. A feed that errored on its last attempt is worth
+ * showing immediately, without waiting a day for it to age out — that is a
+ * failure the owner can act on now.
+ */
+export async function stalefeeds(maxAgeHours = 26) {
   const cutoff = new Date(Date.now() - maxAgeHours * 3_600_000)
   return db.icalFeed.findMany({
     where: {
       active: true,
-      OR: [{ lastOkAt: null }, { lastOkAt: { lt: cutoff } }],
+      OR: [
+        { lastOkAt: null },
+        { lastOkAt: { lt: cutoff } },
+        // Last attempt failed, however recently.
+        { failureCount: { gt: 0 } },
+      ],
     },
   })
 }
