@@ -290,16 +290,23 @@ export function BookingForm({
             <Field label="Pets" hint="Up to 3 free, never in the pool">
               <Stepper label="Pets" value={pets} onChange={setPets} min={0} max={20} />
             </Field>
-            <Field label="Extra hours" hint={`${peso(extensionRates[unit])} each, if free`}>
-              <Stepper
-                label="Extra hours"
-                value={extensionHours}
-                onChange={setExtensionHours}
-                min={0}
-                max={12}
-              />
-            </Field>
           </div>
+
+          {/* Extra hours came off the form on the owner's instruction. It was
+              the one number a guest could not actually decide for themselves:
+              whether the hours exist depends on who is booked after them, and
+              only the resort knows that. Asking for it up front invited people
+              to pay for time that might not be available. It is a note now, and
+              the owner adds the hours to the booking once they have checked. */}
+          <p className="mt-4 rounded-lg border border-night-edge bg-night-raised px-4 py-3 text-xs text-stone">
+            <span className="eyebrow block text-paper">Need extra hours?</span>
+            <span className="mt-1 block">
+              {peso(extensionRates.casita)} an hour for the Casita,{' '}
+              {peso(extensionRates.gazebo)} for the Gazebo. Ask the resort after you book — extra
+              hours are subject to approval and are only possible when no group is booked after
+              you.
+            </span>
+          </p>
 
           {quote?.overCapacity && (
             <p className="mt-3 text-sm text-brick-lift">
@@ -459,12 +466,17 @@ export function BookingForm({
             disabled={!canSubmit}
             className={`mt-6 w-full rounded-full px-6 py-3 font-medium text-paper transition-opacity ${accent} disabled:cursor-not-allowed disabled:opacity-40`}
           >
-            {submitting ? 'Holding your date…' : 'Hold this date'}
+            {submitting ? 'Booking your date…' : 'Book this date'}
           </button>
 
+          {/* The old copy said we would "send you payment details", which stopped
+              being true when card and e-wallet payment went live — the guest now
+              goes straight to paying and the booking confirms itself. This wording
+              is true either way: nothing is taken on this screen, the deposit is
+              the next step, and the date is theirs in the meantime. */}
           <p className="mt-3 text-xs text-stone">
-            Nothing is charged here. We hold the date and send you payment details — the booking is
-            confirmed once your 30% deposit lands.
+            Nothing is charged on this screen. Next you pay the deposit shown above — your date is
+            held for you until then, and the booking is confirmed the moment it goes through.
           </p>
         </div>
       </aside>
@@ -520,12 +532,32 @@ function Stepper({
 }) {
   const clamp = (next: number) => Math.min(max, Math.max(min, next))
 
+  /* What the box shows while someone is typing in it.
+     null means "not being edited — show the real value".
+
+     The field used to clamp an empty box straight back to the minimum, so the
+     digit could never be deleted: clear "1" and it instantly became "1" again.
+     To type 25 you had to select the text first. Now the box is allowed to sit
+     empty mid-edit, and the number is settled when you tap away. */
+  const [draft, setDraft] = useState<string | null>(null)
+
+  function commit() {
+    if (draft !== null && draft !== '') onChange(clamp(Number(draft)))
+    else if (draft === '') onChange(min)
+    setDraft(null)
+  }
+
+  function step(by: number) {
+    setDraft(null)
+    onChange(clamp(value + by))
+  }
+
   return (
     <div className="mt-1 inline-flex items-stretch overflow-hidden rounded-lg border border-night-edge bg-night">
       <button
         type="button"
         aria-label={`One fewer ${label.toLowerCase()}`}
-        onClick={() => onChange(clamp(value - 1))}
+        onClick={() => step(-1)}
         disabled={value <= min}
         className="flex min-h-11 w-11 items-center justify-center text-lg text-stone transition-colors hover:text-paper disabled:opacity-30"
       >
@@ -539,20 +571,25 @@ function Stepper({
         inputMode="numeric"
         pattern="[0-9]*"
         aria-label={label}
-        value={value}
+        value={draft ?? String(value)}
         onChange={(event) => {
           const digits = event.target.value.replace(/[^0-9]/g, '')
-          // An empty box is allowed while typing — clamping it to the minimum
-          // on every keystroke makes the field impossible to clear and retype.
-          onChange(digits === '' ? min : clamp(Number(digits)))
+          setDraft(digits)
+          // Keep the price in step as they type, but only once there is a
+          // number to work with. An empty box just waits.
+          if (digits !== '') onChange(clamp(Number(digits)))
         }}
+        onBlur={commit}
+        // Tapping the box selects what is there, so typing replaces it outright
+        // — the fastest path for someone who knows they want 25.
+        onFocus={(event) => event.currentTarget.select()}
         className="w-12 border-x border-night-edge bg-night text-center font-data text-sm text-paper"
       />
 
       <button
         type="button"
         aria-label={`One more ${label.toLowerCase()}`}
-        onClick={() => onChange(clamp(value + 1))}
+        onClick={() => step(1)}
         disabled={value >= max}
         className="flex min-h-11 w-11 items-center justify-center text-lg text-stone transition-colors hover:text-paper disabled:opacity-30"
       >
