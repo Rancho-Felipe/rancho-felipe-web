@@ -262,43 +262,41 @@ export function BookingForm({
           <legend className="eyebrow">How many</legend>
           <div className="mt-3 flex flex-wrap gap-5">
             <Field label="Guests" hint="Everyone, including children">
-              <input
-                type="number"
+              <Stepper
+                label="Guests"
+                value={guests}
+                /* Lowering the party size drags the under-4 count down with it.
+                   Without this you can sit on "2 guests, 8 of them under 4",
+                   which the server rightly refuses — but only after the whole
+                   form has been filled in and submitted. Better to make the
+                   impossible state unreachable than to report it late. */
+                onChange={(next) => {
+                  setGuests(next)
+                  if (under4 > next) setUnder4(next)
+                }}
                 min={1}
                 max={60}
-                value={guests}
-                onChange={(event) => setGuests(Math.max(1, Number(event.target.value) || 1))}
-                className="w-28 rounded-lg border border-night-edge bg-night px-3 py-2.5 font-data text-sm text-paper"
               />
             </Field>
             <Field label="Aged 3 and under" hint="They stay free">
-              <input
-                type="number"
+              <Stepper
+                label="Children aged 3 and under"
+                value={under4}
+                onChange={setUnder4}
                 min={0}
                 max={guests}
-                value={under4}
-                onChange={(event) => setUnder4(Math.max(0, Number(event.target.value) || 0))}
-                className="w-28 rounded-lg border border-night-edge bg-night px-3 py-2.5 font-data text-sm text-paper"
               />
             </Field>
             <Field label="Pets" hint="Up to 3 free, never in the pool">
-              <input
-                type="number"
-                min={0}
-                max={20}
-                value={pets}
-                onChange={(event) => setPets(Math.max(0, Number(event.target.value) || 0))}
-                className="w-28 rounded-lg border border-night-edge bg-night px-3 py-2.5 font-data text-sm text-paper"
-              />
+              <Stepper label="Pets" value={pets} onChange={setPets} min={0} max={20} />
             </Field>
             <Field label="Extra hours" hint={`${peso(extensionRates[unit])} each, if free`}>
-              <input
-                type="number"
+              <Stepper
+                label="Extra hours"
+                value={extensionHours}
+                onChange={setExtensionHours}
                 min={0}
                 max={12}
-                value={extensionHours}
-                onChange={(event) => setExtensionHours(Math.max(0, Number(event.target.value) || 0))}
-                className="w-28 rounded-lg border border-night-edge bg-night px-3 py-2.5 font-data text-sm text-paper"
               />
             </Field>
           </div>
@@ -491,6 +489,75 @@ function Row({
       <span className={`font-data ${strong ? 'text-base text-paper' : `text-sm ${accent ?? 'text-stone'}`}`}>
         {value}
       </span>
+    </div>
+  )
+}
+
+/**
+ * A number you can actually change on a phone.
+ *
+ * `<input type="number">` draws little up/down arrows on desktop and nothing at
+ * all on iOS Safari or Chrome for Android. So on the device most guests book
+ * from, the only way to go from 10 guests to 11 was to tap into the field,
+ * select the text and retype it. The arrows were never a real control — they
+ * were a desktop browser's decoration that happened to look like one.
+ *
+ * Minus and plus, 44px each, either side of the value. Typing still works, for
+ * the group of 35 who should not have to tap plus twenty-five times.
+ */
+function Stepper({
+  value,
+  onChange,
+  min,
+  max,
+  label,
+}: {
+  value: number
+  onChange: (next: number) => void
+  min: number
+  max: number
+  label: string
+}) {
+  const clamp = (next: number) => Math.min(max, Math.max(min, next))
+
+  return (
+    <div className="mt-1 inline-flex items-stretch overflow-hidden rounded-lg border border-night-edge bg-night">
+      <button
+        type="button"
+        aria-label={`One fewer ${label.toLowerCase()}`}
+        onClick={() => onChange(clamp(value - 1))}
+        disabled={value <= min}
+        className="flex min-h-11 w-11 items-center justify-center text-lg text-stone transition-colors hover:text-paper disabled:opacity-30"
+      >
+        −
+      </button>
+
+      <input
+        type="text"
+        // Numeric keypad on a phone, without the arrows or the scroll-wheel
+        // surprise that type="number" brings on desktop.
+        inputMode="numeric"
+        pattern="[0-9]*"
+        aria-label={label}
+        value={value}
+        onChange={(event) => {
+          const digits = event.target.value.replace(/[^0-9]/g, '')
+          // An empty box is allowed while typing — clamping it to the minimum
+          // on every keystroke makes the field impossible to clear and retype.
+          onChange(digits === '' ? min : clamp(Number(digits)))
+        }}
+        className="w-12 border-x border-night-edge bg-night text-center font-data text-sm text-paper"
+      />
+
+      <button
+        type="button"
+        aria-label={`One more ${label.toLowerCase()}`}
+        onClick={() => onChange(clamp(value + 1))}
+        disabled={value >= max}
+        className="flex min-h-11 w-11 items-center justify-center text-lg text-stone transition-colors hover:text-paper disabled:opacity-30"
+      >
+        +
+      </button>
     </div>
   )
 }

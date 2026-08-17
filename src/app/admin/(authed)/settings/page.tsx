@@ -320,6 +320,7 @@ function NumberField({
       <span className="mt-1.5 flex items-center gap-2">
         <input
           type="number"
+          inputMode="numeric"
           name={name}
           defaultValue={defaultValue}
           min={min}

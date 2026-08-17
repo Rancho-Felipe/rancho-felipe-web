@@ -73,6 +73,7 @@ export default async function RatesPage() {
                     <span className="font-data text-sm text-stone">₱</span>
                     <input
                       type="number"
+                      inputMode="numeric"
                       name="price"
                       min={0}
                       step={50}
@@ -104,6 +105,7 @@ export default async function RatesPage() {
                 <span className="font-data text-sm text-stone">₱</span>
                 <input
                   type="number"
+                  inputMode="numeric"
                   name="perHour"
                   min={0}
                   step={50}
@@ -136,6 +138,7 @@ export default async function RatesPage() {
             <span className="font-data text-sm text-stone">₱</span>
             <input
               type="number"
+              inputMode="numeric"
               name="extraGuestFee"
               min={0}
               step={50}
