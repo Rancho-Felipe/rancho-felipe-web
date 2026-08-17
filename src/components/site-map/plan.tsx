@@ -31,9 +31,9 @@ export const HOTSPOTS: Hotspot[] = [
   { id: 'casita-2', label: 'Casita 2', photo: 'collage-casita-2', blurb: 'The second A-frame, same layout, its own aircon.', x: 686, y: 268, zone: 'casita' },
   { id: 'casita-pool', label: 'Casita pool', photo: 'casita-pool-with-floats', blurb: 'Private pool, 2 to 5 feet, with a shallow end.', x: 640, y: 372, zone: 'casita' },
   { id: 'kitchen-dining', label: 'Kitchen & dining', photo: 'collage-kitchen-dining', blurb: 'Covered kitchen with fridge, rice cooker and kettle.', x: 700, y: 172, zone: 'casita' },
-  { id: 'kubo', label: 'Kubo & billiards', photo: 'grounds-kubo-billiards-hammock', blurb: 'Nipa-roofed kubo with a billiard table and a hammock.', x: 300, y: 268, zone: 'shared' },
+  { id: 'kubo', label: 'Kubo & billiards', photo: 'grounds-kubo-billiards-hammock', blurb: 'Nipa-roofed kubo with a billiard table and a hammock.', x: 300, y: 156, zone: 'shared' },
   { id: 'function-area', label: 'Function area', photo: 'grounds-function-area-stage', blurb: 'Turfed area with a low stage and banquet seating, just west of the kitchen.', x: 538, y: 171, zone: 'shared' },
-  { id: 'half-court', label: 'Half court', photo: 'grounds-half-court', blurb: 'Concrete half basketball court.', x: 300, y: 148, zone: 'shared' },
+  { id: 'half-court', label: 'Half court', photo: 'grounds-half-court', blurb: 'Concrete half basketball court.', x: 300, y: 262, zone: 'shared' },
   { id: 'bonfire', label: 'Bonfire', photo: 'grounds-bonfire-pit', blurb: 'Stone fire pit ringed with carved log benches.', x: 430, y: 196, zone: 'shared' },
   { id: 'tent-area', label: 'Tent area', photo: 'grounds-tent-pitching-area', blurb: 'Shaded ground for pitching tents.', x: 452, y: 116, zone: 'shared' },
   /* The gazebo used to be one "Gazebo rooms" block. It is four separate things
@@ -161,18 +161,21 @@ export function PlanArtwork({ dimZone }: { dimZone?: (zone: 'casita' | 'gazebo')
       </g>
 
       {/* --- SHARED GROUNDS -------------------------------------------------- */}
-      {/* half court */}
-      <rect x="252" y="112" width="96" height="60" rx="3" fill="var(--color-pool-deep)" opacity="0.5" />
-      <circle cx="300" cy="142" r="15" fill="none" stroke="var(--color-paper)" strokeWidth="1.5" opacity="0.6" />
+      {/* Kubo and half court traded places on the owner's say-so: the kubo is
+          the northern one, the court sits below it. */}
 
       {/* kubo — hexagonal nipa roof */}
       <path
-        d="M300 232 L336 254 L336 292 L300 314 L264 292 L264 254 Z"
+        d="M300 120 L336 142 L336 180 L300 202 L264 180 L264 142 Z"
         fill="var(--color-brick)"
         opacity="0.75"
         stroke="var(--color-night)"
         strokeWidth="2"
       />
+
+      {/* half court */}
+      <rect x="252" y="232" width="96" height="60" rx="3" fill="var(--color-pool-deep)" opacity="0.5" />
+      <circle cx="300" cy="262" r="15" fill="none" stroke="var(--color-paper)" strokeWidth="1.5" opacity="0.6" />
 
       {/* Function area, immediately west of the kitchen and dining run — the
           owner's correction. Where you eat and where the food is cooked are
