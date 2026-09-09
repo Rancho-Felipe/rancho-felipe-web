@@ -69,6 +69,9 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
   },
   alternates: { canonical: '/' },
+  // Two independent proofs of ownership, so losing one does not unverify the
+  // property: the meta tag here and public/google8e5a11c02c81e839.html.
+  verification: { google: 'vIap6g9aM4s8OM8dXuNFP4eKY_E7ROzc4wBLcfDL5I4' },
 }
 
 export const viewport: Viewport = {
