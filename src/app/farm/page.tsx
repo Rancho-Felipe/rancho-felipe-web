@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   title: 'The Farm — Two Pools, Kubo, Half Court & Bonfire',
   description:
     'A plan of Rancho Felipe: two A-frame casitas and their pool, the gazebo and its pool, the kubo, half court, bonfire and tent area. Tap any part of the farm to see it.',
+  // Without its own block this page inherits the root layout's, which sets
+  // og:url to the homepage — telling every scraper and answer engine that this
+  // content really lives at '/'.
+  openGraph: {
+    title: 'The farm — two pools, kubo, half court and bonfire',
+    description:
+      'A plan of the whole farm: two A-frame casitas and their pool, the gazebo and its pool, the kubo, the half court and the bonfire.',
+    url: '/farm',
+  },
   alternates: { canonical: '/farm' },
 }
 

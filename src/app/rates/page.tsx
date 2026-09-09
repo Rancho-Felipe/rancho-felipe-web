@@ -12,6 +12,12 @@ export const metadata: Metadata = {
   title: 'Private Resort Rates in Rizal — Day Tour, Night Tour, 22 Hours',
   description:
     'Whole-unit prices for the Casita and the Gazebo at Rancho Felipe. Day tour, night tour or a 22-hour stay, covering up to 10 guests, with ₱300 per extra guest.',
+  openGraph: {
+    title: 'Rates — day tour, night tour or 22 hours',
+    description:
+      'Whole-unit prices for the Casita and the Gazebo. Up to 10 guests included, ₱300 for each extra guest.',
+    url: '/rates',
+  },
   alternates: { canonical: '/rates' },
 }
 

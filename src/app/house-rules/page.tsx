@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   title: 'House Rules — Videoke, Pets, Pool & Bonfire',
   description:
     'House rules for Rancho Felipe: videoke hours, pets, the pool, bonfires, parking and checking out.',
+  openGraph: {
+    title: 'House rules',
+    description:
+      'Videoke hours, pets, the pool, bonfires, parking and checking out. The few things that keep the farm yours while you are here.',
+    url: '/house-rules',
+  },
   alternates: { canonical: '/house-rules' },
 }
 

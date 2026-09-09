@@ -6,6 +6,12 @@ export const metadata: Metadata = {
   title: 'How to Get Here — Teresa, Rizal, an Hour from Manila',
   description:
     'How to reach Rancho Felipe in Teresa, Rizal — by car via the Aqua Joe water station, or by jeepney to Teresa Public Market and a tricycle to Maximiano Compound.',
+  openGraph: {
+    title: 'Getting here — Teresa, Rizal, an hour from Manila',
+    description:
+      'By car via the Aqua Joe water station, or by jeepney to Teresa Public Market and a tricycle to Maximiano Compound.',
+    url: '/getting-here',
+  },
   alternates: { canonical: '/getting-here' },
 }
 

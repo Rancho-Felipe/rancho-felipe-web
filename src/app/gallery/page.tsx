@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   title: 'Photos — Private Resort with Pool in Teresa, Rizal',
   description:
     'Photos of Rancho Felipe — the A-frame casitas, the gazebo, both pools, the kubo, the half court, the bonfire and the farm around them.',
+  openGraph: {
+    title: 'Photos of the farm',
+    description:
+      'The A-frame casitas, the gazebo, both pools, the kubo, the half court and the bonfire — all shot at the farm.',
+    url: '/gallery',
+  },
   alternates: { canonical: '/gallery' },
 }
 

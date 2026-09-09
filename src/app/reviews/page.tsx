@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   title: 'Guest Reviews — Private Resort in Teresa, Rizal',
   description:
     'What guests say about Rancho Felipe — real reviews left on Facebook and Airbnb by people who stayed at the farm in Teresa, Rizal.',
+  openGraph: {
+    title: 'What guests say',
+    description:
+      'Reviews left on Facebook and Airbnb by people who actually stayed at the farm in Teresa, Rizal.',
+    url: '/reviews',
+  },
   alternates: { canonical: '/reviews' },
 }
 
