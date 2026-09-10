@@ -36,9 +36,21 @@ export async function generateMetadata({
 
   /* The unit name alone ranked for nothing — nobody searches "The Private
      Casita". The place and the thing on offer have to be in the title, because
-     that is what gets typed. */
+     that is what gets typed.
+
+     The Casita's title is absolute so the "— Rancho Felipe" template does not
+     append to it. With the suffix it ran to seventy-seven characters and Google
+     was truncating the tail, which is exactly where "Teresa, Rizal" sat — the
+     part worth ranking for. "A-frame" earns its place because the cabins really
+     are unusual for the area and the phrase gets searched; the Gazebo has no
+     equivalent hook, so it keeps the shared title. */
+  const title =
+    unit === 'casita'
+      ? { absolute: 'The Private Casita — A-Frame Cabins & Private Pool, Teresa Rizal' }
+      : `${data.name} — Private Pool Resort in Teresa, Rizal`
+
   return {
-    title: `${data.name} — Private Pool Resort in Teresa, Rizal`,
+    title,
     description: `${data.shortDescription} Book the whole unit, one group at a time, from ₱${from.toLocaleString('en-PH')}. Day tour, night tour or 22-hour stay in Teresa, Rizal — an hour from Metro Manila.`,
     alternates: { canonical: `/${unit}` },
     openGraph: {

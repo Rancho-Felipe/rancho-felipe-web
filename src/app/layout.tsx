@@ -44,11 +44,23 @@ export const metadata: Metadata = {
   title: {
     // What someone actually types: the thing, the place, and the fact that you
     // get the whole of it.
-    default: 'Private Resort in Teresa, Rizal — Whole Place, Own Pool | Rancho Felipe',
+    //
+    // The name now comes first. Ten people searched "rancho felipe" in ninety
+    // days and none of them clicked through — Facebook and Airbnb outrank the
+    // site that carries the booking form, and a title that buried the name
+    // behind fifty-seven characters gave someone who typed it nothing to
+    // recognise. It is also shorter: the old one ran to seventy-three
+    // characters and Google was cutting it off. "Whole place" moves to the
+    // description, which still carries it, and the H1 says it outright.
+    default: 'Rancho Felipe — Private Resort in Teresa, Rizal with Own Pool',
     template: '%s — Rancho Felipe',
   },
+  // "pax" rather than only "guests": Filipino searchers put the headcount in
+  // the query far more than the phrasing here assumed, and the site did not
+  // use the word anywhere. Ten is the real included figure from policy.json,
+  // not a rounded-up marketing number.
   description:
-    'Private resort in Teresa, Rizal, an hour from Metro Manila. Book the whole place — two A-frame casitas or the gazebo, each with its own pool. Day tour, night tour or 22-hour stay from ₱3,500. One group at a time.',
+    'Private resort in Teresa, Rizal, an hour from Metro Manila. Book the whole place — two A-frame casitas or the gazebo, each with its own pool. Day tour, night tour or 22 hours, good for 10 pax, from ₱3,500. One group at a time.',
   openGraph: {
     type: 'website',
     locale: 'en_PH',
