@@ -16,7 +16,7 @@ export default function HomePage() {
       <Hero />
 
       {/* --- The two units ------------------------------------------------- */}
-      <section className="mx-auto max-w-6xl px-5 py-20">
+      <section className="reveal mx-auto max-w-6xl px-5 py-20">
         <h2 className="text-title font-display">Two places to stay.</h2>
         <p className="mt-3 max-w-xl text-lede text-stone">
           They sit on the same farm but book separately, each with its own pool. One group in the
@@ -32,13 +32,13 @@ export default function HomePage() {
               <Link
                 key={slug}
                 href={`/${slug}`}
-                className={`group block overflow-hidden rounded-2xl border border-night-edge bg-night-raised transition-colors ${ring}`}
+                className={`photo-group press block overflow-hidden rounded-2xl border border-night-edge bg-night-raised transition-colors ${ring}`}
               >
-                <div className="aspect-[4/3] overflow-hidden">
+                <div className="photo-frame aspect-[4/3]">
                   <Photo
                     slug={unit.featured}
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="p-6">
@@ -59,7 +59,7 @@ export default function HomePage() {
       </section>
 
       {/* --- What's on the farm -------------------------------------------- */}
-      <section className="border-y border-night-edge bg-night-raised">
+      <section className="reveal border-y border-night-edge bg-night-raised">
         <div className="mx-auto max-w-6xl px-5 py-20">
           <h2 className="text-title font-display">What&apos;s on the farm</h2>
           {/* Every card is the same 4:3, so the grid stays even. What changes is
@@ -109,7 +109,7 @@ export default function HomePage() {
                 key={item.slug}
                 className="flex flex-col overflow-hidden rounded-xl border border-night-edge bg-night"
               >
-                <div className="aspect-[4/3] overflow-hidden">
+                <div className="photo-frame aspect-[4/3]">
                   <Photo
                     slug={item.slug}
                     focus={item.focus}
@@ -128,7 +128,7 @@ export default function HomePage() {
       </section>
 
       {/* --- Reviews -------------------------------------------------------- */}
-      <section className="mx-auto max-w-6xl px-5 py-20">
+      <section className="reveal mx-auto max-w-6xl px-5 py-20">
         <h2 className="text-title font-display">What guests say</h2>
         <p className="mt-3 text-sm text-stone">
           Left on Facebook and Airbnb by people who stayed.
@@ -143,7 +143,7 @@ export default function HomePage() {
               key={review.id}
               className="flex flex-col overflow-hidden rounded-xl border border-night-edge bg-night-raised"
             >
-              <div className="aspect-[16/10] overflow-hidden">
+              <div className="photo-frame aspect-[16/10]">
                 <Photo
                   slug={review.guestPhoto}
                   sizes="(min-width: 768px) 33vw, 100vw"
@@ -183,7 +183,7 @@ export default function HomePage() {
       </section>
 
       {/* --- Getting here --------------------------------------------------- */}
-      <section className="border-t border-night-edge bg-night-raised">
+      <section className="reveal border-t border-night-edge bg-night-raised">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2 md:items-center">
           <div>
             <h2 className="text-title font-display">An hour from the city</h2>
@@ -201,7 +201,7 @@ export default function HomePage() {
               Directions and landmarks
             </Link>
           </div>
-          <div className="overflow-hidden rounded-2xl border border-night-edge">
+          <div className="photo-frame rounded-2xl border border-night-edge">
             <Photo
               slug="grounds-aerial-property"
               sizes="(min-width: 768px) 50vw, 100vw"

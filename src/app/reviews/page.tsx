@@ -47,7 +47,7 @@ export default async function ReviewsPage() {
         )}
       </section>
 
-      <section className="mx-auto mt-10 max-w-4xl px-5">
+      <section className="reveal mx-auto mt-10 max-w-4xl px-5">
         <ul className="space-y-5">
           {reviews.map((review) => (
             <li
@@ -57,7 +57,7 @@ export default async function ReviewsPage() {
               {/* The guests themselves, not the review card — that card has the
                   same words printed on it that sit right next to it here. */}
               {review.guestPhotoSlug && (
-                <div className="w-full shrink-0 overflow-hidden rounded-xl sm:w-56">
+                <div className="photo-frame w-full shrink-0 rounded-xl sm:w-56">
                   <Photo
                     slug={review.guestPhotoSlug}
                     sizes="(min-width: 640px) 14rem, 100vw"

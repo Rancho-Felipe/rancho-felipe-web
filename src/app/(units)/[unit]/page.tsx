@@ -105,14 +105,14 @@ export default async function UnitPage({
         </dl>
       </section>
 
-      <section className="mx-auto mt-10 max-w-6xl px-5">
-        <div className="overflow-hidden rounded-2xl border border-night-edge">
+      <section className="reveal mx-auto mt-10 max-w-6xl px-5">
+        <div className="photo-frame rounded-2xl border border-night-edge">
           <Photo slug={data.featured} sizes="100vw" className="w-full object-cover" priority />
         </div>
       </section>
 
       {/* --- Rates ---------------------------------------------------------- */}
-      <section className="mx-auto mt-20 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-20 max-w-6xl px-5">
         <h2 className="text-title font-display">Rates</h2>
         <p className="mt-3 max-w-xl text-sm text-stone">
           Whole-unit prices. {policy.deposit.percent}% secures the date, the balance is paid on
@@ -147,7 +147,7 @@ export default async function UnitPage({
       </section>
 
       {/* --- Amenities ------------------------------------------------------ */}
-      <section className="mx-auto mt-20 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-20 max-w-6xl px-5">
         <h2 className="text-title font-display">What&apos;s included</h2>
         <ul className="mt-8 grid gap-x-8 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-3">
           {data.amenities.map((item) => (
@@ -160,7 +160,7 @@ export default async function UnitPage({
       </section>
 
       {/* --- Gallery -------------------------------------------------------- */}
-      <section className="mx-auto mt-20 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-20 max-w-6xl px-5">
         <h2 className="text-title font-display">Look around</h2>
         <div className="mt-8">
           <Gallery slugs={data.gallery} />
@@ -168,7 +168,7 @@ export default async function UnitPage({
       </section>
 
       {/* --- Walkthrough video ---------------------------------------------- */}
-      <section className="mx-auto mt-20 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-20 max-w-6xl px-5">
         <h2 className="text-title font-display">Walk through it</h2>
         <p className="mt-3 max-w-xl text-sm text-stone">
           Filmed on the property. {Math.round(clip.durationSec)} seconds, sound on.
@@ -189,7 +189,7 @@ export default async function UnitPage({
       </section>
 
       {/* --- Book ----------------------------------------------------------- */}
-      <section className="mx-auto mt-20 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-20 max-w-6xl px-5">
         <div className="rounded-2xl border border-night-edge bg-night-raised p-8 sm:p-12">
           <h2 className="text-title font-display">Book {data.name.replace('The ', 'the ')}</h2>
           <p className="mt-3 max-w-lg text-sm text-stone">

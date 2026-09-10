@@ -46,14 +46,14 @@ export default async function FarmPage() {
         </p>
       </section>
 
-      <section className="mx-auto mt-10 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-10 max-w-6xl px-5">
         <SiteMap initialDate={today} initialUnits={units} photos={photos} />
         <p className="mt-3 text-xs text-stone">
           The plan is drawn to show what&apos;s where, not to scale.
         </p>
       </section>
 
-      <section className="mx-auto mt-20 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-20 max-w-6xl px-5">
         <h2 className="text-title font-display">Around the grounds</h2>
         <div className="mt-8">
           <Gallery slugs={grounds.gallery} />

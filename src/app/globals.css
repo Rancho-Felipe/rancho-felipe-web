@@ -156,6 +156,140 @@
     color: var(--color-paper);
   }
 
+  /* --- photographs -------------------------------------------------------
+     Put .photo-frame on the element that receives the pointer — the button or
+     the link, not a wrapper around it — so :hover, :focus-visible and :active
+     all resolve on the same element and keyboard users get the same treatment
+     as mouse users.
+
+     Three things happen, in order of how much they matter: the image scales,
+     a band of light crosses the frame once, and a scrim lifts so a caption can
+     be read over the photograph. */
+  .photo-frame {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .photo-frame img {
+    /* Long, decelerating ease. A linear zoom on a photograph reads as a
+       slideshow; this reads as the picture leaning towards you. */
+    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* The sweep. Sits above the image and below the scrim, and is inert to the
+     pointer so it can never eat a click. */
+  .photo-frame::before {
+    content: '';
+    position: absolute;
+    inset: -25% -70%;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 42%,
+      color-mix(in srgb, var(--color-paper) 20%, transparent) 50%,
+      transparent 58%
+    );
+  }
+
+  /* Hover effects only where a pointer can actually hover. On a phone these
+     rules would fire on tap and then stick until the next tap elsewhere,
+     which is the classic sticky-hover bug. */
+  @media (hover: hover) {
+    .photo-frame:hover img,
+    .photo-frame:focus-visible img {
+      transform: scale(1.055);
+    }
+
+    .photo-frame:hover::before,
+    .photo-frame:focus-visible::before {
+      animation: photo-sweep 780ms ease-out;
+    }
+  }
+
+  /* Touch gets the zoom on press instead, so tapping still feels answered. */
+  .photo-frame:active img {
+    transform: scale(1.03);
+  }
+
+  /* A card whose photograph is only part of it — a picture above a title and a
+     price, all inside one link. Put .photo-group on the link and .photo-frame
+     on the box around the image: hovering anywhere on the card then animates
+     the photograph, which is what the whole card being one target implies.
+     Without this the image would only respond when the pointer happened to be
+     over the image itself, and the bottom half of the card would feel dead. */
+  @media (hover: hover) {
+    .photo-group:hover .photo-frame img,
+    .photo-group:focus-visible .photo-frame img {
+      transform: scale(1.055);
+    }
+
+    .photo-group:hover .photo-frame::before,
+    .photo-group:focus-visible .photo-frame::before {
+      animation: photo-sweep 780ms ease-out;
+    }
+  }
+
+  /* The press. A short, small scale-down is the whole vocabulary of "that
+     tap registered" — it wants to be quick enough to finish before the
+     lightbox opens over it. */
+  .press {
+    transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .press:active {
+    transform: scale(0.975);
+  }
+
+  /* Caption and affordance, revealed over the scrim. Both start translated
+     rather than display:none so there is nothing to lay out on hover. */
+  .photo-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--color-night) 88%, transparent) 0%,
+      color-mix(in srgb, var(--color-night) 40%, transparent) 42%,
+      transparent 70%
+    );
+    transition: opacity 320ms ease;
+  }
+
+  .photo-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+    padding: 0.7rem 0.8rem;
+    text-align: left;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 320ms ease,
+      transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) {
+    .photo-frame:hover .photo-scrim,
+    .photo-frame:focus-visible .photo-scrim,
+    .photo-frame:hover .photo-caption,
+    .photo-frame:focus-visible .photo-caption {
+      opacity: 1;
+    }
+
+    .photo-frame:hover .photo-caption,
+    .photo-frame:focus-visible .photo-caption {
+      transform: none;
+    }
+  }
+
   /* Scroll reveal, driven by the scroll position itself rather than by an
      IntersectionObserver, so it costs no JavaScript, no hydration and no main
      thread work.
@@ -182,6 +316,25 @@
         animation-range: entry 4% cover 24%;
       }
     }
+  }
+}
+
+/* One pass of light across a photograph on hover. Opacity is keyed so the band
+   fades in and out inside the frame rather than appearing at its edge. */
+@keyframes photo-sweep {
+  from {
+    transform: translateX(-55%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(55%);
+    opacity: 0;
   }
 }
 

@@ -64,12 +64,12 @@ export function GalleryClient({ items }: { items: GallerySource[] }) {
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      <ul className="reveal-stagger grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {items.map((item, index) => (
           <li key={item.slug}>
             <button
               type="button"
-              className="group block w-full overflow-hidden rounded-lg border border-night-edge bg-night-raised"
+              className="photo-frame press block w-full rounded-lg border border-night-edge bg-night-raised"
               onClick={(event) => {
                 openerRef.current = event.currentTarget
                 setOpenIndex(index)
@@ -86,9 +86,21 @@ export function GalleryClient({ items }: { items: GallerySource[] }) {
                   height={item.height}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  className="aspect-[4/3] w-full object-cover"
                 />
               </picture>
+
+              {/* Both hidden from assistive tech: the caption repeats the alt
+                  text that the sr-only line above already announces, and the
+                  affordance is describing a mouse gesture. */}
+              <span className="photo-scrim" aria-hidden="true" />
+              <span className="photo-caption" aria-hidden="true">
+                <span className="line-clamp-2 text-xs leading-snug text-paper">{item.alt}</span>
+                <span className="mt-1.5 flex items-center gap-1.5 font-data text-[10px] tracking-widest text-stone uppercase">
+                  <ExpandMark />
+                  Enlarge
+                </span>
+              </span>
             </button>
           </li>
         ))}
@@ -157,5 +169,14 @@ export function GalleryClient({ items }: { items: GallerySource[] }) {
         )}
       </dialog>
     </>
+  )
+}
+
+/** Four corners pulling apart — the standard "this opens bigger" mark. */
+function ExpandMark() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+      <path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6" />
+    </svg>
   )
 }

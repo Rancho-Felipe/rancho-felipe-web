@@ -52,7 +52,7 @@ export default function GettingHerePage() {
         </div>
       </section>
 
-      <section className="mx-auto mt-10 max-w-4xl px-5">
+      <section className="reveal mx-auto mt-10 max-w-4xl px-5">
         <div className="overflow-hidden rounded-2xl border border-night-edge">
           <iframe
             src={embed}
@@ -66,7 +66,7 @@ export default function GettingHerePage() {
         </div>
       </section>
 
-      <section className="mx-auto mt-14 max-w-4xl px-5">
+      <section className="reveal mx-auto mt-14 max-w-4xl px-5">
         <div className="grid gap-10 md:grid-cols-2">
           <div>
             <h2 className="font-display text-xl">Driving</h2>
@@ -99,14 +99,14 @@ export default function GettingHerePage() {
         </div>
       </section>
 
-      <section className="mx-auto mt-14 max-w-4xl px-5">
+      <section className="reveal mx-auto mt-14 max-w-4xl px-5">
         <div className="overflow-hidden rounded-2xl border border-night-edge">
           <Photo slug="directions-infographic" sizes="(min-width: 768px) 56rem, 100vw" className="w-full" />
         </div>
         <p className="mt-3 text-xs text-stone">The resort&apos;s own directions card.</p>
       </section>
 
-      <section className="mx-auto mt-14 max-w-4xl px-5">
+      <section className="reveal mx-auto mt-14 max-w-4xl px-5">
         <h2 className="text-title font-display">Lost on the way?</h2>
         <p className="mt-3 text-sm text-stone">
           Call and someone will talk you in. The same number reaches both units.

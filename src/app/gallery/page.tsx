@@ -92,11 +92,11 @@ export default async function GalleryPage({
         </nav>
       </section>
 
-      <section className="mx-auto mt-8 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-8 max-w-6xl px-5">
         <Gallery slugs={slugs} />
       </section>
 
-      <section className="mx-auto mt-16 max-w-6xl px-5">
+      <section className="reveal mx-auto mt-16 max-w-6xl px-5">
         <h2 className="text-title font-display">Walk through it</h2>
         <p className="mt-3 max-w-xl text-sm text-stone">
           Filmed on the property, one clip per unit.

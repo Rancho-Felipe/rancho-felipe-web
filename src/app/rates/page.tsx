@@ -46,7 +46,7 @@ export default async function RatesPage() {
 
       {/* Before the prices, because the first thing anyone works out is which
           package they want, and that decision is about hours rather than pesos. */}
-      <section className="mx-auto mt-12 max-w-4xl px-5">
+      <section className="reveal mx-auto mt-12 max-w-4xl px-5">
         <StayWindows />
       </section>
 
@@ -65,7 +65,7 @@ export default async function RatesPage() {
       })}
 
       {/* --- extras --------------------------------------------------------- */}
-      <section className="mx-auto mt-16 max-w-4xl px-5">
+      <section className="reveal mx-auto mt-16 max-w-4xl px-5">
         <h2 className="text-title font-display">Extras</h2>
         <dl className="mt-6 divide-y divide-stone/15 border-y border-stone/15">
           <Extra
@@ -105,7 +105,7 @@ export default async function RatesPage() {
       </section>
 
       {/* --- policies ------------------------------------------------------- */}
-      <section id="policies" className="mx-auto mt-16 max-w-4xl px-5 pb-4">
+      <section id="policies" className="reveal mx-auto mt-16 max-w-4xl px-5 pb-4">
         <h2 className="text-title font-display">Paying and cancelling</h2>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">

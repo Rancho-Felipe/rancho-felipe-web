@@ -36,7 +36,7 @@ export default async function HouseRulesPage() {
         </p>
       </section>
 
-      <section className="mx-auto mt-10 max-w-3xl px-5">
+      <section className="reveal mx-auto mt-10 max-w-3xl px-5">
         <ul className="divide-y divide-stone/15 border-y border-stone/15">
           {rules.map((rule) => (
             <li key={rule} className="flex gap-4 py-4">
@@ -47,12 +47,12 @@ export default async function HouseRulesPage() {
         </ul>
       </section>
 
-      <section className="mx-auto mt-12 max-w-3xl px-5">
+      <section className="reveal mx-auto mt-12 max-w-3xl px-5">
         <h2 className="font-display text-xl">Is it safe?</h2>
         <p className="mt-3 text-sm text-stone">{policy.security.$copy}</p>
       </section>
 
-      <section className="mx-auto mt-12 max-w-3xl px-5 pb-4">
+      <section className="reveal mx-auto mt-12 max-w-3xl px-5 pb-4">
         <h2 className="font-display text-xl">If plans change</h2>
         <p className="mt-3 text-sm text-stone">
           The {policy.deposit.percent}% deposit isn&apos;t refundable, but your date can be moved —
