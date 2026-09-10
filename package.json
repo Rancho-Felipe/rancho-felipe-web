@@ -18,7 +18,8 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "paymongo:webhook": "tsx scripts/paymongo-webhook.ts"
+    "paymongo:webhook": "tsx scripts/paymongo-webhook.ts",
+    "seo:indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",
