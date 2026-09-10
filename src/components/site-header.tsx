@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { BrandEmblem } from '@/components/brand-logo'
 import { SiteNavWide, SiteNavNarrow } from '@/components/site-nav'
+import { SocialIconRow } from '@/components/social-links'
 
 /** The A-frame silhouette, for places that want a mark without loading an image. */
 export function AFrameMark({ className = 'h-6 w-6' }: { className?: string }) {
@@ -25,14 +26,24 @@ export function SiteHeader() {
 
           <SiteNavWide />
 
-          <Link
-            href="/book"
-            className="ml-auto shrink-0 rounded-full bg-pool px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-pool-deep lg:ml-0"
-          >
-            {/* "Check availability" is too wide beside the logo on a small phone. */}
-            <span className="sm:hidden">Book</span>
-            <span className="hidden sm:inline">Check availability</span>
-          </Link>
+          {/* The nav carries its own ml-auto and disappears below lg, so the
+              right-hand items are grouped and the group does the pushing. Two
+              elements fighting over ml-auto is how headers end up crooked at
+              one breakpoint and nobody notices for a month. */}
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 lg:ml-0">
+            {/* On a small phone the row would sit on top of the Book button;
+                the footer carries the same three links for that case. */}
+            <SocialIconRow className="hidden sm:flex" />
+
+            <Link
+              href="/book"
+              className="shrink-0 rounded-full bg-pool px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-pool-deep"
+            >
+              {/* "Check availability" is too wide beside the logo on a small phone. */}
+              <span className="sm:hidden">Book</span>
+              <span className="hidden sm:inline">Check availability</span>
+            </Link>
+          </div>
         </div>
 
         <SiteNavNarrow />

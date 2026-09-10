@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { BrandLockup } from '@/components/brand-logo'
+import { SocialList } from '@/components/social-links'
 import { business, contact, links, OWNER_EMAIL } from '@/lib/content'
 
 export function SiteFooter() {
@@ -11,6 +12,12 @@ export function SiteFooter() {
           <p className="mt-3 max-w-xs text-sm text-stone">
             A private farm resort in Teresa, Rizal. Booked one group at a time.
           </p>
+
+          {/* Under the mark rather than buried in a link list. Most people who
+              find this farm find it on Facebook or TikTok first, and the
+              handles are worth showing in full — they are what gets searched. */}
+          <h2 className="eyebrow mt-7">Follow the farm</h2>
+          <SocialList />
         </div>
 
         <div>
@@ -55,13 +62,8 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h2 className="eyebrow">Elsewhere</h2>
+          <h2 className="eyebrow">Book elsewhere</h2>
           <ul className="mt-3 space-y-1.5 text-sm text-stone">
-            <li>
-              <a href={links.facebook} target="_blank" rel="noreferrer" className="hover:text-paper">
-                Facebook
-              </a>
-            </li>
             <li>
               <a
                 href={links.airbnbCasita}
@@ -80,6 +82,19 @@ export function SiteFooter() {
                 className="hover:text-paper"
               >
                 Gazebo on Airbnb
+              </a>
+            </li>
+            {/* The farm runs two Facebook pages. The one in "Follow the farm"
+                above is the one to lead with; this is the other, kept because
+                it is live and people arrive through it. */}
+            <li>
+              <a
+                href={links.facebookTeresa}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-paper"
+              >
+                Second Facebook page
               </a>
             </li>
           </ul>

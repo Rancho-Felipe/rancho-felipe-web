@@ -128,6 +128,107 @@
   .hairline {
     border-color: color-mix(in srgb, var(--color-stone) 30%, transparent);
   }
+
+  /* Social marks. At rest they sit back in stone with the rest of the footer
+     type; on hover each takes its own platform colour. That is the one place
+     on this site where a colour from outside the palette is allowed, because
+     recognising the mark instantly is the entire job of a platform logo. */
+  .social-dot {
+    background: color-mix(in srgb, var(--color-stone) 12%, transparent);
+    color: var(--color-stone);
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  a.social-dot:hover,
+  a.social-dot:focus-visible,
+  a:hover > .social-dot,
+  a:focus-visible > .social-dot {
+    color: var(--brand);
+    background: color-mix(in srgb, var(--brand) 16%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .social-row:hover,
+  .social-row:focus-visible {
+    color: var(--color-paper);
+  }
+
+  /* Scroll reveal, driven by the scroll position itself rather than by an
+     IntersectionObserver, so it costs no JavaScript, no hydration and no main
+     thread work.
+
+     The @supports guard is the important part. Where animation-timeline is
+     missing — Safari and Firefox, at time of writing — the rule never applies
+     and the content is simply present. Nothing here may ever leave text at
+     opacity 0 waiting for a script: this site's entire problem is that Google
+     has crawled two of its nine pages, and a crawler that sees an empty page
+     is a worse outcome than no animation at all. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 8% cover 26%;
+      }
+
+      /* Staggering by nth-child rather than by inline delay, so a list can be
+         marked up once and still arrive in sequence. */
+      .reveal-stagger > * {
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 4% cover 24%;
+      }
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The stay-window bars. The drift is a slow horizontal shift of a faint stripe
+   overlay — no opacity change on the bar itself, so the hour label sitting on
+   top never becomes unreadable partway through. */
+@keyframes pool-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 28px 0;
+  }
+}
+
+.stay-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.stay-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--color-paper) 14%, transparent) 0 2px,
+    transparent 2px 14px
+  );
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stay-bar::after {
+    animation: pool-drift 2.4s linear infinite;
+  }
 }
 
 /* Motion is used in exactly two places: the page-load sequence in the hero and

@@ -141,9 +141,22 @@ export default function RootLayout({
                 'Private farm resort in Teresa, Rizal, booked exclusively one group at a time. Two A-frame casitas and a separate gazebo, each with its own pool.',
               image: `${SITE}/og.jpg`,
               // Both units are listed on Airbnb and the resort answers on
-              // Facebook. sameAs is how Google ties those to this site and
-              // treats them as one business rather than three strangers.
-              sameAs: [links.facebook, links.airbnbCasita, links.airbnbGazebo].filter(Boolean),
+              // Facebook, Instagram and TikTok. sameAs is how Google ties those
+              // to this site and treats them as one business rather than six
+              // strangers.
+              //
+              // This matters more here than it usually would. The only query
+              // this site ranks for is its own name, and it loses every click
+              // on it to the Facebook page — because Google has no evidence the
+              // two are the same business. These six URLs are that evidence.
+              sameAs: [
+                links.facebook,
+                links.facebookTeresa,
+                links.instagram,
+                links.tiktok,
+                links.airbnbCasita,
+                links.airbnbGazebo,
+              ].filter(Boolean),
               priceRange: '₱3,500–₱12,000',
               currenciesAccepted: 'PHP',
               paymentAccepted: 'GCash, Maya, Credit Card, QR Ph, Bank transfer',

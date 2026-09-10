@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { RateTable } from '@/components/rate-table'
+import { StayWindows } from '@/components/infographic/stay-windows'
 import { peso, policy, payment, UNIT_ORDER, getUnit } from '@/lib/content'
 import { getSettings } from '@/lib/settings'
 import { payMongoConfigured } from '@/lib/payments/paymongo'
@@ -39,8 +40,14 @@ export default async function RatesPage() {
         <h1 className="mt-3 text-title font-display">Rates</h1>
         <p className="mt-4 max-w-2xl text-lede text-stone">
           You book the whole unit — pool, rooms and all — not a room in someone else&apos;s
-          weekend. Every price below covers up to {policy.guests.includedGuests} guests.
+          weekend. Every price below covers up to {policy.guests.includedGuests} pax.
         </p>
+      </section>
+
+      {/* Before the prices, because the first thing anyone works out is which
+          package they want, and that decision is about hours rather than pesos. */}
+      <section className="mx-auto mt-12 max-w-4xl px-5">
+        <StayWindows />
       </section>
 
       {UNIT_ORDER.map((slug) => {
