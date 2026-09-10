@@ -26,11 +26,17 @@ export function SiteHeader() {
 
           <SiteNavWide />
 
-          {/* The nav carries its own ml-auto and disappears below lg, so the
+          {/* The nav carries its own ml-auto and disappears below xl, so the
               right-hand items are grouped and the group does the pushing. Two
               elements fighting over ml-auto is how headers end up crooked at
-              one breakpoint and nobody notices for a month. */}
-          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 lg:ml-0">
+              one breakpoint and nobody notices for a month.
+
+              The inline nav moved from lg to xl when Events made it eight
+              links: at exactly 1024px the row wrapped and the Book button ran
+              three pixels past the viewport. Between 1024 and 1280 the narrow
+              scrolling row is used instead, which keeps the social marks in
+              the bar at every width. */}
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 xl:ml-0">
             {/* On a small phone the row would sit on top of the Book button;
                 the footer carries the same three links for that case. */}
             <SocialIconRow className="hidden sm:flex" />

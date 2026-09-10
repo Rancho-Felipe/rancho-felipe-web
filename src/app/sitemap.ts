@@ -28,6 +28,9 @@ const pages: Array<{
   // The plan was redrawn the way the owner says the farm is actually arranged.
   { path: '/farm', revised: '2026-08-17', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/rates', revised: '2026-08-16', priority: 0.8, changeFrequency: 'monthly' },
+  // New on 10 September. Priority sits with the unit pages: it is the only page
+  // aimed at the occasion searches, and those bookings are the large ones.
+  { path: '/events', revised: '2026-09-10', priority: 0.9, changeFrequency: 'monthly' },
   { path: '/gallery', revised: '2026-08-16', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/reviews', revised: '2026-08-16', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/getting-here', revised: '2026-08-16', priority: 0.7, changeFrequency: 'monthly' },

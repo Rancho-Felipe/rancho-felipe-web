@@ -101,9 +101,39 @@ export function SiteFooter() {
         </div>
       </div>
 
+      {/* A band rather than one more entry in a link list. Someone scrolling to
+          the bottom of a page about a weekend for ten is exactly the person who
+          has not yet realised they could put a whole debut here, and the
+          footer is the last place left to tell them. */}
+      <div className="border-t border-night-edge bg-pool/8">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-5 py-6">
+          <div>
+            <p className="eyebrow text-pool-lift">Birthdays · Reunions · Team building</p>
+            <p className="mt-1.5 text-sm text-paper">
+              The whole farm, one group, a stage and a half court.
+            </p>
+          </div>
+          <Link
+            href="/events"
+            className="group flex items-center gap-2 rounded-full border border-pool/50 px-5 py-2.5 text-sm text-paper transition-colors hover:border-pool hover:bg-pool/15"
+          >
+            Book it for an event
+            <span
+              aria-hidden="true"
+              className="transition-transform duration-200 group-hover:translate-x-0.5"
+            >
+              →
+            </span>
+          </Link>
+        </div>
+      </div>
+
       <div className="border-t border-night-edge">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-5 text-xs text-stone">
           <p>© {new Date().getFullYear()} Rancho Felipe</p>
+          <Link href="/events" className="hover:text-paper">
+            Events
+          </Link>
           <Link href="/house-rules" className="hover:text-paper">
             House rules
           </Link>

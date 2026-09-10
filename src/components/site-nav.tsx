@@ -3,10 +3,18 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+/* The definite articles are gone from the first three. "The Casita" is the
+   unit's name and stays that everywhere else on the site, but an eighth link
+   pushed this row onto two lines at 1280px, and three redundant "The"s were
+   the cheapest twelve characters on the bar — cheaper than shortening a label
+   someone actually navigates by, or hiding the social marks. */
 export const NAV = [
-  { href: '/casita', label: 'The Casita' },
-  { href: '/gazebo', label: 'The Gazebo' },
+  { href: '/casita', label: 'Casita' },
+  { href: '/gazebo', label: 'Gazebo' },
   { href: '/farm', label: 'The Farm' },
+  // Sits with the place rather than with the practicalities: someone planning a
+  // debut is choosing a venue, not comparing rate cards.
+  { href: '/events', label: 'Events' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/rates', label: 'Rates' },
   { href: '/reviews', label: 'Reviews' },
@@ -23,7 +31,7 @@ export function SiteNavWide() {
   const isCurrent = useIsCurrent()
 
   return (
-    <nav aria-label="Main" className="ml-auto hidden lg:block">
+    <nav aria-label="Main" className="ml-auto hidden xl:block">
       <ul className="flex items-center gap-6 text-sm">
         {NAV.map((item) => (
           <li key={item.href}>
@@ -55,7 +63,7 @@ export function SiteNavNarrow() {
   const isCurrent = useIsCurrent()
 
   return (
-    <nav aria-label="Main" className="relative lg:hidden">
+    <nav aria-label="Main" className="relative xl:hidden">
       <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <ul className="flex w-max items-center gap-2 px-5 pb-3">
           {NAV.map((item) => (
