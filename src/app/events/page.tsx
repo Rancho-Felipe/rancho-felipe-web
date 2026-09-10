@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Photo } from '@/components/photo'
-import { getUnit, peso, policy } from '@/lib/content'
+import { getUnit, grounds, peso, policy } from '@/lib/content'
 
 /* The one page the site was missing.
  *
@@ -17,11 +17,16 @@ import { getUnit, peso, policy } from '@/lib/content'
  * function area, the real court and the real table before they commit. */
 
 export const metadata: Metadata = {
-  title: 'Private Resort for Birthdays, Reunions & Team Building in Rizal',
+  /* Absolute, so the "— Rancho Felipe" template does not append. With the
+     suffix the first version of this ran to seventy-nine characters and Google
+     would have cut the tail off — the same mistake the Casita page had.
+     "50 pax" earns its place now that the number is confirmed: guest-count
+     queries are how this market searches, and nobody else is claiming it. */
+  title: { absolute: 'Private Resort for Birthdays & Reunions in Rizal — 50 Pax' },
   description:
-    'Take the whole farm in Teresa, Rizal for a birthday, a family reunion or a team building day. Function area with a stage, half court, two pools, bonfire and unlimited videoke, an hour from Metro Manila.',
+    'Take the whole farm in Teresa, Rizal for a birthday, a family reunion or a team building day. Sleeps 50 in rooms and more with tents. Function area with a stage, half court, two pools, bonfire and unlimited videoke, an hour from Metro Manila.',
   openGraph: {
-    title: 'Events at Rancho Felipe — the whole farm, one group',
+    title: 'Events at Rancho Felipe — 50 pax, and more with tents',
     description:
       'Birthdays, reunions and team building on a private farm in Teresa, Rizal. Function area, half court, two pools and a bonfire.',
     url: '/events',
@@ -55,6 +60,7 @@ export default function EventsPage() {
   const casita = getUnit('casita')
   const gazebo = getUnit('gazebo')
   const included = policy.guests.includedGuests
+  const inRooms = grounds.capacity.sleepingInRooms
 
   return (
     <>
@@ -80,8 +86,9 @@ export default function EventsPage() {
             Take the whole farm for the day.
           </h1>
           <p className="mt-4 max-w-2xl text-lede text-stone">
-            Birthdays, reunions and team building in Teresa, Rizal — an hour from Metro Manila,
-            with nobody else booked in around you.
+            Birthdays, reunions and team building in Teresa, Rizal. Fifty sleep in the rooms and
+            the tent area takes the rest, an hour from Metro Manila, with nobody else booked in
+            around you.
           </p>
         </div>
       </section>
@@ -116,33 +123,65 @@ export default function EventsPage() {
       <section className="reveal mx-auto mt-20 max-w-6xl px-5">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
           <div>
-            <h2 className="text-title font-display">How many of you fit</h2>
+            <h2 className="text-title font-display">Fifty in beds, and more on the grass</h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-stone">
-              The two units book separately, and each price covers {included} pax with{' '}
-              {peso(policy.guests.extraGuestFee)} for every guest after that. For a bigger group,
-              book both and the whole farm is yours.
+              {inRooms} sleep in the rooms across both units. Past that, the tent area takes
+              however many more you bring — which is why the number below does not stop at the
+              end of the bar.
             </p>
 
-            <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-night-edge bg-night-edge sm:grid-cols-3">
-              <div className="bg-night-raised p-5">
-                <dt className="eyebrow">The Casita</dt>
-                <dd className="mt-1.5 font-display text-2xl text-pool">up to {casita.capacity.max}</dd>
+            {/* The bar is the point: rooms are a fixed length, tents are not, so
+                the tent section runs off the end of it rather than being one
+                more equal segment. A stacked bar that added up to a tidy total
+                would say the opposite of what is true here. */}
+            <div className="mt-8 flex items-stretch gap-1.5" aria-hidden="true">
+              {/* Explicit widths, not flex-grow. Grow distributes the *free*
+                  space, so the digits sitting inside each segment skewed a
+                  30:20 bar to 1.45:1 — close enough to look right and wrong
+                  enough to be a lie in a graphic whose whole job is the
+                  proportion. */}
+              <div className="flex h-11 flex-[5] overflow-hidden rounded-lg">
+                <div
+                  className="flex items-center justify-center bg-pool text-xs font-semibold text-night"
+                  style={{ width: `${(casita.capacity.max / inRooms) * 100}%` }}
+                >
+                  {casita.capacity.max}
+                </div>
+                <div
+                  className="flex items-center justify-center bg-brick text-xs font-semibold text-night"
+                  style={{ width: `${(gazebo.capacity.max / inRooms) * 100}%` }}
+                >
+                  {gazebo.capacity.max}
+                </div>
               </div>
-              <div className="bg-night-raised p-5">
-                <dt className="eyebrow">The Gazebo</dt>
-                <dd className="mt-1.5 font-display text-2xl text-brick">up to {gazebo.capacity.max}</dd>
+              <div className="flex h-11 flex-[2] items-center justify-center rounded-lg border border-dashed border-field/70 bg-gradient-to-r from-field/20 to-transparent font-data text-[11px] tracking-wide text-field">
+                + tents
               </div>
-              <div className="bg-night-raised p-5">
-                <dt className="eyebrow">Both together</dt>
-                <dd className="mt-1.5 font-display text-2xl text-paper">
-                  up to {casita.capacity.max + gazebo.capacity.max}
-                </dd>
+            </div>
+
+            <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span aria-hidden="true" className="h-2.5 w-2.5 rounded-sm bg-pool" />
+                <dt className="text-stone">Casita</dt>
+                <dd className="font-data text-paper">{casita.capacity.max}</dd>
+              </div>
+              <div className="flex items-center gap-2">
+                <span aria-hidden="true" className="h-2.5 w-2.5 rounded-sm bg-brick" />
+                <dt className="text-stone">Gazebo</dt>
+                <dd className="font-data text-paper">{gazebo.capacity.max}</dd>
+              </div>
+              <div className="flex items-center gap-2">
+                <span aria-hidden="true" className="h-2.5 w-2.5 rounded-sm border border-dashed border-field/70" />
+                <dt className="text-stone">Tent area</dt>
+                <dd className="font-data text-paper">no fixed number</dd>
               </div>
             </dl>
 
-            <p className="mt-4 text-xs text-stone">
-              Planning for more than {casita.capacity.max + gazebo.capacity.max}? Message the
-              resort before you pay a deposit — better to hear yes or no now than on the day.
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-stone">
+              Sleeping space and price are separate things. Each unit&apos;s rate covers{' '}
+              {included} pax, and every guest above that adds{' '}
+              {peso(policy.guests.extraGuestFee)} — so a group of fifty is priced, not turned
+              away. Bringing tents? Say so when you book, so the ground is kept clear for you.
             </p>
           </div>
 
@@ -183,7 +222,7 @@ export default function EventsPage() {
                 'Two private pools',
                 'Kubo, billiards and a hammock',
                 'Bonfire pit — firewood ₱250',
-                'Tent-pitching area',
+                'Tent area — pitch as many as you bring',
                 'Unlimited videoke until 2:00 AM',
                 'Parking on the property',
               ].map((item) => (

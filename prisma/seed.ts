@@ -8,6 +8,8 @@
  *
  *   npm run db:seed
  */
+import manifest from '../content/manifest.json' with { type: 'json' }
+import policy from '../content/policy.json' with { type: 'json' }
 import { PrismaClient } from '../src/generated/prisma/client.ts'
 import { PrismaPg } from '@prisma/adapter-pg'
 import bcrypt from 'bcryptjs'
@@ -50,21 +52,30 @@ function nextDay(isoDate: string): string {
 async function main() {
   console.log('Seeding Rancho Felipe...')
 
-  // --- Units -------------------------------------------------------------
+  /* --- Units -------------------------------------------------------------
+     maxGuests and includedGuests are read from content/, not typed here.
+     They used to be typed here, which meant the same two numbers lived in
+     three places — the manifest, this file, and the row this file writes —
+     and they drifted: the site said the Casita slept 20 while the owner had
+     been advertising 50 across the property for months. One source now. */
   await db.unit.upsert({
     where: { id: 'casita' },
     create: {
       id: 'casita',
       name: 'The Private Casita',
       shortName: 'Casita',
-      maxGuests: 20,
-      includedGuests: 10,
+      maxGuests: manifest.units.casita.capacity.max,
+      includedGuests: policy.guests.includedGuests,
       extensionRate: 500,
       phone: '092-646-2149',
       airbnbUrl: 'https://airbnb.com/h/rachofelipeteresarizal',
       sortOrder: 1,
     },
-    update: { extensionRate: 500, maxGuests: 20, includedGuests: 10 },
+    update: {
+      extensionRate: 500,
+      maxGuests: manifest.units.casita.capacity.max,
+      includedGuests: policy.guests.includedGuests,
+    },
   })
 
   await db.unit.upsert({
@@ -73,14 +84,18 @@ async function main() {
       id: 'gazebo',
       name: 'The Private Gazebo',
       shortName: 'Gazebo',
-      maxGuests: 16,
-      includedGuests: 10,
+      maxGuests: manifest.units.gazebo.capacity.max,
+      includedGuests: policy.guests.includedGuests,
       extensionRate: 300,
       phone: '092-646-2149',
       airbnbUrl: 'https://airbnb.com/h/ranchofelipegazebo',
       sortOrder: 2,
     },
-    update: { extensionRate: 300, maxGuests: 16, includedGuests: 10 },
+    update: {
+      extensionRate: 300,
+      maxGuests: manifest.units.gazebo.capacity.max,
+      includedGuests: policy.guests.includedGuests,
+    },
   })
 
   // --- Rates --------------------------------------------------------------
