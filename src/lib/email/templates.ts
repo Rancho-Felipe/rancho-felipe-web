@@ -41,8 +41,16 @@ function peso(value: number): string {
   return `PHP ${value.toLocaleString('en-PH')}`
 }
 
+/* Every link in a guest's booking email is built from this. The fallback used
+   to be https://ranchofelipe.ph — a domain the resort does not own and which
+   is registered to someone else. The deployed environment sets
+   NEXT_PUBLIC_SITE_URL so live mail has always been correct, but if that
+   variable ever went missing, confirmation emails would have sent paying
+   guests to a stranger's domain. robots.ts and sitemap.ts had the same bug and
+   were fixed on 2026-09-09; this one was missed. It now falls back to where the
+   site actually is. */
 function siteUrl(): string {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ranchofelipe.ph'
+  return process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rancho-felipe-web.vercel.app'
 }
 
 function shell(title: string, accent: string, body: string): string {
