@@ -13,6 +13,7 @@ import {
   video,
   type UnitSlug,
 } from '@/lib/content'
+import { PriceLadder } from '@/components/infographic/price-ladder'
 
 export const dynamicParams = false
 
@@ -120,6 +121,13 @@ export default async function UnitPage({
         </p>
         <div className="mt-8">
           <RateTable unit={unit} />
+        </div>
+
+        {/* The table says what it costs; this says what happens when the group
+            is bigger than the price covers, which is the second half of the
+            question and the one the table cannot answer. */}
+        <div className="mt-10">
+          <PriceLadder unit={unit} />
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -4,6 +4,7 @@ import { HOTSPOTS } from '@/components/site-map/plan'
 import { Gallery } from '@/components/gallery-server'
 import { getDayView, firstBookableDate } from '@/lib/booking/availability'
 import { photoSources, grounds } from '@/lib/content'
+import { FarmAtAGlance } from '@/components/infographic/farm-at-a-glance'
 
 export const metadata: Metadata = {
   title: 'The Farm — Two Pools, Kubo, Half Court & Bonfire',
@@ -44,6 +45,10 @@ export default async function FarmPage() {
           The Casita and the Gazebo sit on the same farm but book separately. Pick a date and the
           map shows you what&apos;s open — tap anywhere on the plan to see it.
         </p>
+      </section>
+
+      <section className="reveal mx-auto mt-10 max-w-6xl px-5">
+        <FarmAtAGlance />
       </section>
 
       <section className="reveal mx-auto mt-10 max-w-6xl px-5">

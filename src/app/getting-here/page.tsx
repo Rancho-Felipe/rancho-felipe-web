@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Photo } from '@/components/photo'
 import { business, directions, links, contact } from '@/lib/content'
+import { Journey } from '@/components/infographic/journey'
 
 export const metadata: Metadata = {
   title: 'How to Get Here — Teresa, Rizal, an Hour from Manila',
@@ -67,36 +68,7 @@ export default function GettingHerePage() {
       </section>
 
       <section className="reveal mx-auto mt-14 max-w-4xl px-5">
-        <div className="grid gap-10 md:grid-cols-2">
-          <div>
-            <h2 className="font-display text-xl">Driving</h2>
-            <ol className="mt-4 space-y-4">
-              {directions.byCar.map((step, index) => (
-                <li key={index} className="flex gap-4">
-                  <span className="font-data text-sm text-pool">{index + 1}</span>
-                  <span className="text-sm text-stone">{step}</span>
-                </li>
-              ))}
-            </ol>
-            <p className="mt-5 rounded-lg border border-night-edge bg-night-raised px-4 py-3 text-sm text-stone">
-              The last stretch is rough road, but every vehicle gets through — cars and vans
-              included. Look for the{' '}
-              <span className="text-paper">{directions.landmark}</span>; that&apos;s your turn.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-xl">By commute</h2>
-            <ol className="mt-4 space-y-4">
-              {directions.byCommute.map((step, index) => (
-                <li key={index} className="flex gap-4">
-                  <span className="font-data text-sm text-brick">{index + 1}</span>
-                  <span className="text-sm text-stone">{step}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
+        <Journey />
       </section>
 
       <section className="reveal mx-auto mt-14 max-w-4xl px-5">

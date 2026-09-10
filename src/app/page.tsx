@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Hero } from '@/components/hero'
 import { Photo } from '@/components/photo'
 import { UNIT_ORDER, getUnit, peso, reviews, policy, links } from '@/lib/content'
+import { FarmAtAGlance } from '@/components/infographic/farm-at-a-glance'
 
 const GUESTS_INCLUDED = policy.guests.includedGuests
 
@@ -14,6 +15,12 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* Straight under the hero, because these four are what an enquiry asks
+          before it asks anything else, and they were spread across four pages. */}
+      <section className="mx-auto max-w-6xl px-5 pt-12">
+        <FarmAtAGlance />
+      </section>
 
       {/* --- The two units ------------------------------------------------- */}
       <section className="reveal mx-auto max-w-6xl px-5 py-20">

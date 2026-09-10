@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { db } from '@/lib/db'
 import { Photo } from '@/components/photo'
 import { links } from '@/lib/content'
+import { RatingSpread } from '@/components/infographic/rating-spread'
 
 export const metadata: Metadata = {
   title: 'Guest Reviews — Private Resort in Teresa, Rizal',
@@ -24,11 +25,6 @@ export default async function ReviewsPage() {
     orderBy: [{ featured: 'desc' }, { sortOrder: 'asc' }],
   })
 
-  const average =
-    reviews.length > 0
-      ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
-      : null
-
   return (
     <>
       <section className="mx-auto max-w-4xl px-5 pt-14">
@@ -39,12 +35,14 @@ export default async function ReviewsPage() {
           the website.
         </p>
 
-        {average && (
-          <p className="mt-6 font-data text-sm text-stone">
-            <span className="text-field">{'★'.repeat(Math.round(Number(average)))}</span>{' '}
-            <span className="text-paper">{average}</span> from {reviews.length} reviews
-          </p>
-        )}
+      </section>
+
+      {/* The spread replaces the bare average that used to sit here. Same data,
+          but a 4.8 from six reviews and a 4.8 from sixty are the same two
+          digits and completely different claims, and only one of those is
+          worth showing a stranger. */}
+      <section className="mx-auto mt-8 max-w-4xl px-5">
+        <RatingSpread ratings={reviews.map((review) => review.rating)} />
       </section>
 
       <section className="reveal mx-auto mt-10 max-w-4xl px-5">

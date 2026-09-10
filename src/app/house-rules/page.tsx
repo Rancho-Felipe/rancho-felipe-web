@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getSettings } from '@/lib/settings'
 import { houseRulesForGuests } from '@/lib/email/notify'
 import { policy } from '@/lib/content'
+import { HouseRulesAtAGlance } from '@/components/infographic/house-rules-at-a-glance'
 
 export const metadata: Metadata = {
   title: 'House Rules — Videoke, Pets, Pool & Bonfire',
@@ -34,6 +35,10 @@ export default async function HouseRulesPage() {
           The farm is yours while you&apos;re here. These are the few things that keep it that way
           for the next group.
         </p>
+      </section>
+
+      <section className="reveal mx-auto mt-10 max-w-3xl px-5">
+        <HouseRulesAtAGlance videokeCurfew={settings.videokeCurfew} />
       </section>
 
       <section className="reveal mx-auto mt-10 max-w-3xl px-5">
