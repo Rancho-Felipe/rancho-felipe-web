@@ -49,6 +49,17 @@ function nextDay(isoDate: string): string {
   return dt.toISOString().slice(0, 10)
 }
 
+/* contact.gazebo.mobile is an array and contact.casita.mobile is a string —
+   an artefact of the two units once having different numbers. One number now
+   reaches both, so flatten it here rather than teaching every caller the
+   difference. */
+const manifestContact = {
+  casitaPhone: manifest.contact.casita.mobile,
+  gazeboPhone: Array.isArray(manifest.contact.gazebo.mobile)
+    ? manifest.contact.gazebo.mobile[0]
+    : manifest.contact.gazebo.mobile,
+}
+
 async function main() {
   console.log('Seeding Rancho Felipe...')
 
@@ -67,7 +78,7 @@ async function main() {
       maxGuests: manifest.units.casita.capacity.max,
       includedGuests: policy.guests.includedGuests,
       extensionRate: 500,
-      phone: '092-646-2149',
+      phone: manifestContact.casitaPhone,
       airbnbUrl: 'https://airbnb.com/h/rachofelipeteresarizal',
       sortOrder: 1,
     },
@@ -75,6 +86,7 @@ async function main() {
       extensionRate: 500,
       maxGuests: manifest.units.casita.capacity.max,
       includedGuests: policy.guests.includedGuests,
+      phone: manifestContact.casitaPhone,
     },
   })
 
@@ -87,7 +99,7 @@ async function main() {
       maxGuests: manifest.units.gazebo.capacity.max,
       includedGuests: policy.guests.includedGuests,
       extensionRate: 300,
-      phone: '092-646-2149',
+      phone: manifestContact.gazeboPhone,
       airbnbUrl: 'https://airbnb.com/h/ranchofelipegazebo',
       sortOrder: 2,
     },
@@ -95,6 +107,7 @@ async function main() {
       extensionRate: 300,
       maxGuests: manifest.units.gazebo.capacity.max,
       includedGuests: policy.guests.includedGuests,
+      phone: manifestContact.gazeboPhone,
     },
   })
 

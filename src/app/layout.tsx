@@ -184,7 +184,12 @@ export default function RootLayout({
                 longitude: business.geo.lng,
               },
               hasMap: links.maps,
-              telephone: '092-646-2149',
+              // E.164 with the country code, because this one is read by
+              // machines rather than dialled off the screen — Google wants the
+              // international form for the knowledge panel and for the "call"
+              // button it renders. The pages keep the local 0926-… format that
+              // a Filipino guest expects to see.
+              telephone: '+63 926 646 2149',
               url: SITE,
               petsAllowed: true,
               // The three ways to book, priced. This is what can surface as a

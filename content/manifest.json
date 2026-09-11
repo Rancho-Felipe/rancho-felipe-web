@@ -24,7 +24,7 @@
   },
   "contact": {
     "casita": {
-      "mobile": "092-646-2149",
+      "mobile": "0926-646-2149",
       "channels": [
         "Viber",
         "WhatsApp",
@@ -34,7 +34,7 @@
     },
     "gazebo": {
       "mobile": [
-        "092-646-2149"
+        "0926-646-2149"
       ],
       "channels": [
         "Call",
@@ -43,7 +43,7 @@
     },
     "email": "casanovatraveltours@gmail.com",
     "$updated": "Owner instruction 2026-08-13: one number now reaches both units, replacing 0995-333-9526 (casita) and 0977-277-0716 / 0951-490-9094 (gazebo).",
-    "$check": "092-646-2149 is ten digits. Philippine mobile numbers are normally eleven, written 09XX-XXX-XXXX. Used exactly as given — worth confirming a digit was not dropped."
+    "$corrected": "Owner correction, 2026-09-11: the number is 0926-646-2149. It had been recorded as 092-646-2149 — ten digits, one short of a Philippine mobile — which was flagged at the time and is now confirmed as a dropped digit. Every caller who used the site, the booking emails or the Resort schema between launch and this date reached nothing."
   },
   "links": {
     "airbnbCasita": "https://airbnb.com/h/rachofelipeteresarizal",
