@@ -71,7 +71,11 @@ export function SiteNavNarrow() {
               <Link
                 href={item.href}
                 aria-current={isCurrent(item.href) ? 'page' : undefined}
-                className={`block whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
+                /* py-3 rather than py-1.5: these pills were 34px tall, and this
+                   is the whole of the site's navigation on a phone. Apple asks
+                   for 44px and Google for 48px; 34 is a thumb landing on the
+                   wrong link. 46px costs twelve pixels of header height. */
+                className={`block whitespace-nowrap rounded-full border px-3.5 py-3 text-sm transition-colors ${
                   isCurrent(item.href)
                     ? 'border-pool bg-night-raised text-paper'
                     : 'border-night-edge text-stone'

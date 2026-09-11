@@ -80,7 +80,7 @@ export default async function GalleryPage({
               key={filter.key}
               href={filter.key === 'all' ? '/gallery' : `/gallery?show=${filter.key}`}
               aria-current={active === filter.key ? 'true' : undefined}
-              className={`rounded-full border px-4 py-2 text-sm transition-colors ${
+              className={`rounded-full border px-4 py-3 text-sm transition-colors ${
                 active === filter.key
                   ? 'border-pool bg-night-raised text-paper'
                   : 'border-night-edge text-stone hover:border-stone/50'

@@ -67,20 +67,30 @@ export default function EventsPage() {
       {/* The illustration runs full-bleed behind the title. It is the one place
           on the site where a drawing leads, and it can, because it is drawn —
           nobody arrives expecting the picture. */}
+      {/* On a phone the text sits BELOW the picture, not on it. Overlaid, the
+          eyebrow and headline landed 30% down the hero, where the scrim is only
+          about 40% opaque and the illustration is at its brightest — measured,
+          not guessed. Five lines of copy over a busy drawing at 375px is
+          fighting the medium, and a scrim dark enough to fix it would have hidden
+          the drawing entirely. Stacking also stops the 16:9 illustration being
+          cropped to a near-square slice that cut both cabins in half.
+
+          From sm up there is room for the overlay, so the text lifts back onto
+          the image and the scrim comes with it. */}
       <section className="relative isolate">
         <img
           src="/media/events/events-hero.webp"
           alt=""
           width={1920}
           height={1053}
-          className="h-[46vh] min-h-64 w-full object-cover sm:h-[54vh]"
+          className="h-52 w-full object-cover sm:h-[54vh] sm:min-h-72"
           fetchPriority="high"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-night via-night/55 to-night/10"
+          className="absolute inset-0 hidden bg-gradient-to-t from-night via-night/55 to-night/10 sm:block"
         />
-        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-6xl px-5 pb-8 sm:pb-12">
+        <div className="mx-auto max-w-6xl px-5 pt-7 sm:absolute sm:inset-x-0 sm:bottom-0 sm:pt-0 sm:pb-12">
           <p className="eyebrow">One group at a time</p>
           <h1 className="mt-3 max-w-3xl text-title font-display">
             Take the whole farm for the day.
