@@ -162,6 +162,29 @@ export default function RootLayout({
               paymentAccepted: 'GCash, Maya, Credit Card, QR Ph, Bank transfer',
               checkinTime: '07:00',
               checkoutTime: '17:00',
+              // Open round the clock, every day. The night tour runs 8pm to 6am,
+              // so someone is on the gate at three in the morning — these are
+              // real hours, not a marketing claim.
+              //
+              // It is here as well as on the Business Profile because the two
+              // are read by different things: the profile feeds the map pin,
+              // this feeds the search result. A listing whose hours are blank
+              // gets "Hours might differ" printed under it, which is the one
+              // line a guest checking a late arrival does not want to see.
+              openingHoursSpecification: {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: [
+                  'Monday',
+                  'Tuesday',
+                  'Wednesday',
+                  'Thursday',
+                  'Friday',
+                  'Saturday',
+                  'Sunday',
+                ],
+                opens: '00:00',
+                closes: '23:59',
+              },
               // Where the guests actually come from. Honest: the resort is in
               // Teresa, it merely serves people travelling out of these places.
               areaServed: [

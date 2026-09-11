@@ -52,6 +52,10 @@ export function SiteFooter() {
               <span className="block text-xs">
                 {contact.casita.channels.join(' · ')} — one number for both units
               </span>
+              {/* Said out loud rather than left to the structured data, because
+                  the person who needs it is the one deciding at 11pm whether it
+                  is too late to ring about tomorrow. */}
+              <span className="block text-xs text-pool-lift">Answered 24 hours, any day</span>
             </li>
             <li>
               <a href={`mailto:${OWNER_EMAIL}`} className="underline underline-offset-4">
