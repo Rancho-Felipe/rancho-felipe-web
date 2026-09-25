@@ -3,6 +3,7 @@ import { Hero } from '@/components/hero'
 import { Photo } from '@/components/photo'
 import { UNIT_ORDER, getUnit, peso, reviews, policy, links } from '@/lib/content'
 import { FarmAtAGlance } from '@/components/infographic/farm-at-a-glance'
+import { OccasionsMarquee } from '@/components/motion/occasions-marquee'
 
 const GUESTS_INCLUDED = policy.guests.includedGuests
 
@@ -21,6 +22,8 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-5 pt-12">
         <FarmAtAGlance />
       </section>
+
+      <OccasionsMarquee />
 
       {/* --- The two units ------------------------------------------------- */}
       <section className="reveal mx-auto max-w-6xl px-5 py-20">
@@ -41,7 +44,7 @@ export default function HomePage() {
                 href={`/${slug}`}
                 className={`photo-group press block overflow-hidden rounded-2xl border border-night-edge bg-night-raised transition-colors ${ring}`}
               >
-                <div className="photo-frame aspect-[4/3]">
+                <div className="photo-frame parallax aspect-[4/3]">
                   <Photo
                     slug={unit.featured}
                     sizes="(min-width: 768px) 50vw, 100vw"
@@ -205,10 +208,10 @@ export default function HomePage() {
               href="/getting-here"
               className="mt-6 inline-block rounded-full border border-stone/40 px-6 py-3 text-sm text-paper transition-colors hover:border-stone"
             >
-              Directions and landmarks
+              Directions and landmarks <span className="cta-arrow" aria-hidden="true">→</span>
             </Link>
           </div>
-          <div className="photo-frame rounded-2xl border border-night-edge">
+          <div className="photo-frame parallax rounded-2xl border border-night-edge">
             <Photo
               slug="grounds-aerial-property"
               sizes="(min-width: 768px) 50vw, 100vw"

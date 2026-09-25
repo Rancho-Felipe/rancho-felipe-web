@@ -24,7 +24,7 @@ export default function GettingHerePage() {
 
   return (
     <>
-      <section className="mx-auto max-w-4xl px-5 pt-14">
+      <section className="page-intro mx-auto max-w-4xl px-5 pt-14">
         <p className="eyebrow">An hour from Metro Manila</p>
         <h1 className="mt-3 text-title font-display">Getting here</h1>
         <address className="mt-4 text-lede not-italic text-stone">

@@ -27,7 +27,7 @@ export default async function ReviewsPage() {
 
   return (
     <>
-      <section className="mx-auto max-w-4xl px-5 pt-14">
+      <section className="page-intro mx-auto max-w-4xl px-5 pt-14">
         <p className="eyebrow">In their own words</p>
         <h1 className="mt-3 text-title font-display">What guests say</h1>
         <p className="mt-4 max-w-2xl text-lede text-stone">

@@ -28,7 +28,7 @@ export default async function HouseRulesPage() {
 
   return (
     <>
-      <section className="mx-auto max-w-3xl px-5 pt-14">
+      <section className="page-intro mx-auto max-w-3xl px-5 pt-14">
         <p className="eyebrow">The short version</p>
         <h1 className="mt-3 text-title font-display">House rules</h1>
         <p className="mt-4 text-lede text-stone">

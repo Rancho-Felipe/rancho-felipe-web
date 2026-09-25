@@ -16,7 +16,10 @@ export function AFrameMark({ className = 'h-6 w-6' }: { className?: string }) {
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-night-edge/70 bg-night/90 backdrop-blur">
+    // .header-condense deepens the bar and lifts a shadow under it over the
+    // first 160px of scrolling; where scroll timelines are missing, the classes
+    // here apply unchanged. The progress line rides the bottom edge.
+    <header className="header-condense sticky top-0 z-40 border-b border-night-edge/70 bg-night/90 backdrop-blur">
       <div className="mx-auto max-w-6xl">
         <div className="flex items-center gap-4 px-5 py-3">
           <Link href="/" className="flex shrink-0 items-center gap-2.5 text-paper">
@@ -43,7 +46,7 @@ export function SiteHeader() {
 
             <Link
               href="/book"
-              className="shrink-0 rounded-full bg-pool px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-pool-deep"
+              className="btn-shine shrink-0 rounded-full bg-pool px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-pool-deep"
             >
               {/* "Check availability" is too wide beside the logo on a small phone. */}
               <span className="sm:hidden">Book</span>
@@ -54,6 +57,8 @@ export function SiteHeader() {
 
         <SiteNavNarrow />
       </div>
+
+      <span className="scroll-progress" aria-hidden="true" />
     </header>
   )
 }

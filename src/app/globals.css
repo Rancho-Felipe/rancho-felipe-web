@@ -67,6 +67,18 @@
 @layer base {
   :root {
     color-scheme: dark;
+
+    /* One easing vocabulary for the whole site. ease-out is a long,
+       decelerating curve — things arrive and settle, they do not bounce. */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  /* Lenis owns the wheel on desktop (components/motion/smooth-scroll.tsx).
+     Native smooth scrolling would ease a second time on top of it and the
+     page would feel like it was wading through something. */
+  html.lenis-smooth {
+    scroll-behavior: auto !important;
   }
 
   html {
@@ -173,8 +185,16 @@
 
   .photo-frame img {
     /* Long, decelerating ease. A linear zoom on a photograph reads as a
-       slideshow; this reads as the picture leaning towards you. */
-    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+       slideshow; this reads as the picture leaning towards you.
+
+       The zoom uses the `scale` property, not `transform`. Scroll parallax
+       (.parallax, below) moves the same image with `translate`, and the two
+       individual properties compose; two `transform`s would overwrite each
+       other and the photo would snap back to centre the moment you hovered.
+       --rest is 1 normally and a little more on a parallax frame, which needs
+       the spare edge to drift into — hover multiplies whatever it is. */
+    scale: var(--rest, 1);
+    transition: scale 620ms var(--ease-out);
   }
 
   /* The sweep. Sits above the image and below the scrim, and is inert to the
@@ -200,7 +220,7 @@
   @media (hover: hover) {
     .photo-frame:hover img,
     .photo-frame:focus-visible img {
-      transform: scale(1.055);
+      scale: calc(var(--rest, 1) * 1.055);
     }
 
     .photo-frame:hover::before,
@@ -211,7 +231,7 @@
 
   /* Touch gets the zoom on press instead, so tapping still feels answered. */
   .photo-frame:active img {
-    transform: scale(1.03);
+    scale: calc(var(--rest, 1) * 1.03);
   }
 
   /* A card whose photograph is only part of it — a picture above a title and a
@@ -223,7 +243,7 @@
   @media (hover: hover) {
     .photo-group:hover .photo-frame img,
     .photo-group:focus-visible .photo-frame img {
-      transform: scale(1.055);
+      scale: calc(var(--rest, 1) * 1.055);
     }
 
     .photo-group:hover .photo-frame::before,
@@ -317,6 +337,366 @@
       }
     }
   }
+
+  /* ======================================================================
+     MOTION
+
+     Two rules govern everything below.
+
+     1. Nothing that carries meaning may depend on an animation to become
+        visible. Every scroll-driven rule sits inside @supports, so a browser
+        without scroll timelines simply shows the finished page. The only
+        things that start hidden are time-based entrances that always run to
+        completion within a second, with or without scrolling.
+
+     2. prefers-reduced-motion switches all of it off. Not "tones it down" —
+        off. The reset at the bottom of this file is the backstop; the rules
+        here are also each wrapped in no-preference so they never apply at all.
+     ====================================================================== */
+
+  /* --- Every tab: the page settles in -----------------------------------
+     .page-enter is the wrapper in app/template.tsx, remounted on every
+     navigation, so this plays on each tab change without any script.
+     Transform only, never opacity: nothing is invisible and the largest
+     paint is not delayed. `backwards` fill, so once it has finished no
+     transform is left behind — a leftover transform would quietly turn the
+     wrapper into the containing block for anything position:fixed inside it. */
+  @media (prefers-reduced-motion: no-preference) {
+    .page-enter {
+      animation: page-settle 560ms var(--ease-out) backwards;
+    }
+  }
+
+  /* --- Every tab: the title arrives ------------------------------------
+     Put .page-intro on the element that directly holds the eyebrow and the
+     h1. The eyebrow lifts in, the title is unmasked from the bottom up like
+     type being revealed on the signboard, and the next two things after it
+     follow — the lede, then the stats row on a unit page.
+
+     Anything containing a form is left out. On /book the second thing after
+     the title is the booking form itself, and a form should be there to use
+     the moment the page is, not fading in behind its own heading. Where :has
+     is unsupported the rule is dropped whole, which errs the safe way. */
+  @media (prefers-reduced-motion: no-preference) {
+    .page-intro > .eyebrow {
+      animation: fade-rise 700ms var(--ease-out) both;
+    }
+
+    .page-intro > h1 {
+      animation: title-unmask 900ms var(--ease-out) 70ms backwards;
+    }
+
+    .page-intro > h1 + * {
+      animation: fade-rise 800ms var(--ease-out) 200ms both;
+    }
+
+    .page-intro > h1 + * + *:not(:has(form, input, select, textarea)) {
+      animation: fade-rise 800ms var(--ease-out) 290ms both;
+    }
+
+    /* The events hero photograph eases back from a slight push-in as the
+       page opens. Opacity never changes, so it cannot delay the paint of
+       what is the largest thing on that page. */
+    .kenburns {
+      animation: kenburns 2600ms var(--ease-out) backwards;
+    }
+  }
+
+  /* --- Home: the hero -------------------------------------------------
+     Each line of the headline sits in its own clipping box and rises into
+     it, one after another. The padding/negative-margin pair makes the clip
+     box taller than the line without moving anything: the display face is
+     set at 0.92 line-height, so without it the tails of p and g would be
+     sliced off. */
+  .hero-line {
+    display: block;
+    overflow: clip;
+    padding-block: 0.12em;
+    margin-block: -0.12em;
+  }
+
+  .hero-line > span {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-line > span {
+      animation: line-rise 1000ms var(--ease-out) both;
+      animation-delay: calc(110ms + var(--i, 0) * 95ms);
+    }
+
+    .hero-fade {
+      animation: fade-rise 900ms var(--ease-out) both;
+      animation-delay: var(--d, 0ms);
+    }
+
+    /* The three stay windows are the thesis of the site, so they get their
+       own entrance: each row's rule draws across left to right. */
+    .hero-window {
+      animation: fade-rise 800ms var(--ease-out) both;
+      animation-delay: var(--d, 0ms);
+    }
+
+    .hero-window::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 -1px 0;
+      height: 1px;
+      background: color-mix(in srgb, var(--color-pool-lift) 70%, transparent);
+      transform-origin: 0 50%;
+      animation: rule-draw 1100ms var(--ease-in-out) both;
+      animation-delay: calc(var(--d, 0ms) + 120ms);
+      pointer-events: none;
+    }
+  }
+
+  .hero-window {
+    position: relative;
+  }
+
+  /* Scrolling away from the hero: the footage sinks and swells slightly while
+     the words lift off faster, so the page reads as having depth rather than
+     being one flat sheet sliding up. Tied to the scroll position, so it is
+     exact and reversible — scroll back and it undoes itself. */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-media {
+        animation: hero-media linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 90vh;
+      }
+
+      .hero-copy {
+        animation: hero-copy linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 75vh;
+      }
+    }
+  }
+
+  /* --- Header: settles into a solid bar once you leave the top ----------
+     Without scroll timelines the Tailwind classes on the header apply as
+     before, so the fallback is the header the site already had. */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .header-condense {
+        animation: header-condense linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 160px;
+      }
+    }
+
+    /* Reading progress. Not wrapped in the motion preference: it moves in
+       lockstep with your own scrolling, which is direct feedback, not
+       animation — and "how much page is left" is information. */
+    .scroll-progress {
+      animation: scroll-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+
+  /* Hidden unless the browser can drive it. A progress bar stuck at full,
+     or at zero, is worse than none. */
+  .scroll-progress {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    transform-origin: 0 50%;
+    scale: 0 1;
+    pointer-events: none;
+    background: linear-gradient(90deg, var(--color-pool-deep), var(--color-pool) 60%, var(--color-pool-lift));
+  }
+
+  /* --- Photographs: parallax and unveil --------------------------------
+     .parallax goes on a large .photo-frame. The image drifts against the
+     scroll inside its frame. Only for frames whose subject is central: the
+     image is scaled up to have somewhere to drift, which crops a little off
+     every edge, and on the carefully-aimed crops in the farm grid that would
+     cut into the billiard table. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .parallax {
+        --rest: 1.14;
+        view-timeline-name: --frame;
+      }
+
+      .parallax img {
+        animation: parallax-drift linear both;
+        animation-timeline: --frame;
+        animation-range: cover 0% cover 100%;
+      }
+
+      /* Photographs inside a revealed section open out from an inset as
+         they enter. Complete by the time 60% of the photo is on screen, so
+         nothing that loads already in view is left half-clipped. */
+      .reveal .photo-frame,
+      .reveal-stagger .photo-frame {
+        animation: unveil linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 60%;
+      }
+
+      /* The stay windows fill left to right, like the hours being booked.
+         clip-path rather than scale, so the hour label inside the bar is
+         never squashed on its way in. */
+      .stay-bar {
+        animation: bar-fill linear both;
+        animation-timeline: view();
+        animation-range: entry 15% cover 38%;
+      }
+    }
+  }
+
+  /* --- Nav: an underline that wipes in from the left and out to the right,
+     and stays put under the tab you are on. Wiping out the far side, rather
+     than shrinking back, reads as the pointer passing through. */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -7px;
+    left: 0;
+    height: 1.5px;
+    border-radius: 1px;
+    background: var(--color-pool-lift);
+    transform-origin: 100% 50%;
+    scale: 0 1;
+    transition: scale 420ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    .nav-link:hover::after {
+      transform-origin: 0 50%;
+      scale: 1 1;
+    }
+  }
+
+  .nav-link[aria-current='page']::after {
+    scale: 1 1;
+    background: var(--color-pool);
+  }
+
+  /* --- Cards lift -------------------------------------------------------- */
+  .photo-group {
+    transition:
+      translate 420ms var(--ease-out),
+      box-shadow 420ms var(--ease-out),
+      border-color 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .photo-group:hover,
+    .photo-group:focus-visible {
+      translate: 0 -4px;
+      box-shadow: 0 22px 44px -26px rgb(0 0 0 / 0.85);
+    }
+  }
+
+  /* --- Buttons ------------------------------------------------------------
+     The arrow leans the way the button goes. The shine is the same band of
+     light the photographs use, so the two feel like one hand made them. */
+  .cta-arrow {
+    display: inline-block;
+    transition: translate 320ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    a:hover > .cta-arrow,
+    a:focus-visible > .cta-arrow,
+    button:hover > .cta-arrow {
+      translate: 4px 0;
+    }
+  }
+
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn-shine::before {
+    content: '';
+    position: absolute;
+    inset: -40% -60%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      color-mix(in srgb, var(--color-paper) 32%, transparent) 50%,
+      transparent 60%
+    );
+  }
+
+  @media (hover: hover) {
+    .btn-shine:hover::before,
+    .btn-shine:focus-visible::before {
+      animation: photo-sweep 900ms ease-out;
+    }
+  }
+
+  /* --- The occasions ticker ----------------------------------------------
+     Two identical groups side by side; the track slides left by exactly one
+     group and loops, so the seam never shows. The second group is
+     aria-hidden, so a screen reader hears the list once. Hover pauses it —
+     text you are trying to read should not walk away from you. */
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+  }
+
+  .marquee-group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 2.25rem;
+    padding-right: 2.25rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee-track {
+      animation: marquee 46s linear infinite;
+    }
+
+    .marquee:hover .marquee-track,
+    .marquee:focus-within .marquee-track {
+      animation-play-state: paused;
+    }
+  }
+
+  /* With motion off, the list simply wraps and the duplicate goes away. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      mask-image: none;
+    }
+
+    .marquee-track {
+      width: auto;
+    }
+
+    .marquee-group {
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      padding-right: 0;
+    }
+
+    .marquee-group[aria-hidden='true'] {
+      display: none;
+    }
+  }
 }
 
 /* One pass of light across a photograph on hover. Opacity is keyed so the band
@@ -384,8 +764,147 @@
   }
 }
 
-/* Motion is used in exactly two places: the page-load sequence in the hero and
-   the hotspot reveal on the site map. Both are switched off here. */
+/* --- Entrances ----------------------------------------------------------- */
+@keyframes page-settle {
+  from {
+    translate: 0 12px;
+  }
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+
+/* The title rises while a mask opens from the bottom. `backwards` fill on the
+   rule that uses it, so the clip-path is gone once it finishes — a leftover
+   inset would trim anything that overhangs the h1's box. */
+@keyframes title-unmask {
+  from {
+    opacity: 0;
+    translate: 0 0.35em;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    translate: none;
+    clip-path: inset(0 0 -25% 0);
+  }
+}
+
+@keyframes kenburns {
+  from {
+    scale: 1.08;
+  }
+}
+
+/* 130%, not 100%: the clip box is padded to protect descenders, so the line
+   has to start further down to be fully out of sight. */
+@keyframes line-rise {
+  from {
+    translate: 0 130%;
+  }
+  to {
+    translate: none;
+  }
+}
+
+/* A line of light draws across each stay window, then fades, leaving the
+   original hairline exactly as it was. */
+@keyframes rule-draw {
+  0% {
+    scale: 0 1;
+    opacity: 1;
+  }
+  65% {
+    scale: 1 1;
+    opacity: 1;
+  }
+  100% {
+    scale: 1 1;
+    opacity: 0;
+  }
+}
+
+/* --- Scroll-linked ------------------------------------------------------- */
+@keyframes hero-media {
+  to {
+    scale: 1.12;
+    translate: 0 12%;
+  }
+}
+
+@keyframes hero-copy {
+  to {
+    translate: 0 -16%;
+    opacity: 0.12;
+  }
+}
+
+@keyframes header-condense {
+  from {
+    background-color: color-mix(in srgb, var(--color-night) 62%, transparent);
+    border-color: transparent;
+    box-shadow: 0 0 0 0 rgb(0 0 0 / 0);
+  }
+  to {
+    background-color: color-mix(in srgb, var(--color-night) 94%, transparent);
+    border-color: color-mix(in srgb, var(--color-night-edge) 80%, transparent);
+    box-shadow: 0 14px 34px -22px rgb(0 0 0 / 0.9);
+  }
+}
+
+@keyframes scroll-progress {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes parallax-drift {
+  from {
+    translate: 0 -6%;
+  }
+  to {
+    translate: 0 6%;
+  }
+}
+
+@keyframes unveil {
+  from {
+    clip-path: inset(9% 6% 9% 6% round 18px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+}
+
+@keyframes bar-fill {
+  from {
+    clip-path: inset(0 100% 0 0 round 2px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 2px);
+  }
+}
+
+@keyframes marquee {
+  to {
+    translate: -50% 0;
+  }
+}
+
+/* Everything above is switched off for anyone who has asked their system for
+   less motion. Each rule is already wrapped in no-preference; this is the
+   backstop for anything that ever forgets to be. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

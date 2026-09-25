@@ -77,20 +77,20 @@ export default function EventsPage() {
 
           From sm up there is room for the overlay, so the text lifts back onto
           the image and the scrim comes with it. */}
-      <section className="relative isolate">
+      <section className="relative isolate overflow-hidden">
         <img
           src="/media/events/events-hero.webp"
           alt=""
           width={1920}
           height={1053}
-          className="h-52 w-full object-cover sm:h-[54vh] sm:min-h-72"
+          className="kenburns h-52 w-full object-cover sm:h-[54vh] sm:min-h-72"
           fetchPriority="high"
         />
         <div
           aria-hidden="true"
           className="absolute inset-0 hidden bg-gradient-to-t from-night via-night/55 to-night/10 sm:block"
         />
-        <div className="mx-auto max-w-6xl px-5 pt-7 sm:absolute sm:inset-x-0 sm:bottom-0 sm:pt-0 sm:pb-12">
+        <div className="page-intro mx-auto max-w-6xl px-5 pt-7 sm:absolute sm:inset-x-0 sm:bottom-0 sm:pt-0 sm:pb-12">
           <p className="eyebrow">One group at a time</p>
           <h1 className="mt-3 max-w-3xl text-title font-display">
             Take the whole farm for the day.

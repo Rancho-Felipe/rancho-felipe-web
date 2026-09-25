@@ -79,7 +79,7 @@ export default async function UnitPage({
 
   return (
     <>
-      <section className="mx-auto max-w-6xl px-5 pt-14">
+      <section className="page-intro mx-auto max-w-6xl px-5 pt-14">
         <p className="eyebrow">
           {unit === 'casita' ? 'Two A-frame cabins' : 'Two gazebo rooms'}
         </p>
@@ -107,7 +107,7 @@ export default async function UnitPage({
       </section>
 
       <section className="reveal mx-auto mt-10 max-w-6xl px-5">
-        <div className="photo-frame rounded-2xl border border-night-edge">
+        <div className="photo-frame parallax rounded-2xl border border-night-edge">
           <Photo slug={data.featured} sizes="100vw" className="w-full object-cover" priority />
         </div>
       </section>

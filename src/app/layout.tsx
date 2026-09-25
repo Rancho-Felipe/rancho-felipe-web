@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Archivo, Instrument_Sans, Martian_Mono } from 'next/font/google'
+import 'lenis/dist/lenis.css'
 import './globals.css'
+import { SmoothScroll } from '@/components/motion/smooth-scroll'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { BookingBar } from '@/components/booking-bar'
@@ -100,7 +102,6 @@ export default function RootLayout({
   return (
     <html
       lang="en-PH"
-      data-scroll-behavior="smooth"
       className={`${archivo.variable} ${instrument.variable} ${martian.variable}`}
     >
       <body className="min-h-dvh bg-night text-paper antialiased">
@@ -123,6 +124,9 @@ export default function RootLayout({
           <div className="h-20 md:hidden" aria-hidden="true" />
         </HideOnAdmin>
         <BookingBar />
+        {/* Eased mouse-wheel scrolling on desktop only; phones keep native
+            momentum. Renders nothing. */}
+        <SmoothScroll />
         <script
           type="application/ld+json"
           // Real address, real coordinates, real phone numbers, real rates. The

@@ -38,7 +38,7 @@ export function SiteNavWide() {
             <Link
               href={item.href}
               aria-current={isCurrent(item.href) ? 'page' : undefined}
-              className={`transition-colors hover:text-paper ${
+              className={`nav-link transition-colors hover:text-paper ${
                 isCurrent(item.href) ? 'text-paper' : 'text-stone'
               }`}
             >
